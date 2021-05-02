@@ -12,12 +12,9 @@ const request = (url, method, body) => {
 }
 
 export const api = {
-  url: {
-    index: path => request('/urls' + (path ? `?path=${path}` : ''), 'GET'),
-    show: url => request(`/urls/${url}`, 'GET'),
-    create: path => request(`/urls`, 'POST', { path })
-  },
   queryString: {
-    create: (urlId, key, description) => request('query_strings', 'POST', { url_id: urlId, key, description })
+    index: path => request('/query_strings' + (path ? `?path=${path}` : ''), 'GET'),
+    show: url => request(`/query_strings/${url}`, 'GET'),
+    create: path => request(`/query_strings`, 'POST', { path })
   }
 }

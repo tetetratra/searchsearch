@@ -12,27 +12,31 @@
 
 ActiveRecord::Schema.define(version: 2021_03_20_061827) do
 
-  create_table "query_strings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "url_id"
+  create_table "favorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
+    t.bigint "query_strings_id"
+    t.index ["query_strings_id"], name: "index_favorites_on_query_strings_id"
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "query_strings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "path", null: false
     t.string "key", null: false
+    t.string "value"
     t.text "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["url_id"], name: "index_query_strings_on_url_id"
     t.index ["user_id"], name: "index_query_strings_on_user_id"
-  end
-
-  create_table "urls", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "path", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
+    t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["name"], name: "index_users_on_name", unique: true
   end
 
 end
