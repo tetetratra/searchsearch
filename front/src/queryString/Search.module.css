@@ -69,3 +69,155 @@
   width: 30px;
 }
 
+.leftBar {
+  position: relative;
+  width: calc(110px + max(15%, 80px));
+  height: 1024px;
+  left: 0px;
+  top: 0px;
+
+  background: #F0F0F0;
+}
+
+.sortSelect {
+  cursor: pointer;
+  position: absolute;
+  left: 10%;
+  top: 20px;
+  background: #DDD;
+  width: 120px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #CCC;
+  border-radius: 10px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sortSelectSort {
+  color: #777;
+  font-weight: bold;
+}
+
+.sortSelectSortType {
+  color: #333;
+  font-weight: bold;
+}
+
+.sortSelectOptions {
+  cursor: pointer;
+  position: absolute;
+  left: 10%;
+  top: 50px;
+  width: 150px;
+  border: 1px solid #CCC;
+  text-align: left;
+  background: #F7F7F7;
+  border-radius: 3px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.sortSelectOption {
+  cursor: pointer;
+  height: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.sortSelectOption:not(:first-child) {
+  border-top: 1px solid #CCC;
+}
+
+.sortSelectOption:hover {
+  background: #CCF;
+}
+
+.checkBoxesContainer {
+  position: absolute;
+  left: 10%;
+  top: 60px;
+}
+
+.checkBox {
+  width: 200px;
+  height: 40px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.checkBoxText {
+  margin-left: 10px;
+}
+
+.checkBoxcon {
+  cursor: pointer;
+}
+
+.userCheckInput {
+  display: block;
+  width: 80%;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  font-size: 22px;
+}
+
+.submitSearch {
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  position: absolute;
+  left: 15%;
+  top: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  background: #9CDFEE;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.submitSearchIcon {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.leftBarHr {
+  position: absolute;
+  left: 15px;
+  top: 350px;
+  width: calc(100% - 30px);
+}
+
+.newLink {
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  position: absolute;
+  left: 15%;
+  top: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  background: #BCDEC7;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.newIcon {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
