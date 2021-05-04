@@ -32,6 +32,7 @@ export const Search = props => {
     <>
       <Header/>
       <LeftBar/>
+      <MainContent/>
     </>
   )
 }
@@ -109,7 +110,7 @@ const MenuIcon = () => (
 const PrefixMatchCheck = () => {
   return (
     <div className={style.checkBox}>
-      <CheckBox/><span className={style.checkBoxText}>前方一致</span>
+      <CheckBoxIcon/><span className={style.checkBoxText}>前方一致</span>
     </div>
   )
 }
@@ -117,7 +118,7 @@ const PrefixMatchCheck = () => {
 const DistinctCheck = () => {
   return (
     <div className={style.checkBox}>
-      <CheckBox/><span className={style.checkBoxText}>重複を排除</span>
+      <CheckBoxIcon/><span className={style.checkBoxText}>重複を排除</span>
     </div>
   )
 }
@@ -125,7 +126,7 @@ const DistinctCheck = () => {
 const OnlyFavCheck = () => {
   return (
     <div className={style.checkBox}>
-      <CheckBox/><span className={style.checkBoxText}>お気に入りのみ</span>
+      <CheckBoxIcon/><span className={style.checkBoxText}>お気に入りのみ</span>
     </div>
   )
 }
@@ -141,7 +142,7 @@ const UserCheck = () => {
   }
   return <>
     <div className={style.checkBox}>
-      <CheckBox fill={fill} toggleCheck={toggleCheck}/><span className={style.checkBoxText}>作者指定</span>
+      <CheckBoxIcon fill={fill} toggleCheck={toggleCheck}/><span className={style.checkBoxText}>作者指定</span>
     </div>
     {fill && (
       <input value={userName} onChange={handleUserNameInput} className={style.userCheckInput}/>
@@ -149,13 +150,13 @@ const UserCheck = () => {
   </>
 }
 
-const CheckBox = ({ fill, toggleCheck }) => {
+const CheckBoxIcon = ({ fill, toggleCheck }) => {
   const check = fill ? (
-    <svg className={style.checkBoxcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={style.checkBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2917 4.625H7.70833C5.99708 4.625 4.625 6.0125 4.625 7.70833V29.2917C4.625 30.9875 5.99708 32.375 7.70833 32.375H29.2917C31.0029 32.375 32.375 30.9875 32.375 29.2917V7.70833C32.375 6.0125 31.0029 4.625 29.2917 4.625ZM15.4167 26.2083L7.70834 18.5L9.88209 16.3262L15.4167 21.8454L27.1179 10.1442L29.2917 12.3333L15.4167 26.2083Z" fill="black" fill-opacity="0.87"/>
     </svg>
   ) : (
-    <svg className={style.checkBoxcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={style.checkBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="29" height="29">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M7.70833 4.625H29.2917C30.9875 4.625 32.375 6.0125 32.375 7.70833V29.2917C32.375 30.9875 30.9875 32.375 29.2917 32.375H7.70833C6.0125 32.375 4.625 30.9875 4.625 29.2917V7.70833C4.625 6.0125 6.0125 4.625 7.70833 4.625ZM29.2917 29.2917V7.70833H7.70833V29.2917H29.2917Z" fill="white"/>
       </mask>
@@ -201,4 +202,71 @@ const NewIcon = () => (
   </svg>
 )
 
+const MainContent = () => {
+  return (
+    <div className={style.mainContent}>
+      <Query/>
+    </div>
+  )
+}
 
+const Query = () => {
+  return (
+    <div className={style.query}>
+      <RadioCheckIcon/>
+      <div className={style.queryPath}>www.google.com/search?</div>
+      <UrlCheckBoxIcon/>
+      <div className={style.queryQuery}>q=</div>
+      <div><input value={"hoge"} className={style.queryInput}></input></div>
+      <div className={style.queryDescription}>クエリ文字列</div>
+      <div className={style.queryInfo}>
+        <StarIcon/>
+        <span className={style.queryStar}>283</span>
+        📅
+        <span className={style.queryDate}>2020/12/12</span>
+      </div>
+    </div>
+  )
+}
+
+const StarIcon = () => (
+  <svg width="25" height="25" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5773 15.9854L16.0246 19.2732L14.5791 13.0766L19.3917 8.90742L13.0542 8.36974L10.5773 2.52577L8.10046 8.36974L1.76288 8.90742L6.57556 13.0766L5.12999 19.2732L10.5773 15.9854Z" fill="#C4C4C4"/>
+  </svg>
+)
+
+const RadioCheckIcon = ({ checked, handleChecked }) => {
+  const icon = checked ? (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20ZM12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" fill="black" fill-opacity="0.87"/>
+    </svg>
+  ) : (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z" fill="black" fill-opacity="0.87"/>
+    </svg>
+  )
+  return (
+    <div className={style.radioCheckIcon} onClick={handleChecked}>{icon}</div>
+  )
+}
+const UrlCheckBoxIcon = ({ fill, toggleCheck }) => {
+  const check = fill ? (
+    <svg className={style.queryCheckBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2917 4.625H7.70833C5.99708 4.625 4.625 6.0125 4.625 7.70833V29.2917C4.625 30.9875 5.99708 32.375 7.70833 32.375H29.2917C31.0029 32.375 32.375 30.9875 32.375 29.2917V7.70833C32.375 6.0125 31.0029 4.625 29.2917 4.625ZM15.4167 26.2083L7.70834 18.5L9.88209 16.3262L15.4167 21.8454L27.1179 10.1442L29.2917 12.3333L15.4167 26.2083Z" fill="black" fill-opacity="0.87"/>
+    </svg>
+  ) : (
+    <svg className={style.queryCheckBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="29" height="29">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.70833 4.625H29.2917C30.9875 4.625 32.375 6.0125 32.375 7.70833V29.2917C32.375 30.9875 30.9875 32.375 29.2917 32.375H7.70833C6.0125 32.375 4.625 30.9875 4.625 29.2917V7.70833C4.625 6.0125 6.0125 4.625 7.70833 4.625ZM29.2917 29.2917V7.70833H7.70833V29.2917H29.2917Z" fill="white"/>
+      </mask>
+        <g mask="url(#mask0)">
+        <rect width="37" height="37" fill="black" fill-opacity="0.38"/>
+      </g>
+    </svg>
+  )
+  return (
+    <div onClick={toggleCheck}>
+      {check}
+    </div>
+  )
+}
