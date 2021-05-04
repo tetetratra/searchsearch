@@ -95,6 +95,10 @@
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+.sortSelect:hover {
+  background: #CCC;
+}
+
 .sortSelectSort {
   color: #777;
   font-weight: bold;
@@ -186,6 +190,10 @@
   border-radius: 20px;
 }
 
+.submitSearch:hover {
+  background: #7BC;
+}
+
 .submitSearchIcon {
   margin-top: 5px;
   margin-left: 5px;
@@ -211,9 +219,14 @@
   font-size: 20px;
   font-weight: bold;
   letter-spacing: 2px;
+  color: #000;
   background: #BCDEC7;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
+}
+
+.newLink:hover {
+  background: #9B9;
 }
 
 .newIcon {
