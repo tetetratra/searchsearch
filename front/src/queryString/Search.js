@@ -1,7 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { useLocation, useHistory, Link } from "react-router-dom";
+import _ from 'lodash'
 
-import { api } from './api'
+import querystring from 'querystring'
+import { requestApi } from './api'
 import style from './Search.module.css'
 
 export const Search = props => {
@@ -10,7 +12,6 @@ export const Search = props => {
   const [prefixMatch, setPrefixMatch] = useState(false)
   const [distinct, setDistinct] = useState(false)
   const [onlyStar, setOnlyStar] = useState(false)
-  const [specificAuthor, setSpecificAuthor] = useState(false)
   const [author, setAuthor] = useState("")
   const [selectedPath, setSelectedPath] = useState(null)
   const [searchResults, setSearchResults] = useState([])
@@ -18,21 +19,46 @@ export const Search = props => {
   const location = useLocation()
 
   useEffect(() => {
-    const encodedUrl = location.search.split('=')[1]
+    const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
+    const encodedUrl = parsedQueryString.query
     const url = encodedUrl ? decodeURIComponent(encodedUrl) : ''
-    api.queryString.index(encodedUrl).then(r => {
+
+    setSearchInputValue(url)
+    setSort(parsedQueryString.sort || 'Star')
+    setPrefixMatch(!!parsedQueryString.prefixMatch)
+    setDistinct(!!parsedQueryString.distinct)
+    setOnlyStar(!!parsedQueryString.onlyStar)
+    setAuthor(parsedQueryString.author || '')
+
+    const params = _.pickBy({
+      query: encodedUrl,
+      sort: parsedQueryString.sort,
+      prefixMatch: !!parsedQueryString.distinct,
+      distinct: !!parsedQueryString.onlyStar,
+      onlyStar: !!parsedQueryString.onlyStar,
+      author: encodeURIComponent(parsedQueryString.author || '')
+    })
+    const paramsStr = Object.entries(params).map(e => e.join('=')).join("&")
+    requestApi('/query_strings?' + paramsStr, 'GET').then(r => {
       setSearchResults(formatFetchedSearchResults(r))
-      setSearchInputValue(url)
-      props.history.push(encodedUrl ? `search?q=${encodedUrl}` : 'search')
     })
   }, [])
 
   const handleSubmit = event => {
     event.preventDefault()
     const encodedUrl = encodeURIComponent(searchInputValue)
-    api.queryString.index(encodedUrl).then(r => {
+    const params = _.pickBy({
+      query: encodedUrl,
+      sort,
+      prefixMatch,
+      distinct,
+      onlyStar,
+      author: encodeURIComponent(author)
+    })
+    const paramsStr = Object.entries(params).map(e => e.join('=')).join("&")
+    requestApi('/query_strings?' + paramsStr, 'GET').then(r => {
       setSearchResults(formatFetchedSearchResults(r))
-      props.history.push(encodedUrl ? `search?q=${encodedUrl}` : 'search')
+      props.history.push(paramsStr ? `search?${paramsStr}` : 'search')
     })
   }
 
@@ -61,8 +87,6 @@ export const Search = props => {
         setDistinct={setDistinct}
         onlyStar={onlyStar}
         setOnlyStar={setOnlyStar}
-        specificAuthor={specificAuthor}
-        setSpecificAuthor={setSpecificAuthor}
         author={author}
         setAuthor={setAuthor}
         handleSubmit={handleSubmit}
@@ -72,6 +96,7 @@ export const Search = props => {
         setSearchResults={setSearchResults}
         selectedPath={selectedPath}
         setSelectedPath={setSelectedPath}
+        setSearchInputValue={setSearchInputValue}
       />
     </>
   )
@@ -125,13 +150,15 @@ const SearchIcon = ({ handleSubmit }) => (
   </svg>
 )
 
-const JumpIcon = () => (
-  <svg className={style.jumpIcon} viewBox="2 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="black" fillOpacity="0.87"/>
-  </svg>
-)
+const JumpIcon = ({ enable }) => {
+  return (
+    <svg className={style.jumpIcon} viewBox="2 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="black" fillOpacity="0.87"/>
+    </svg>
+  )
+}
 
-const LeftBar = ({ sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, specificAuthor, setSpecificAuthor, author, setAuthor, handleSubmit }) => {
+const LeftBar = ({ sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
   return (
     <div className={style.leftBar}>
       <SortSelect sort={sort} setSort={setSort}/>
@@ -139,9 +166,7 @@ const LeftBar = ({ sort, setSort, prefixMatch, setPrefixMatch, distinct, setDist
         <PrefixMatchCheck fill={prefixMatch} toggleCheck={() => setPrefixMatch(p => !p)} />
         <DistinctCheck fill={distinct} toggleCheck={() => setDistinct(p => !p)}/>
         <OnlyStarCheck fill={onlyStar} toggleCheck={() => setOnlyStar(p => !p)}/>
-        <AuthorCheck
-          fill={specificAuthor}
-          toggleCheck={() => setSpecificAuthor(p => !p)}
+        <Author
           author={author}
           setAuthor={setAuthor}
         />
@@ -207,18 +232,16 @@ const OnlyStarCheck = ({ fill, toggleCheck }) => {
   )
 }
 
-const AuthorCheck = ({ fill, toggleCheck, author, setAuthor }) => {
+const Author = ({ author, setAuthor }) => {
   const handleUserNameInput = event => {
     setAuthor(event.target.value)
   }
-  return <>
-    <div className={style.checkBox}>
-      <CheckBoxIcon fill={fill} toggleCheck={toggleCheck}/><span className={style.checkBoxText}>作者指定</span>
-    </div>
-    {fill && (
+  return (
+    <div>
+       作者指定
       <input value={author} onChange={handleUserNameInput} className={style.userCheckInput}/>
-    )}
-  </>
+    </div>
+  )
 }
 
 const CheckBoxIcon = ({ fill, toggleCheck }) => {
@@ -245,15 +268,15 @@ const CheckBoxIcon = ({ fill, toggleCheck }) => {
 
 const SubmitSearch = ({ handleSubmit }) => {
   return (
-    <div className={style.submitSearch}>
+    <div onClick={handleSubmit} className={style.submitSearch}>
       Search
-      <SubmitSearchIcon handleSubmit={handleSubmit}/>
+      <SubmitSearchIcon/>
     </div>
   )
 }
 
-const SubmitSearchIcon = ({ handleSubmit }) => (
-  <svg onClick={handleSubmit} className={style.submitSearchIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+const SubmitSearchIcon = () => (
+  <svg className={style.submitSearchIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="black" fillOpacity="0.87"/>
   </svg>
 )
@@ -275,7 +298,7 @@ const NewIcon = () => (
   </svg>
 )
 
-const MainContent = ({ searchResults, setSearchResults, selectedPath, setSelectedPath }) => {
+const MainContent = ({ searchResults, setSearchResults, selectedPath, setSelectedPath, setSearchInputValue }) => {
   const setSearchResult = index => updateProp => {
     setSearchResults(prevSearchResults => (
       prevSearchResults.map((prevSearchResult, i) => (
@@ -296,13 +319,14 @@ const MainContent = ({ searchResults, setSearchResults, selectedPath, setSelecte
           setSearchResult={setSearchResult(i)}
           selectedPath={selectedPath}
           setSelectedPath={setSelectedPath}
+          setSearchInputValue={setSearchInputValue}
         />
       ))}
     </div>
   )
 }
 
-const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath }) => {
+const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, setSearchInputValue }) => {
   const checked = selectedPath === searchResult.path
   const handleChecked = () => {
     setSelectedPath(searchResult.path)
@@ -316,7 +340,7 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath })
   return (
     <div className={style.query}>
       <RadioCheckIcon checked={checked} handleChecked={handleChecked}/>
-      <div className={style.queryPath}>{searchResult.path}?</div>
+      <div onClick={() => setSearchInputValue(searchResult.path)} className={style.queryPath}>{searchResult.path}?</div>
       <UrlCheckBoxIcon fill={searchResult.checked} toggleCheck={handleToggleCheck}/>
       <div className={style.queryQuery}>{searchResult.key}=</div>
       <div>
@@ -329,7 +353,7 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath })
       <div className={style.queryDescription}>{searchResult.description}</div>
       <div className={style.queryInfo}>
         <StarIcon/>
-        <span className={style.queryStar}>283</span>
+        <span className={style.queryStar}>{searchResult.favorite_count}</span>
         📅
         <span className={style.queryDate}>2020/1/1</span>
       </div>

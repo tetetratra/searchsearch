@@ -260,6 +260,7 @@
 }
 
 .queryPath {
+  cursor: pointer;
   position: absolute;
   left: 45px;
   top: 10px;
