@@ -1,8 +1,8 @@
 .header {
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 80px;
-  vertical-align: top;
+  z-index: 5;
 
   background: #DDDDDD;
 }
@@ -18,75 +18,85 @@
   background: #FFFFFF;
 }
 
-.searchInput {
-  position: absolute;
-  top: 20px;
-  height: 40px;
-  left: 100px;
-  width: calc(40% - 100px);
-  font-size: 22px;
+.searchUrl {
+  display: inline-block;
+  width: 40%;
+  margin: 20px 0 0 100px;
 
+  vertical-align: middle;
+}
+
+.searchInput {
+  height: 40px;
+  width: 100%;
+  padding: 0 0 0 40px; /* アイコン用 */
+
+  font-size: 22px;
   border: none;
   border-radius: 5px;
   background: #FFFFFF;
 }
 
 .searchIcon {
-  cursor: pointer;
   position: absolute;
-  top: 26px;
+  margin: 5px 0 0 5px;
+  cursor: pointer;
   height: 30px;
-  left: calc(40% - 30px);
   width: 30px;
 }
 
 .constructedUrl {
-  position: absolute;
-  width: 53%;
+  display: inline-block;
+  width: 40%;
   height: 40px;
-  top: 20px;
-  left: 42%;
-  border: none;
-  border-radius: 5px;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  padding-left: 15px;
+  margin: 20px 0 0 70px;
 
-  background: #F9F9F9;;
+  border-radius: 5px;
+  background: #EEE;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.constructedUrl:hover {
+  background: #D7D7D7;
 }
 
 .constructedUrlText {
+  margin: 0 0 0 0;
+  padding: 0 0 0 40px; /* アイコン用 */
+
+  line-height: 40px;
+  font-size: 22px;
+  border-radius: 5px;
   color: #777;
 }
 
 .jumpIcon {
-  cursor: pointer;
   position: absolute;
-  top: 26px;
+  margin: 5px 0 0 5px;
+  cursor: pointer;
   height: 30px;
-  left: calc(95% - 20px);
   width: 30px;
 }
 
 .leftBar {
-  position: relative;
-  width: calc(110px + max(15%, 80px));
-  height: 1024px;
+  position: fixed;
+  width: 250px;
+  height: 100%;
   left: 0px;
   top: 0px;
-
+  padding: 80px 0 0 0;
+  z-index: -10;
   background: #F0F0F0;
 }
 
 .sortSelect {
   cursor: pointer;
-  position: absolute;
-  left: 10%;
-  top: 20px;
-  background: #DDD;
+  margin: 20px 40px;
   width: 120px;
   height: 25px;
+
+  background: #DDD;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,7 +123,7 @@
   cursor: pointer;
   position: absolute;
   left: 10%;
-  top: 50px;
+  top: 130px;
   width: 150px;
   border: 1px solid #CCC;
   text-align: left;
@@ -143,76 +153,48 @@
 }
 
 .checkBoxesContainer {
-  position: absolute;
-  left: 10%;
-  top: 60px;
+  margin: 20px 0 0 40px;
 }
 
 .checkBox {
+  cursor: pointer;
   width: 200px;
-  height: 40px;
+  height: 30px;
   margin-top: 8px;
   display: flex;
   align-items: center;
+}
+
+.checkBox:hover {
+  background: #DDD;
+  border-radius: 5px;
 }
 
 .checkBoxText {
   margin-left: 10px;
 }
 
-.checkBoxIcon {
-  cursor: pointer;
+.author {
+  margin: 20px 0 20px 0;
 }
 
 .userCheckInput {
   display: block;
   width: 80%;
+
   border: 1px solid #DDD;
   border-radius: 5px;
   font-size: 22px;
 }
 
-.submitSearch {
-  cursor: pointer;
-  width: 150px;
-  height: 40px;
-  position: absolute;
-  left: 15%;
-  top: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  background: #9CDFEE;
-  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
-}
-
-.submitSearch:hover {
-  background: #7BC;
-}
-
-.submitSearchIcon {
-  margin-top: 5px;
-  margin-left: 5px;
-}
-
-.leftBarHr {
-  position: absolute;
-  left: 15px;
-  top: 350px;
-  width: calc(100% - 30px);
-}
-
 .newLink {
   cursor: pointer;
-  width: 150px;
-  height: 40px;
   position: absolute;
-  left: 15%;
-  top: 380px;
+
+  width: 100%;
+  height: 50px;
+  bottom: 80px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,8 +203,6 @@
   letter-spacing: 2px;
   color: #000;
   background: #BCDEC7;
-  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.14), 0px 1px 9px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
 }
 
 .newLink:hover {
@@ -234,12 +214,11 @@
   margin-left: 5px;
 }
 
-.mainContent {
+.main {
   position: absolute;
-  left: calc(110px + max(15%, 80px));
+  left: 250px;
   top: 80px;
-  width: calc(100% - (110px + max(15%, 80px)));
-  height: 1024px;
+  width: calc(100% - 250px);
 
   background-color: #F8F8F8;
 }

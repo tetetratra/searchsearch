@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useLocation, useHistory, Link } from "react-router-dom";
 import _ from 'lodash'
+import moment from 'moment'
 
 import querystring from 'querystring'
 import { requestApi } from './api'
@@ -105,15 +106,15 @@ export const Search = props => {
 const formatFetchedSearchResults = fetchedSearchResults => (
   fetchedSearchResults.map(searchResult => ({
     ...searchResult,
-    value: searchResult.value || '',
-    checked: false
+    value: searchResult.value || ''
   }))
 )
 
 const constructUrl = (selectedPath, searchResults) => {
   if (selectedPath === null) { return 'https://' }
+
   const queryString = searchResults
-    .filter(searchResult => searchResult.checked)
+    .filter(searchResult => searchResult.value)
     .map(searchResult => `${searchResult.key}=${searchResult.value.replace(/\+/g, '%2B').replace(/\s/g, '+')}`)
     .join('&')
   return `https://${selectedPath}?${queryString}`
@@ -121,8 +122,9 @@ const constructUrl = (selectedPath, searchResults) => {
 
 const constructUrlLink = (selectedPath, searchResults) => {
   if (selectedPath === null) { return '' }
+
   const queryString = searchResults
-    .filter(searchResult => searchResult.checked)
+    .filter(searchResult => searchResult.value)
     .map(searchResult => `${encodeURIComponent(searchResult.key)}=${encodeURIComponent(searchResult.value)}`)
     .join('&')
   return `https://${selectedPath}?${queryString}`
@@ -132,13 +134,13 @@ const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit, constr
   return (
     <div className={style.header}>
       <div className={style.homeIcon}></div>
-      <input value={searchInputValue} onChange={handleSearchInputValue} className={style.searchInput}/>
-      <SearchIcon handleSubmit={handleSubmit}/>
-      <div className={style.constructedUrl}>
-        <span className={style.constructedUrlText}>{constructedUrl}</span>
+      <div className={style.searchUrl}>
+        <SearchIcon handleSubmit={handleSubmit}/>
+        <input placeholder={"検索"} value={searchInputValue} onChange={handleSearchInputValue} className={style.searchInput}/>
       </div>
-      <a target='_blank' href={constructedUrlLink}>
+      <a target='_blank' href={constructedUrlLink} className={style.constructedUrl}>
         <JumpIcon/>
+        <p className={style.constructedUrlText}>{constructedUrl}</p>
       </a>
     </div>
   )
@@ -146,14 +148,14 @@ const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit, constr
 
 const SearchIcon = ({ handleSubmit }) => (
   <svg onClick={handleSubmit} className={style.searchIcon} viewBox="2 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="black" fillOpacity="0.87"/>
+    <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="gray" fillOpacity="0.87"/>
   </svg>
 )
 
 const JumpIcon = ({ enable }) => {
   return (
     <svg className={style.jumpIcon} viewBox="2 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="black" fillOpacity="0.87"/>
+      <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="gray" fillOpacity="0.87"/>
     </svg>
   )
 }
@@ -171,8 +173,6 @@ const LeftBar = ({ sort, setSort, prefixMatch, setPrefixMatch, distinct, setDist
           setAuthor={setAuthor}
         />
       </div>
-      <SubmitSearch handleSubmit={handleSubmit}/>
-      <hr className={style.leftBarHr}/>
       <NewLink/>
     </div>
   )
@@ -210,24 +210,24 @@ const MenuIcon = () => (
 
 const PrefixMatchCheck = ({ fill, toggleCheck }) => {
   return (
-    <div className={style.checkBox}>
-      <CheckBoxIcon fill={fill} toggleCheck={toggleCheck}/><span className={style.checkBoxText}>前方一致</span>
+    <div className={style.checkBox} onClick={toggleCheck}>
+      <CheckBoxIcon fill={fill}/><span className={style.checkBoxText}>前方一致</span>
     </div>
   )
 }
 
 const DistinctCheck = ({ fill, toggleCheck }) => {
   return (
-    <div className={style.checkBox}>
-      <CheckBoxIcon fill={fill} toggleCheck={toggleCheck}/><span className={style.checkBoxText}>重複を排除</span>
+    <div className={style.checkBox} onClick={toggleCheck}>
+      <CheckBoxIcon fill={fill}/><span className={style.checkBoxText}>重複を排除</span>
     </div>
   )
 }
 
 const OnlyStarCheck = ({ fill, toggleCheck }) => {
   return (
-    <div className={style.checkBox}>
-      <CheckBoxIcon fill={fill} toggleCheck={toggleCheck}/><span className={style.checkBoxText}>お気に入りのみ</span>
+    <div className={style.checkBox} onClick={toggleCheck}>
+      <CheckBoxIcon fill={fill}/><span className={style.checkBoxText}>お気に入りのみ</span>
     </div>
   )
 }
@@ -237,20 +237,20 @@ const Author = ({ author, setAuthor }) => {
     setAuthor(event.target.value)
   }
   return (
-    <div>
+    <div className={style.author}>
        作者指定
       <input value={author} onChange={handleUserNameInput} className={style.userCheckInput}/>
     </div>
   )
 }
 
-const CheckBoxIcon = ({ fill, toggleCheck }) => {
+const CheckBoxIcon = ({ fill }) => {
   const check = fill ? (
-    <svg className={style.checkBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="25" height="25" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fillRule="evenodd" clipRule="evenodd" d="M29.2917 4.625H7.70833C5.99708 4.625 4.625 6.0125 4.625 7.70833V29.2917C4.625 30.9875 5.99708 32.375 7.70833 32.375H29.2917C31.0029 32.375 32.375 30.9875 32.375 29.2917V7.70833C32.375 6.0125 31.0029 4.625 29.2917 4.625ZM15.4167 26.2083L7.70834 18.5L9.88209 16.3262L15.4167 21.8454L27.1179 10.1442L29.2917 12.3333L15.4167 26.2083Z" fill="black" fillOpacity="0.87"/>
     </svg>
   ) : (
-    <svg className={style.checkBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="25" height="25" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="29" height="29">
         <path fillRule="evenodd" clipRule="evenodd" d="M7.70833 4.625H29.2917C30.9875 4.625 32.375 6.0125 32.375 7.70833V29.2917C32.375 30.9875 30.9875 32.375 29.2917 32.375H7.70833C6.0125 32.375 4.625 30.9875 4.625 29.2917V7.70833C4.625 6.0125 6.0125 4.625 7.70833 4.625ZM29.2917 29.2917V7.70833H7.70833V29.2917H29.2917Z" fill="white"/>
       </mask>
@@ -260,26 +260,11 @@ const CheckBoxIcon = ({ fill, toggleCheck }) => {
     </svg>
   )
   return (
-    <div onClick={toggleCheck}>
+    <div>
       {check}
     </div>
   )
 }
-
-const SubmitSearch = ({ handleSubmit }) => {
-  return (
-    <div onClick={handleSubmit} className={style.submitSearch}>
-      Search
-      <SubmitSearchIcon/>
-    </div>
-  )
-}
-
-const SubmitSearchIcon = () => (
-  <svg className={style.submitSearchIcon} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="black" fillOpacity="0.87"/>
-  </svg>
-)
 
 const NewLink = () => {
   return (
@@ -311,7 +296,7 @@ const MainContent = ({ searchResults, setSearchResults, selectedPath, setSelecte
     ))
   }
   return (
-    <div className={style.mainContent}>
+    <div className={style.main}>
       {searchResults.map((searchResult, i) => (
         <Query
           key={i}
@@ -334,14 +319,10 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
   const handleInputChange = e => {
     setSearchResult({ value: e.target.value })
   }
-  const handleToggleCheck = () => {
-    setSearchResult({ checked: !searchResult.checked })
-  }
   return (
     <div className={style.query}>
       <RadioCheckIcon checked={checked} handleChecked={handleChecked}/>
       <div onClick={() => setSearchInputValue(searchResult.path)} className={style.queryPath}>{searchResult.path}?</div>
-      <UrlCheckBoxIcon fill={searchResult.checked} toggleCheck={handleToggleCheck}/>
       <div className={style.queryQuery}>{searchResult.key}=</div>
       <div>
         <input
@@ -355,7 +336,7 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
         <StarIcon/>
         <span className={style.queryStar}>{searchResult.favorite_count}</span>
         📅
-        <span className={style.queryDate}>2020/1/1</span>
+        <span className={style.queryDate}>{moment(searchResult.created_at).format('YYYY-MM-DD')}</span>
       </div>
     </div>
   )
@@ -379,26 +360,5 @@ const RadioCheckIcon = ({ checked, handleChecked }) => {
   )
   return (
     <div className={style.radioCheckIcon} onClick={handleChecked}>{icon}</div>
-  )
-}
-const UrlCheckBoxIcon = ({ fill, toggleCheck }) => {
-  const check = fill ? (
-    <svg className={style.queryCheckBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" clipRule="evenodd" d="M29.2917 4.625H7.70833C5.99708 4.625 4.625 6.0125 4.625 7.70833V29.2917C4.625 30.9875 5.99708 32.375 7.70833 32.375H29.2917C31.0029 32.375 32.375 30.9875 32.375 29.2917V7.70833C32.375 6.0125 31.0029 4.625 29.2917 4.625ZM15.4167 26.2083L7.70834 18.5L9.88209 16.3262L15.4167 21.8454L27.1179 10.1442L29.2917 12.3333L15.4167 26.2083Z" fill="black" fillOpacity="0.87"/>
-    </svg>
-  ) : (
-    <svg className={style.queryCheckBoxIcon} width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="4" y="4" width="29" height="29">
-        <path fillRule="evenodd" clipRule="evenodd" d="M7.70833 4.625H29.2917C30.9875 4.625 32.375 6.0125 32.375 7.70833V29.2917C32.375 30.9875 30.9875 32.375 29.2917 32.375H7.70833C6.0125 32.375 4.625 30.9875 4.625 29.2917V7.70833C4.625 6.0125 6.0125 4.625 7.70833 4.625ZM29.2917 29.2917V7.70833H7.70833V29.2917H29.2917Z" fill="white"/>
-      </mask>
-        <g mask="url(#mask0)">
-        <rect width="37" height="37" fill="black" fillOpacity="0.38"/>
-      </g>
-    </svg>
-  )
-  return (
-    <div onClick={toggleCheck}>
-      {check}
-    </div>
   )
 }
