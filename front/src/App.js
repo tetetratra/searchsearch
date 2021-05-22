@@ -4,8 +4,8 @@ import {
   Route,
 } from "react-router-dom";
 
-import { Search } from './queryString/Search'
-import { New } from './queryString/New'
+import { Search } from './Search/index.js'
+import { New } from './New/index.js'
 import { Notification } from './notification'
 
 const App = props => {
