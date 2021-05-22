@@ -1,14 +1,16 @@
+import { Link } from "react-router-dom";
+
 import style from './index.module.css'
 
 export const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit, constructedUrl, constructedUrlLink }) => {
   return (
     <div className={style.header}>
-      <div className={style.homeIcon}></div>
+      <Link to="/search"><div className={style.homeIcon}></div></Link>
       <div className={style.searchUrl}>
         <SearchIcon handleSubmit={handleSubmit}/>
         <input placeholder={"検索"} value={searchInputValue} onChange={handleSearchInputValue} className={style.searchInput}/>
       </div>
-      <a target='_blank' href={constructedUrlLink} className={style.constructedUrl}>
+      <a target='_blank' rel="noreferrer" href={constructedUrlLink} className={style.constructedUrl}>
         <SearchIcon />
         <p className={style.constructedUrlText}>https://{constructedUrl}</p>
       </a>
