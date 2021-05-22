@@ -29,7 +29,7 @@ class QueryStringsController < ApplicationController
         author ? r.where('users.name = ?', author) : r
       }
       .group('query_strings.id')
-    render json: queryStrings
+      render json: queryStrings.cycle(4)
   end
 
   def create
@@ -56,7 +56,6 @@ class QueryStringsController < ApplicationController
     params.permit(
       :path,
       :key,
-      :value,
       :description
     )
   end

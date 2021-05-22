@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 2021_03_20_061827) do
     t.bigint "user_id"
     t.string "path", null: false
     t.string "key", null: false
-    t.string "value"
     t.text "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

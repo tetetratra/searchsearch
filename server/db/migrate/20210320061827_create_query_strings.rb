@@ -13,7 +13,6 @@ class CreateQueryStrings < ActiveRecord::Migration[6.0]
       t.references :user
       t.string :path, null: false
       t.string :key, null: false
-      t.string :value
       t.text :description, null: false
       t.timestamps
     end
