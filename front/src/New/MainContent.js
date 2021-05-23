@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useAlert } from 'react-alert'
 import _ from 'lodash'
 
-import { api } from './../api'
+import { requestApi } from './../api'
 import style from './MainContent.module.css'
 
 export const MainContent = ({ url }) => {
@@ -21,8 +22,14 @@ const Query = ({ formattedUrl, path }) => {
   const handleDescriptionInput = event => {
     setDescription(event.target.value)
   }
+  const alert = useAlert()
   const handleClick = e => {
-    // api をつかう
+    const body = { path, key: formattedUrl.key, description }
+    requestApi('query_strings', 'POST', body).then(r => {
+      alert.success('作成しました')
+    }).catch(r => {
+      alert.error(r.error)
+    })
   }
   return (
     <div className={style.query}>

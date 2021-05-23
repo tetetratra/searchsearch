@@ -1,0 +1,20 @@
+.alertInfo {
+  background: #EEF;
+}
+.alertSuccess {
+  background: #EFE;
+}
+.alertError {
+  background: #FEE;
+}
+.alertInfo, .alertSuccess, .alertError {
+  width: 200px;
+  height: 30px;
+  margin: 10px 0 0 0;
+  padding: 5px 0 0 0;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 18px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6);
+}
+

@@ -39,7 +39,7 @@ class QueryStringsController < ApplicationController
 
     query_string = user.query_strings.new(query_strings_params)
     if query_string.save
-      render status: :ok
+      render json: nil, status: :ok
     else
       render json: { error: query_string.errors.full_messages }, status: :unprocessable_entity
     end

@@ -1,5 +1,4 @@
 export const requestApi = (url, method, body) => {
-  console.log(process.env.REACT_APP_SERVER_URL)
   return fetch(new URL(url, process.env.REACT_APP_SERVER_URL), {
     method,
     headers: { "content-type": "application/json" },
