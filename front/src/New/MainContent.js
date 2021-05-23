@@ -2,10 +2,9 @@ import { useState } from 'react';
 import _ from 'lodash'
 
 import { api } from './../api'
-import style from './index.module.css'
+import style from './MainContent.module.css'
 
 export const MainContent = ({ url }) => {
-  console.log(url)
   const path = url ? `${url.hostname}${url.pathname}?` : ''
   const formattedUrls = url ?
     _.zip(Array.from(url.searchParams.keys()), Array.from(url.searchParams.values()))
@@ -30,7 +29,7 @@ const Query = ({ formattedUrl, path }) => {
       <div className={style.queryPath}>{path}</div>
       <div className={style.queryKey}>{formattedUrl.key}</div>
       <textarea onChange={handleDescriptionInput} className={style.queryDescription} value={description}/>
-      <div className={style.querySave} onClick={handleClick}>create</div>
+      <button className={style.querySave} onClick={handleClick}>create</button>
     </div>
   )
 }

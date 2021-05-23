@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 
-import style from './index.module.css'
+import style from './Header.module.css'
 
 export const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit, constructedUrl, constructedUrlLink }) => {
   return (
     <div className={style.header}>
-      <Link to="/search"><div className={style.homeIcon}></div></Link>
+      <Link to="/search" tabIndex={-1}><div className={style.homeIcon}></div></Link>
       <div className={style.searchUrl}>
         <SearchIcon handleSubmit={handleSubmit}/>
-        <input placeholder={"検索"} value={searchInputValue} onChange={handleSearchInputValue} className={style.searchInput}/>
+        <input tabIndex={1} placeholder={"検索"} value={searchInputValue} onChange={handleSearchInputValue} className={style.searchInput}/>
       </div>
       <a target='_blank' rel="noreferrer" href={constructedUrlLink} className={style.constructedUrl}>
         <SearchIcon />

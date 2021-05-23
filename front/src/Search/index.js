@@ -8,6 +8,8 @@ import { Header } from './Header.js'
 import { LeftBar } from './LeftBar.js'
 import { MainContent } from './MainContent.js'
 
+import style from './index.module.css'
+
 export const Search = props => {
   const [searchInputValue, setSearchInputValue] = useState('') // パーセントエンコーディング前のURL
   const [sort, setSort] = useState('Star')
@@ -17,6 +19,7 @@ export const Search = props => {
   const [author, setAuthor] = useState("")
   const [selectedPath, setSelectedPath] = useState(null)
   const [searchResults, setSearchResults] = useState([])
+  const [fold, setFold] = useState(false)
 
   const location = useLocation()
 
@@ -72,35 +75,40 @@ export const Search = props => {
   const constructedUrlLink = constructUrlLink(selectedPath, searchResults)
 
   return (
-    <>
-      <Header
-        searchInputValue={searchInputValue}
-        handleSearchInputValue={handleSearchInputValue}
-        handleSubmit={handleSubmit}
-        constructedUrl={constructedUrl}
-        constructedUrlLink={constructedUrlLink}
-      />
-      <LeftBar
-        sort={sort}
-        setSort={setSort}
-        prefixMatch={prefixMatch}
-        setPrefixMatch={setPrefixMatch}
-        distinct={distinct}
-        setDistinct={setDistinct}
-        onlyStar={onlyStar}
-        setOnlyStar={setOnlyStar}
-        author={author}
-        setAuthor={setAuthor}
-        handleSubmit={handleSubmit}
-      />
+    <div className={style.root}>
+      <div className={style.headerAndLeftBar}>
+        <Header
+          searchInputValue={searchInputValue}
+          handleSearchInputValue={handleSearchInputValue}
+          handleSubmit={handleSubmit}
+          constructedUrl={constructedUrl}
+          constructedUrlLink={constructedUrlLink}
+        />
+        <LeftBar
+          sort={sort}
+          setSort={setSort}
+          prefixMatch={prefixMatch}
+          setPrefixMatch={setPrefixMatch}
+          distinct={distinct}
+          setDistinct={setDistinct}
+          onlyStar={onlyStar}
+          setOnlyStar={setOnlyStar}
+          author={author}
+          setAuthor={setAuthor}
+          handleSubmit={handleSubmit}
+          fold={fold}
+          setFold={setFold}
+        />
+      </div>
       <MainContent
+        fold={fold}
         searchResults={searchResults}
         setSearchResults={setSearchResults}
         selectedPath={selectedPath}
         setSelectedPath={setSelectedPath}
         setSearchInputValue={setSearchInputValue}
       />
-    </>
+    </div>
   )
 }
 

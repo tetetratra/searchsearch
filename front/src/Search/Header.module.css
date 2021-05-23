@@ -1,0 +1,83 @@
+.header {
+  width: 100%;
+  height: auto;
+
+  pointer-events: auto;
+  background: #DDDDDD;
+}
+
+.homeIcon {
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 0 10px 10px;
+  width: 62px;
+  height: 62px;
+  border-radius: 10px;
+
+  vertical-align: middle;
+  background: #FFFFFF;
+}
+
+.searchUrl {
+  display: inline-block;
+  width: max(500px, 40%);
+  margin: 10px 0 10px 20px;
+
+  vertical-align: middle;
+}
+
+.searchInput {
+  height: 40px;
+  width: 100%;
+  padding: 0 0 0 40px; /* アイコン用 */
+
+  font-size: 22px;
+  border: none;
+  border-radius: 5px;
+  background: #FFFFFF;
+}
+
+.searchIcon {
+  position: absolute;
+  margin: 5px 0 0 5px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+
+.constructedUrl {
+  display: inline-block;
+  width: max(500px, 40%);
+  height: 40px;
+  margin: 10px 0 10px 70px;
+
+  border-radius: 5px;
+  background: #EEE;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.constructedUrl:hover {
+  background: #D7D7D7;
+}
+
+.constructedUrlText {
+  margin: 0 0 0 0;
+  padding: 0 0 0 40px; /* アイコン用 */
+
+  line-height: 40px;
+  font-size: 22px;
+  border-radius: 5px;
+  color: #777;
+}
+
+.constructedInvalidUrlText {
+  cursor: not-allowed;
+  margin: 0 0 0 0;
+  padding: 0 0 0 40px; /* アイコン用 */
+
+  line-height: 40px;
+  font-size: 22px;
+  border-radius: 5px;
+  color: #777;
+}

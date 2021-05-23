@@ -1,11 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-import style from './index.module.css'
+import style from './Header.module.css'
 
 export const Header = ({ input, handleInput, url }) => {
+  const history = useHistory()
+
   return (
     <div className={style.header}>
-      <Link to="/search"><div className={style.homeIcon}></div></Link>
+      <Link to="/search" tabIndex={-1}>
+        <div className={style.homeIcon}></div>
+      </Link>
+
+      <button onClick={history.goBack} className={style.backButton}>＜</button>
+
       <div className={style.searchUrl}>
         <SearchIcon/>
         <input placeholder={"URLをペースト"} value={input} onChange={handleInput} className={style.searchInput}/>

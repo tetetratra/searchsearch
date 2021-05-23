@@ -1,8 +1,8 @@
 import moment from 'moment'
 
-import style from './index.module.css'
+import style from './MainContent.module.css'
 
-export const MainContent = ({ searchResults, setSearchResults, selectedPath, setSelectedPath, setSearchInputValue }) => {
+export const MainContent = ({ fold, searchResults, setSearchResults, selectedPath, setSelectedPath, setSearchInputValue }) => {
   const setSearchResult = index => updateProp => {
     setSearchResults(prevSearchResults => (
       prevSearchResults.map((prevSearchResult, i) => (
@@ -15,7 +15,7 @@ export const MainContent = ({ searchResults, setSearchResults, selectedPath, set
     ))
   }
   return (
-    <div className={style.main}>
+    <div className={`${style.main} ${fold ? style.main50left : style.main250left}`}>
       {searchResults.map((searchResult, i) => (
         <Query
           key={i}

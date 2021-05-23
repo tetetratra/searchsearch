@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 
-import style from './index.module.css'
+import style from './LeftBar.module.css'
 
-export const LeftBar = ({ sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
-  return (
-    <div className={style.leftBar}>
-      <SortSelect sort={sort} setSort={setSort}/>
+export const LeftBar = ({ fold, setFold, sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
+  const [showSort, setShowSort] = useState(false)
+  return fold ? (
+    <div className={style.leftBarFold}>
+      <Fold fold={fold} onClick={() => setFold(f => !f)}/>
+      <SearchLinkMini handleSubmit={handleSubmit}/>
+      <NewLinkMini/>
+    </div>
+  ) : (
+    <div className={style.leftBar} onClick={e => e.target === e.currentTarget && setShowSort(false)}>
+      <Fold onClick={() => setFold(f => !f)}/>
+      <SortSelect showSort={showSort} setShowSort={setShowSort} sort={sort} setSort={setSort}/>
       <div className={style.checkBoxesContainer}>
         <PrefixMatchCheck fill={prefixMatch} toggleCheck={() => setPrefixMatch(p => !p)} />
         <DistinctCheck fill={distinct} toggleCheck={() => setDistinct(p => !p)}/>
@@ -16,26 +24,34 @@ export const LeftBar = ({ sort, setSort, prefixMatch, setPrefixMatch, distinct, 
           setAuthor={setAuthor}
         />
       </div>
+      <SearchLink handleSubmit={handleSubmit}/>
       <NewLink/>
     </div>
   )
 }
 
-const SortSelect = ({ sort, setSort }) => {
-  const [show, setShow] = useState(false)
+const Fold = ({ fold, onClick }) => {
+  return (
+    <div onClick={onClick} className={style.fold}>
+      {fold ? '＋' : 'ー'}
+    </div>
+  )
+}
+
+const SortSelect = ({ showSort, setShowSort, sort, setSort }) => {
   const toggleShow = () => {
-    setShow(prevShow => !prevShow)
+    setShowSort(prevShow => !prevShow)
   }
   const changeSort = type => () => {
     setSort(type)
-    setShow(false)
+    setShowSort(false)
   }
   return <>
-    <div className={style.sortSelect} onClick={toggleShow}>
+    <button tabIndex={2} className={style.sortSelect} onClick={toggleShow}>
       <span className={style.sortSelectSort}>Sort:&nbsp;</span>
       <span className={style.sortSelectSortType}>{sort}</span>&nbsp;<MenuIcon/>
-    </div>
-    { show && (
+    </button>
+    { showSort && (
       <div className={style.sortSelectOptions}>
         <div onClick={changeSort("Star")} className={style.sortSelectOption}>Star</div>
         <div onClick={changeSort("New")} className={style.sortSelectOption}>New</div>
@@ -82,7 +98,7 @@ const Author = ({ author, setAuthor }) => {
   return (
     <div className={style.author}>
        作者指定
-      <input value={author} onChange={handleUserNameInput} className={style.userCheckInput}/>
+      <input tabIndex={4} value={author} onChange={handleUserNameInput} className={style.userCheckInput}/>
     </div>
   )
 }
@@ -103,22 +119,55 @@ const CheckBoxIcon = ({ fill }) => {
     </svg>
   )
   return (
-    <div>
+    <button tabIndex={3} className={style.checkBoxButton}>
       {check}
-    </div>
+    </button>
+  )
+}
+
+const SearchLink = ({ handleSubmit }) => {
+  return (
+    <button tabIndex={5} onClick={handleSubmit} className={style.searchLink}>
+      Search
+      <SearchIcon/>
+    </button>
+  )
+}
+
+const SearchLinkMini = ({ handleSubmit }) => {
+  return (
+    <button tabIndex={5} onClick={handleSubmit} className={style.searchLinkMini}>
+      <SearchIcon/>
+    </button>
   )
 }
 
 const NewLink = () => {
   return (
-    <Link to="/new">
-      <div className={style.newLink}>
+    <Link to="/new" tabIndex={-1}>
+      <button tabIndex={6} className={style.newLink}>
         New
         <NewIcon/>
-      </div>
+      </button>
     </Link>
   )
 }
+
+const NewLinkMini = () => {
+  return (
+    <Link to="/new">
+      <button tabIndex={6} className={style.newLinkMini}>
+        <NewIcon/>
+      </button>
+    </Link>
+  )
+}
+
+const SearchIcon = () => (
+  <svg className={style.searchIcon} width="22" height="22" viewBox="2 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="black" fillOpacity="0.87"/>
+  </svg>
+)
 
 const NewIcon = () => (
   <svg className={style.newIcon} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

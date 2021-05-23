@@ -1,0 +1,63 @@
+.header {
+  position: fixed;
+  width: 100%;
+  height: auto;
+  z-index: 5;
+
+  background: #DDDDDD;
+}
+
+.homeIcon {
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 0 10px 10px;
+  width: 62px;
+  height: 62px;
+  border-radius: 10px;
+
+  vertical-align: middle;
+  background: #FFFFFF;
+}
+
+.backButton {
+  cursor: pointer;
+  width: 60px;
+  height: 40px;
+  margin: 0px 0 0 20px;
+  border: none;
+  border-radius: 5px;
+  vertical-align: middle;
+  background: #EEE;
+  font-weight: bold;
+}
+
+.backButton:hover {
+  background: #AAA;
+}
+
+.searchUrl {
+  display: inline-block;
+  width: max(900px, 80%);
+  margin: 10px 0 10px 20px;
+
+  vertical-align: middle;
+}
+
+.searchInput {
+  height: 40px;
+  width: 100%;
+  padding: 0 0 0 40px; /* アイコン用 */
+
+  font-size: 22px;
+  border: none;
+  border-radius: 5px;
+  background: #FFFFFF;
+}
+
+.searchIcon {
+  position: absolute;
+  margin: 5px 0 0 5px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}

@@ -1,65 +1,20 @@
-.header {
-  position: fixed;
-  width: 100%;
-  height: 80px;
-  z-index: 5;
-
-  background: #DDDDDD;
-}
-
-.homeIcon {
-  cursor: pointer;
-  position: absolute;
-  width: 62px;
-  height: 62px;
-  top: 10px;
-  left: 10px;
-  border-radius: 10px;
-
-  background: #FFFFFF;
-}
-
-.searchUrl {
-  display: inline-block;
-  width: 80%;
-  margin: 20px 0 0 100px;
-
-  vertical-align: middle;
-}
-
-.searchInput {
-  height: 40px;
-  width: 100%;
-  padding: 0 0 0 40px; /* アイコン用 */
-
-  font-size: 22px;
-  border: none;
-  border-radius: 5px;
-  background: #FFFFFF;
-}
-
-.searchIcon {
-  position: absolute;
-  margin: 5px 0 0 5px;
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
-}
-
 .main {
   position: absolute;
   top: 80px;
   width: 100%;
-  height: calc(100vh - 80px);
+  padding: 45px 0 0 0;
   background-color: #F8F8F8;
 }
 
 .query {
   width: 70%;
   height: max(auto 120px);
-  margin: 20px 10%;
+  margin: 20px 0 0 10%;
   background-color: #FFF;
   position: relative;
+}
+.query:last-child {
+  margin: 20px 0 30px 10%;
 }
 
 .queryPath {
@@ -94,7 +49,12 @@
   margin: 20px 30px;
   width: 130px;
   height: 30px;
-  line-height: 30px;
+  border: none;
+  border-radius: 3px;
   text-align: center;
   background: #CDF;
 }
+.querySave:hover {
+  background: #ABD;
+}
+
