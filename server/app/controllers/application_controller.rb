@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  def hello_world
-    render json: { text: 'hello world' }
+  rescue_from StandardError do |e|
+    render 500
   end
 end
