@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Header } from './Header.js'
 import { MainContent } from './MainContent.js'
+import style from './index.module.css'
 
 export const New = ({ setSearchResults, inputValue }) => {
   const [input, setInput] = useState("")
@@ -10,7 +11,7 @@ export const New = ({ setSearchResults, inputValue }) => {
   }
 
   const url = parseUrl(input)
-  return <div>
+  return <div className={style.root}>
     <Header
       input={input}
       handleInput={handleInput}
