@@ -1,4 +1,5 @@
 import moment from 'moment'
+import _ from 'lodash'
 
 import style from './MainContent.module.css'
 
@@ -35,6 +36,10 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
     setSearchResult({ value: e.target.value })
     setSelectedPath(searchResult.path)
   }
+  const handleButtonClick = str => {
+    setSearchResult({ value: str })
+    setSelectedPath(searchResult.path)
+  }
   return (
     <div className={style.query}>
       <div onClick={() => setSearchInputValue(searchResult.path)} className={style.queryPath}>{searchResult.path}?</div>
@@ -44,7 +49,7 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
         onChange={handleInputChange}
         className={style.queryValue}>
       </input>
-      <div className={style.queryDescription}>{searchResult.description}</div>
+      <div className={style.queryDescription}>{buildDescription(searchResult.description, handleButtonClick)}</div>
       <div className={style.queryInfo}>
         <StarIcon/>
         <span className={style.queryStar}>{searchResult.favorite_count}</span>
@@ -52,6 +57,33 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
         <span className={style.queryDate}>{moment(searchResult.created_at).format('YYYY-MM-DD')}</span>
       </div>
     </div>
+  )
+}
+
+const buildDescription = (desc, handleButtonClick) => {
+  const regexp = /\[.*?\]/g
+
+  const formatted = _.zip(
+    Array.from(desc.split(regexp)),
+    Array.from(desc.matchAll(regexp)).map(x => x[0])
+  ).flat().filter(_.identity).map((str, i) => (
+    str.match(/^\[/) ? (
+      <MatchedButton
+        key={i}
+        str={str.replace(/^\[|\]$/g, '')}
+        handleButtonClick={handleButtonClick}
+      />
+    ) : str
+  ))
+  return formatted
+}
+
+const MatchedButton = ({ str, handleButtonClick }) => {
+  const handleClick = () => {
+    handleButtonClick(str)
+  }
+  return (
+    <button onClick={handleClick} className={style.matchedButton}>{str}</button>
   )
 }
 

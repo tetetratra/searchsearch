@@ -17,7 +17,7 @@ export const MainContent = ({ url }) => {
 }
 
 const Query = ({ formattedUrl, path }) => {
-  const [description, setDescription] = useState(formattedUrl.value)
+  const [description, setDescription] = useState(`[${formattedUrl.value}]`)
   const handleDescriptionInput = event => {
     setDescription(event.target.value)
   }

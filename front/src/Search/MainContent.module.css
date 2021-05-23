@@ -6,9 +6,11 @@
 
 .main250left {
   left: 250px;
+  width: calc(100% - 250px);
 }
 .main50left {
   left: 50px;
+  width: calc(100% - 50px);
 }
 
 .query {
@@ -50,10 +52,25 @@
 
 .queryDescription {
   display: inline-block;
-  width: 73%;
+  width: auto;
   height: auto;
-  margin: 0 0 0 20px;
+  margin: 10px 0 10px 20px;
+  vertical-align: middle;
+  white-space: pre-wrap;
+  word-break: break-all;
   font-size: 15px;
+}
+
+.matchedButton {
+  cursor: pointer;
+  border: none;
+  margin: 5px 3px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #FEB;
+}
+.matchedButton:hover {
+  background: #DB9;
 }
 
 .queryInfo {
