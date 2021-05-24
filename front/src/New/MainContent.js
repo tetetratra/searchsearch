@@ -24,7 +24,7 @@ const Query = ({ formattedUrl, path }) => {
   }
   const alert = useAlert()
   const handleClick = e => {
-    const body = { path, key: formattedUrl.key, description }
+    const body = { path: path.replace(/\?$/, ''), key: formattedUrl.key, description }
     requestApi('query_strings', 'POST', body).then(r => {
       alert.success('作成しました')
     }).catch(r => {
