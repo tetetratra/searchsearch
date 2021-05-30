@@ -5,5 +5,7 @@ class QueryString < ApplicationRecord
 
   validates :path, presence: true
   validates :key, presence: true
-  validates :description, presence: true
+  validates :description,
+    presence: true,
+    uniqueness: { scope: [:path, :key] }
 end

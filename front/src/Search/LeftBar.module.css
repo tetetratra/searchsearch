@@ -16,6 +16,7 @@
   top: 0px;
   padding: 10px 0 110% 0;
   background: #F0F0F0;
+  box-shadow: 2px 0px 0px rgba(0, 0, 0, 0.2);
   pointer-events: auto;
 }
 
@@ -26,6 +27,7 @@
   top: 0px;
   padding: 10px 0 110% 0;
   background: #F0F0F0;
+  box-shadow: 2px 0px 0px rgba(0, 0, 0, 0.2);
   pointer-events: auto;
 }
 

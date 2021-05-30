@@ -1,17 +1,17 @@
 .alertInfo {
-  background: #EEF;
+  background: #DDF;
 }
 .alertSuccess {
-  background: #EFE;
+  background: #DFD;
 }
 .alertError {
-  background: #FEE;
+  background: #FDD;
 }
 .alertInfo, .alertSuccess, .alertError {
   width: 200px;
-  height: 30px;
+  height: auto;
   margin: 10px 0 0 0;
-  padding: 5px 0 0 0;
+  padding: 10px;
   border-radius: 3px;
   text-align: center;
   font-size: 18px;

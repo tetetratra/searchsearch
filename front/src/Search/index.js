@@ -51,6 +51,10 @@ export const Search = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    search()
+  }
+
+  const search = (over) => {
     const encodedUrl = encodeURIComponent(searchInputValue)
     const params = _.pickBy({
       query: encodedUrl,
@@ -58,7 +62,8 @@ export const Search = props => {
       prefixMatch,
       distinct,
       onlyStar,
-      author: encodeURIComponent(author)
+      author: encodeURIComponent(author),
+      ...over
     })
     const paramsStr = Object.entries(params).map(e => e.join('=')).join("&")
     requestApi('/query_strings?' + paramsStr, 'GET').then(r => {
@@ -83,6 +88,7 @@ export const Search = props => {
           handleSubmit={handleSubmit}
           constructedUrl={constructedUrl}
           constructedUrlLink={constructedUrlLink}
+          search={search}
         />
         <LeftBar
           sort={sort}
@@ -107,6 +113,7 @@ export const Search = props => {
         selectedPath={selectedPath}
         setSelectedPath={setSelectedPath}
         setSearchInputValue={setSearchInputValue}
+        search={search}
       />
     </div>
   )

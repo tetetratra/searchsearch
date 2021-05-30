@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import style from './MainContent.module.css'
 
-export const MainContent = ({ fold, searchResults, setSearchResults, selectedPath, setSelectedPath, setSearchInputValue }) => {
+export const MainContent = ({ fold, searchResults, setSearchResults, selectedPath, setSelectedPath, setSearchInputValue, search }) => {
   const setSearchResult = index => updateProp => {
     setSearchResults(prevSearchResults => (
       prevSearchResults.map((prevSearchResult, i) => (
@@ -25,13 +25,14 @@ export const MainContent = ({ fold, searchResults, setSearchResults, selectedPat
           selectedPath={selectedPath}
           setSelectedPath={setSelectedPath}
           setSearchInputValue={setSearchInputValue}
+          search={search}
         />
       ))}
     </div>
   )
 }
 
-const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, setSearchInputValue }) => {
+const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, setSearchInputValue, search }) => {
   const handleInputChange = e => {
     setSearchResult({ value: e.target.value })
     setSelectedPath(searchResult.path)
@@ -40,9 +41,14 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
     setSearchResult({ value: str })
     setSelectedPath(searchResult.path)
   }
+  const handleQueryPathClick = () => {
+    setSearchInputValue(searchResult.path)
+    const encodedUrl = encodeURIComponent(searchResult.path)
+    search({ query: encodedUrl })
+  }
   return (
     <div className={style.query}>
-      <div onClick={() => setSearchInputValue(searchResult.path)} className={style.queryPath}>{searchResult.path}?</div>
+      <div onClick={handleQueryPathClick} className={style.queryPath}>{searchResult.path}?</div>
       <div className={style.queryKey}>{searchResult.key}=</div>
       <input
         value={searchResult.value}

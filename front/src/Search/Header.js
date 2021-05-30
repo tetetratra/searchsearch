@@ -2,18 +2,35 @@ import { Link } from "react-router-dom";
 
 import style from './Header.module.css'
 
-export const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit, constructedUrl, constructedUrlLink }) => {
+export const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit, constructedUrl, constructedUrlLink, search }) => {
+  const handleHomeIconClick = () => {
+    search({
+      query: '',
+      sort: '',
+      prefixMatch: '',
+      distinct: '',
+      onlyStar: '',
+      author: ''
+    })
+  }
   return (
     <div className={style.header}>
-      <Link to="/search" tabIndex={-1}><div className={style.homeIcon}></div></Link>
+      <button onClick={handleHomeIconClick} className={style.homeIcon}></button>
       <div className={style.searchUrl}>
         <SearchIcon handleSubmit={handleSubmit}/>
         <input tabIndex={1} placeholder={"検索"} value={searchInputValue} onChange={handleSearchInputValue} className={style.searchInput}/>
       </div>
-      <a target='_blank' rel="noreferrer" href={constructedUrlLink} className={style.constructedUrl}>
-        <SearchIcon />
-        <p className={style.constructedUrlText}>https://{constructedUrl}</p>
-      </a>
+      { constructedUrlLink ? (
+        <a target='_blank' rel="noreferrer" href={constructedUrlLink} className={style.constructedUrl}>
+          <SearchIcon />
+          <p className={style.constructedUrlText}>https://{constructedUrl}</p>
+        </a>
+      ) : (
+        <span className={style.constructedUrl}>
+          <SearchIcon />
+          <p className={style.constructedUrlText}>https://{constructedUrl}</p>
+        </span>
+      )}
     </div>
   )
 }
