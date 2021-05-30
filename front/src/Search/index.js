@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useLocation } from "react-router-dom";
 import _ from 'lodash'
 import querystring from 'querystring'
@@ -7,7 +7,7 @@ import { requestApi } from './../api'
 import { Header } from './Header.js'
 import { LeftBar } from './LeftBar.js'
 import { MainContent } from './MainContent.js'
-
+import { LoginContext } from './../App'
 import style from './index.module.css'
 
 export const Search = props => {
@@ -20,6 +20,10 @@ export const Search = props => {
   const [selectedPath, setSelectedPath] = useState(null)
   const [searchResults, setSearchResults] = useState([])
   const [fold, setFold] = useState(false)
+
+  const loginned = useContext(LoginContext)
+  console.log('loginned')
+  console.log(loginned)
 
   const location = useLocation()
 
