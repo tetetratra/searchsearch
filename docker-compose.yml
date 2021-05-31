@@ -8,17 +8,16 @@ services:
       - "4306:3306"
     volumes:
         - ./server/db/mysql_data:/var/lib/mysql
-
   server:
     build: ./server
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 5000 -b '0.0.0.0'"
     volumes:
       - ./server:/app
+      - gem_data:/usr/local/bundle
     ports:
       - "5000:5000"
     depends_on:
       - db
-
   front:
     build: ./front
     volumes:
@@ -26,4 +25,5 @@ services:
     command: sh -c "npm start"
     ports:
      - "3000:3000"
-
+volumes:
+  gem_data:
