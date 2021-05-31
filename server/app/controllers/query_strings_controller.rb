@@ -20,9 +20,9 @@ class QueryStringsController < ApplicationController
       }
       .then { |r|
         case params[:sort]
-        when 'Star' then r.order(favorite_count: :DESC)
-        when 'New' then r.order(:created_at)
-        when 'Old' then r.order(created_at: :desc)
+        when 'star' then r.order(favorite_count: :DESC)
+        when 'new' then r.order(:created_at)
+        when 'old' then r.order(created_at: :desc)
         else r.order(favorite_count: :DESC)
         end
       }

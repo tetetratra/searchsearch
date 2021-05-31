@@ -48,14 +48,14 @@ const SortSelect = ({ showSort, setShowSort, sort, setSort }) => {
   }
   return <>
     <button tabIndex={2} className={style.sortSelect} onClick={toggleShow}>
-      <span className={style.sortSelectSort}>Sort:&nbsp;</span>
+      <span className={style.sortSelectSort}>sort:&nbsp;</span>
       <span className={style.sortSelectSortType}>{sort}</span>&nbsp;<MenuIcon/>
     </button>
     { showSort && (
       <div className={style.sortSelectOptions}>
-        <div onClick={changeSort("Star")} className={style.sortSelectOption}>Star</div>
-        <div onClick={changeSort("New")} className={style.sortSelectOption}>New</div>
-        <div onClick={changeSort("Old")} className={style.sortSelectOption}>Old</div>
+        <button tabIndex={2} onClick={changeSort("star")} className={style.sortSelectOption}>star</button>
+        <button tabIndex={2} onClick={changeSort("new")} className={style.sortSelectOption}>new</button>
+        <button tabIndex={2} onClick={changeSort("old")} className={style.sortSelectOption}>old</button>
       </div>
     )}
   </>

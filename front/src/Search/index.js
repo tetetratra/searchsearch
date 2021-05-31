@@ -12,7 +12,7 @@ import style from './index.module.css'
 
 export const Search = props => {
   const [searchInputValue, setSearchInputValue] = useState('') // パーセントエンコーディング前のURL
-  const [sort, setSort] = useState('Star')
+  const [sort, setSort] = useState('star')
   const [prefixMatch, setPrefixMatch] = useState(false)
   const [distinct, setDistinct] = useState(false)
   const [onlyStar, setOnlyStar] = useState(false)
@@ -33,7 +33,7 @@ export const Search = props => {
     const url = encodedUrl ? decodeURIComponent(encodedUrl) : ''
 
     setSearchInputValue(url)
-    setSort(parsedQueryString.sort || 'Star')
+    setSort(parsedQueryString.sort || 'star')
     setPrefixMatch(!!parsedQueryString.prefixMatch)
     setDistinct(!!parsedQueryString.distinct)
     setOnlyStar(!!parsedQueryString.onlyStar)

@@ -83,9 +83,11 @@
 .sortSelectOption {
   cursor: pointer;
   height: 25px;
+  width: 100%;
   font-size: 16px;
   font-weight: bold;
   color: #555;
+  border: none;
   display: flex;
   align-items: center;
   padding-left: 20px;
