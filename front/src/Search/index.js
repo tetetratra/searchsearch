@@ -70,9 +70,9 @@ export const Search = props => {
       ...over
     })
     const paramsStr = Object.entries(params).map(e => e.join('=')).join("&")
+    props.history.push(paramsStr ? `search?${paramsStr}` : 'search')
     requestApi('/query_strings?' + paramsStr, 'GET').then(r => {
       setSearchResults(formatFetchedSearchResults(r))
-      props.history.push(paramsStr ? `search?${paramsStr}` : 'search')
     })
   }
 
