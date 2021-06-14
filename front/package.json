@@ -1,12 +1,12 @@
 {
   "name": "app",
   "version": "0.1.0",
-  "proxy": "http://server:5000",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "http-proxy-middleware": "^0.19.1",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
