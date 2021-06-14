@@ -25,5 +25,7 @@ services:
     command: sh -c "npm start"
     ports:
      - "3000:3000"
+    links:
+      - server
 volumes:
   gem_data:
