@@ -2,11 +2,8 @@ class CreateQueryStrings < ActiveRecord::Migration[6.0]
   def change
     create_table :users do |t|
       t.string :name
-      t.string :email
-      t.timestamps
-
       t.index :name, unique: true
-      t.index :email, unique: true
+      # 残りはdeviseのmigrationで作る
     end
 
     create_table :query_strings do |t|
