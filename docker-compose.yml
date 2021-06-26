@@ -11,6 +11,8 @@ services:
   server:
     build: ./server
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 5000 -b '0.0.0.0'"
+    stdin_open: true
+    tty: true
     volumes:
       - ./server:/app
       - gem_data:/usr/local/bundle
