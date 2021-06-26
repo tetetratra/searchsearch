@@ -75,4 +75,5 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.hosts << "server"
+  config.action_controller.forgery_protection_origin_check = false
 end
