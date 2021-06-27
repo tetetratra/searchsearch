@@ -8,7 +8,6 @@ import { positions, Provider as AlertProvider } from 'react-alert'
 
 import { Search } from './Search/index.js'
 import { New } from './New/index.js'
-import { Login } from './Login/index.js'
 import style from './App.module.css'
 
 const AlertTemplate = ({ options, message }) => {
@@ -40,7 +39,6 @@ const App = props => {
           <Switch>
             <Route exact path="/search" component={Search} />
             <Route exact path="/new" component={New} />
-            <Route exact path="/login" component={Login} />
           </Switch>
         </Router>
       </LoginContext.Provider>

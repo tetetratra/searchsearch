@@ -8,5 +8,5 @@ Rails.application.routes.draw do
     resources :query_strings
   end
 
-  root to: redirect('http://localhost:3000/search')
+  root to: redirect(ApplicationController::FRONT_HOME_URL, status: 302)
 end

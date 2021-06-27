@@ -76,4 +76,5 @@ Rails.application.configure do
 
   config.hosts << "server"
   config.action_controller.forgery_protection_origin_check = false
+  config.web_console.whitelisted_ips = '0.0.0.0/0'
 end

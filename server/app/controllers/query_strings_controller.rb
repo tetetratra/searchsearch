@@ -1,8 +1,7 @@
 class QueryStringsController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :destroy]
+  skip_before_action :auth_user, only: [:index]
 
   def index
-    p current_user
     queryStrings = QueryString
       .select(<<~SQL
         query_strings.*,
