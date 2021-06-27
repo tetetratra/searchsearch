@@ -1,23 +1,24 @@
 class QueryStringsController < ApplicationController
-  skip_before_action :auth_user, only: [:index]
+  skip_before_action :auth_user, only: [:index, :create]
 
   def index
     queryStrings = QueryString
       .select(<<~SQL
         query_strings.*,
-        users.*,
-        COUNT(favorites.id) AS favorite_count
+        users.name AS user_name,
+        COUNT(favorites.id) AS favorite_count,
+        COUNT(favorites.user_id = #{current_user&.id || 0} OR NULL) AS favorited
       SQL
       )
       .joins('LEFT OUTER JOIN users ON users.id = query_strings.user_id')
-      .joins('LEFT OUTER JOIN favorites ON favorites.query_strings_id = query_strings.id')
+      .joins('LEFT OUTER JOIN favorites AS favorites ON favorites.query_string_id = query_strings.id')
       .then { |r|
         query = params[:query]
-        query_like = params[:prefixMatch] ? "#{query}%" : "%#{query}%"
+        query_like = params[:prefix] ? "#{query}%" : "%#{query}%"
         query ? r.where('path LIKE ?', query_like) : r
       }
       .then { |r|
-        params[:author] ? r.where('users.name LIKE ?', "%#{author}%") : r
+        params[:author] ? r.where('users.name = ?', params[:author]) : r
       }
       .then { |r|
         case params[:sort]
@@ -32,11 +33,19 @@ class QueryStringsController < ApplicationController
         author ? r.where('users.name = ?', author) : r
       }
       .group('query_strings.id')
+      .then { |r|
+        params[:star] ? r.having('favorited != 0') : r
+      }
     render json: queryStrings
   end
 
   def create
-    query_string = current_user.query_strings.new(query_strings_params)
+    query_string = if current_user
+      current_user.query_strings.new(query_strings_params)
+    else
+      QueryString.new(query_strings_params.merge({user_id: nil}))
+    end
+
     if query_string.save
       render json: nil, status: :ok
     else

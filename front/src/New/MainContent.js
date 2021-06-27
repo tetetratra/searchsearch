@@ -12,7 +12,7 @@ export const MainContent = ({ url }) => {
       .map(([ key, value ]) => ({ key, value })) : []
   return (
     <div className={style.main}>
-      {formattedUrls.map(formattedUrl => <Query key={formattedUrl.key} formattedUrl={formattedUrl} path={path}/>)}
+      {formattedUrls.map(formattedUrl => <Query key={path + formattedUrl.key} formattedUrl={formattedUrl} path={path}/>)}
     </div>
   )
 }

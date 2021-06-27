@@ -5,6 +5,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :rememberable, :validatable
 
+  validates :name, presence: true
+
   has_many :query_strings
   has_many :favorites, through: :query_strings
 end

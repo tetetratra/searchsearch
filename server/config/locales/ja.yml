@@ -2,6 +2,7 @@ ja:
   activerecord:
     models:
       query_string: クエリストリング
+      favorite: ブックマーク
     attributes:
       query_string:
         description: 説明
@@ -10,6 +11,10 @@ ja:
         query_string:
           attributes:
             description:
+              format: '%{message}'
+        favorite:
+          attributes:
+            query_string_id:
               format: '%{message}'
   attributes:
     created_at: 作成日

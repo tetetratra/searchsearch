@@ -37,9 +37,9 @@ export const Search = props => {
     const params = _.pickBy({
       query: encodedUrl,
       sort: parsedQueryString.sort,
-      prefixMatch: !!parsedQueryString.distinct,
+      prefix: !!parsedQueryString.distinct,
       distinct: !!parsedQueryString.onlyStar,
-      onlyStar: !!parsedQueryString.onlyStar,
+      star: !!parsedQueryString.onlyStar,
       author: encodeURIComponent(parsedQueryString.author || '')
     })
     const paramsStr = Object.entries(params).map(e => e.join('=')).join("&")
@@ -58,9 +58,9 @@ export const Search = props => {
     const params = _.pickBy({
       query: encodedUrl,
       sort,
-      prefixMatch,
+      prefix: prefixMatch,
       distinct,
-      onlyStar,
+      star: onlyStar,
       author: encodeURIComponent(author),
       ...over
     })
@@ -113,6 +113,7 @@ export const Search = props => {
         setSelectedPath={setSelectedPath}
         setSearchInputValue={setSearchInputValue}
         search={search}
+        setAuthor={setAuthor}
       />
     </div>
   )

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  prepend_before_action :auth_user_for_new, only: [:new]
   prepend_before_action :auth_user_for_edit, only: [:edit]
 
   skip_before_action :auth_user, only: [:new, :create]
@@ -72,6 +73,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def after_sign_out_path_for(resource)
     FRONT_HOME_URL
+  end
+
+  def auth_user_for_new # ログイン済みで /users/sign_in にアクセスするとサーバー側のrootに飛んでしまうため
+    redirect_to(FRONT_HOME_URL) if user_signed_in?
   end
 
   def auth_user_for_edit # ApplicationControllerのbefore_actionのauth_userはなぜか動かなかったのでここでやる

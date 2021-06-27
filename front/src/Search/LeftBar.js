@@ -22,7 +22,7 @@ export const LeftBar = ({ fold, setFold, sort, setSort, prefixMatch, setPrefixMa
       <div className={style.checkBoxesContainer}>
         <PrefixMatchCheck fill={prefixMatch} toggleCheck={() => setPrefixMatch(p => !p)} />
         <DistinctCheck fill={distinct} toggleCheck={() => setDistinct(p => !p)}/>
-        <OnlyStarCheck fill={onlyStar} toggleCheck={() => setOnlyStar(p => !p)}/>
+        { loginned && <OnlyStarCheck fill={onlyStar} toggleCheck={() => setOnlyStar(p => !p)}/> }
         <Author
           author={author}
           setAuthor={setAuthor}
