@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { positions, Provider as AlertProvider } from 'react-alert'
 
+import { requestApi } from './api.js'
 import { Search } from './Search/index.js'
 import { New } from './New/index.js'
 import style from './App.module.css'
@@ -29,7 +30,9 @@ const App = props => {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    // ログイン判定
+    requestApi('/logged_in', 'get').then(r => {
+      setLoggedIn(r.logged_in)
+    })
   }, [])
 
   return (

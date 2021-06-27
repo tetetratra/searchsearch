@@ -4,4 +4,7 @@ class User < ApplicationRecord
   # :recoverable
   devise :database_authenticatable, :registerable,
          :rememberable, :validatable
+
+  has_many :query_strings
+  has_many :favorites, through: :query_strings
 end

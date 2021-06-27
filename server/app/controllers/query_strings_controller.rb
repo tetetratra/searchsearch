@@ -9,7 +9,7 @@ class QueryStringsController < ApplicationController
         COUNT(favorites.id) AS favorite_count
       SQL
       )
-      .joins(:user)
+      .joins('LEFT OUTER JOIN users ON users.id = query_strings.user_id')
       .joins('LEFT OUTER JOIN favorites ON favorites.query_strings_id = query_strings.id')
       .then { |r|
         query = params[:query]

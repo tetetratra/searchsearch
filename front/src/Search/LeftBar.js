@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 
 import style from './LeftBar.module.css'
+import { LoginContext } from './../App'
 
 export const LeftBar = ({ fold, setFold, sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
   const [showSort, setShowSort] = useState(false)
+
+  const loginned = useContext(LoginContext)
+
   return fold ? (
     <div className={style.leftBarFold}>
       <Fold fold={fold} onClick={() => setFold(f => !f)}/>
@@ -24,6 +28,7 @@ export const LeftBar = ({ fold, setFold, sort, setSort, prefixMatch, setPrefixMa
           setAuthor={setAuthor}
         />
       </div>
+      {loginned ? 'ログインしています' : 'ログインしてません'}
       <SearchLink handleSubmit={handleSubmit}/>
       <NewLink/>
     </div>
