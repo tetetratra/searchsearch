@@ -6,6 +6,6 @@ class QueryString < ApplicationRecord
   validates :path, presence: true
   validates :key, presence: true
   validates :description,
-    presence: true,
-    uniqueness: { scope: [:path, :key] }
+    presence: { message: '説明を入力してください' },
+    uniqueness: { scope: [:path, :key], message: '同一の説明が既に存在します' }
 end

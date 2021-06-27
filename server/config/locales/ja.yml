@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    models:
+      query_string: クエリストリング
+    attributes:
+      query_string:
+        description: 説明
+    errors:
+      models:
+        query_string:
+          attributes:
+            description:
+              format: '%{message}'
+  attributes:
+    created_at: 作成日
+    updated_at: 更新日
