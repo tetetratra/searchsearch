@@ -1,8 +1,12 @@
+import { useContext } from 'react';
 import { Link } from "react-router-dom";
 
 import style from './Header.module.css'
+import { LoginContext } from './../App'
 
 export const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit, constructedUrl, constructedUrlLink, search }) => {
+  const loginned = useContext(LoginContext)
+
   const handleHomeIconClick = () => {
     search({
       query: '',
@@ -30,6 +34,11 @@ export const Header = ({ searchInputValue, handleSearchInputValue, handleSubmit,
           <SearchIcon />
           <p className={style.constructedUrlText}>https://{constructedUrl}</p>
         </span>
+      )}
+      { loginned ? (
+        null
+      ) : (
+        null
       )}
     </div>
   )

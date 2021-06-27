@@ -7,7 +7,8 @@ class QueryStringsController < ApplicationController
         query_strings.*,
         users.name AS user_name,
         COUNT(favorites.id) AS favorite_count,
-        COUNT(favorites.user_id = #{current_user&.id || 0} OR NULL) AS favorited
+        COUNT(favorites.user_id = #{current_user&.id || 0} OR NULL) AS favorited,
+        users.id = '#{current_user&.id}' AS owner
       SQL
       )
       .joins('LEFT OUTER JOIN users ON users.id = query_strings.user_id')
@@ -54,7 +55,10 @@ class QueryStringsController < ApplicationController
   end
 
   def destroy
-    # TODO
+    if qs = current_user.query_strings.find_by(id: params[:id])
+      qs.destroy!
+    end
+    render json: nil, status: :ok
   end
 
   private

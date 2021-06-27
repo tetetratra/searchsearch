@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useAlert } from 'react-alert'
 import moment from 'moment'
 import _ from 'lodash'
 
@@ -11,11 +12,11 @@ export const MainContent = ({ fold, searchResults, setSearchResults, selectedPat
     setSearchResults(prevSearchResults => (
       prevSearchResults.map((prevSearchResult, i) => (
         i === index ? (
-          { ...prevSearchResult, ...updateProp }
+          updateProp == null ? null : ({ ...prevSearchResult, ...updateProp })
         ) : (
           prevSearchResult
         )
-      ))
+      )).filter(_.identity)
     ))
   }
   return (
@@ -38,6 +39,7 @@ export const MainContent = ({ fold, searchResults, setSearchResults, selectedPat
 
 const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, setSearchInputValue, search, setAuthor }) => {
   const loginned = useContext(LoginContext)
+  const alert = useAlert()
 
   const handleInputChange = e => {
     setSearchResult({ value: e.target.value })
@@ -76,6 +78,12 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
       })
     }
   }
+  const handleDeleteButton = () => {
+    requestApi(`/query_strings/${searchResult.id}`, 'DELETE').then(r => {
+      alert.info('削除しました')
+      setSearchResult(null)
+    })
+  }
   return (
     <div className={style.query}>
       <div onClick={handleQueryPathClick} className={style.queryPath}>{searchResult.path}?</div>
@@ -94,6 +102,7 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
         {searchResult.user_name &&
           <span onClick={handleClickUserName} className={style.queryUserName}>@{searchResult.user_name}</span>
         }
+        {searchResult.owner ? <button onClick={handleDeleteButton}>削除</button> : null}
       </div>
     </div>
   )

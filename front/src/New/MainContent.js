@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useAlert } from 'react-alert'
 import _ from 'lodash'
 
 import { requestApi } from './../api'
 import style from './MainContent.module.css'
+import { LoginContext } from './../App'
 
 export const MainContent = ({ url }) => {
+  const loginned = useContext(LoginContext)
+
   const path = url ? `${url.hostname}${url.pathname}?` : ''
   const formattedUrls = url ?
     _.zip(Array.from(url.searchParams.keys()), Array.from(url.searchParams.values()))
       .map(([ key, value ]) => ({ key, value })) : []
   return (
     <div className={style.main}>
+      { loginned || (
+        <p className={style.loginAlert}>ログインしていません。<br />クエリストリングは「作成者なし」で作られます。</p>
+      )}
       {formattedUrls.map(formattedUrl => <Query key={path + formattedUrl.key} formattedUrl={formattedUrl} path={path}/>)}
     </div>
   )
@@ -27,6 +33,7 @@ const Query = ({ formattedUrl, path }) => {
     const body = { path: path.replace(/\?$/, ''), key: formattedUrl.key, description }
     requestApi('/query_strings', 'POST', body).then(r => {
       alert.success('作成しました')
+      setDescription('')
     }).catch(r => {
       alert.error(r.error)
     })

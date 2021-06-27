@@ -21,8 +21,8 @@
 
 .searchUrl {
   display: inline-block;
-  width: max(500px, 40%);
-  margin: 10px 0 10px 20px;
+  width: 80%;
+  margin: 5px 0 5px 20px;
 
   vertical-align: middle;
 }
@@ -40,7 +40,7 @@
 
 .searchIcon {
   position: absolute;
-  margin: 5px 0 0 5px;
+  margin: 0px 0 0 5px;
   cursor: pointer;
   height: 30px;
   width: 30px;
@@ -48,13 +48,13 @@
 
 .constructedUrl {
   display: inline-block;
-  width: max(500px, 40%);
+  width: 82%;
   height: 40px;
-  margin: 10px 0 10px 70px;
+  margin: -10px 0 10px 92px;
 
   border-radius: 5px;
   background: #EEE;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   text-decoration: none;
 }
 
@@ -65,6 +65,9 @@
 .constructedUrlText {
   margin: 0 0 0 0;
   padding: 0 0 0 40px; /* アイコン用 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   line-height: 40px;
   font-size: 22px;

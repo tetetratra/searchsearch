@@ -28,7 +28,6 @@ export const LeftBar = ({ fold, setFold, sort, setSort, prefixMatch, setPrefixMa
           setAuthor={setAuthor}
         />
       </div>
-      {loginned ? 'ログインしています' : 'ログインしてません'}
       <SearchLink handleSubmit={handleSubmit}/>
       <NewLink/>
     </div>

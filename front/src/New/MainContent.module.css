@@ -6,6 +6,15 @@
   background-color: #F8F8F8;
 }
 
+.loginAlert {
+  text-align: center;
+  margin: 0 auto;
+  width: 40%;
+  max-width: 500px;
+  min-width: 300px;
+  border: 2px solid #EAA;
+}
+
 .query {
   width: 70%;
   height: max(auto 120px);
