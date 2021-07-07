@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { useAlert } from 'react-alert'
 import moment from 'moment'
 import _ from 'lodash'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import { requestApi } from './../api'
 import style from './MainContent.module.css'
@@ -79,9 +81,26 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
     }
   }
   const handleDeleteButton = () => {
-    requestApi(`/query_strings/${searchResult.id}`, 'DELETE').then(r => {
-      alert.info('削除しました')
-      setSearchResult(null)
+    console.log("aaa")
+    confirmAlert({
+      title: '削除しますか?',
+      message: '',
+      buttons: [
+        {
+          label: 'キャンセル',
+          onClick: () => null
+        },
+        {
+          label: '削除する',
+          onClick: () => {
+            console.log("abc")
+            requestApi(`/query_strings/${searchResult.id}`, 'DELETE').then(r => {
+              alert.info('削除しました')
+              setSearchResult(null)
+            })
+          }
+        }
+      ]
     })
   }
   return (
