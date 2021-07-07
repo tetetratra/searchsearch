@@ -7,10 +7,6 @@ export const Header = ({ input, handleInput, url }) => {
 
   return (
     <div className={style.header}>
-      <Link to="/search" tabIndex={-1}>
-        <div className={style.homeIcon}></div>
-      </Link>
-
       <button onClick={history.goBack} className={style.backButton}>＜</button>
 
       <div className={style.searchUrl}>

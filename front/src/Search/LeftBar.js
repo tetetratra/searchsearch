@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import style from './LeftBar.module.css'
 import { LoginContext } from './../App'
 
-export const LeftBar = ({ fold, setFold, sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
+export const LeftBar = ({ fold, setFold, searchInputValue, handleSearchInputValue, sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
   const [showSort, setShowSort] = useState(false)
 
   const loginned = useContext(LoginContext)
@@ -18,6 +18,7 @@ export const LeftBar = ({ fold, setFold, sort, setSort, prefixMatch, setPrefixMa
   ) : (
     <div className={style.leftBar} onClick={e => e.target === e.currentTarget && setShowSort(false)}>
       <Fold onClick={() => setFold(f => !f)}/>
+      <SearchInput searchInputValue={searchInputValue} handleSearchInputValue={handleSearchInputValue}/>
       <SortSelect showSort={showSort} setShowSort={setShowSort} sort={sort} setSort={setSort}/>
       <div className={style.checkBoxesContainer}>
         <PrefixMatchCheck fill={prefixMatch} toggleCheck={() => setPrefixMatch(p => !p)} />
@@ -39,6 +40,12 @@ const Fold = ({ fold, onClick }) => {
     <div onClick={onClick} className={style.fold}>
       {fold ? '＋' : 'ー'}
     </div>
+  )
+}
+
+const SearchInput = ({ searchInputValue, handleSearchInputValue }) => {
+  return (
+    <input tabIndex={1} className={style.searchInput} value={searchInputValue} onChange={handleSearchInputValue} />
   )
 }
 

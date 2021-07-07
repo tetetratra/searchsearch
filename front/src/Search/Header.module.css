@@ -11,36 +11,17 @@
   cursor: pointer;
   display: inline-block;
   margin: 10px 0 10px 10px;
-  width: 62px;
-  height: 62px;
+  width: 50px;
+  height: 50px;
   border-radius: 10px;
 
   vertical-align: middle;
   background: #FFFFFF;
 }
 
-.searchUrl {
-  display: inline-block;
-  width: 80%;
-  margin: 5px 0 5px 20px;
-
-  vertical-align: middle;
-}
-
-.searchInput {
-  height: 40px;
-  width: 100%;
-  padding: 0 0 0 40px; /* アイコン用 */
-
-  font-size: 22px;
-  border: none;
-  border-radius: 5px;
-  background: #FFFFFF;
-}
-
 .searchIcon {
   position: absolute;
-  margin: 0px 0 0 5px;
+  margin: 7px 0 0 7px;
   cursor: pointer;
   height: 30px;
   width: 30px;
@@ -48,14 +29,14 @@
 
 .constructedUrl {
   display: inline-block;
-  width: 82%;
-  height: 40px;
-  margin: -10px 0 10px 92px;
+  width: 85%;
+  height: 42px;
+  margin: 0 0 0 20px;
 
   border-radius: 5px;
   background: #EEE;
-  /* vertical-align: middle; */
   text-decoration: none;
+  vertical-align: middle;
 }
 
 .constructedUrl:hover {
@@ -84,4 +65,22 @@
   font-size: 22px;
   border-radius: 5px;
   color: #777;
+}
+
+.userInfo {
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+  display: inline-block;
+  border: 1px solid #AAA;
+  font-size: 30px;
+  margin: 0 0 0 20px;
+  padding: 0 10px 0 10px;
+  border-radius: 5px;
+  background: #CCC;
+  vertical-align: middle;
+}
+
+.userInfo:hover {
+  background: #BBB;
 }

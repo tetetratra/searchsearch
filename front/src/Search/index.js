@@ -82,9 +82,6 @@ export const Search = props => {
     <div className={style.root}>
       <div className={style.headerAndLeftBar}>
         <Header
-          searchInputValue={searchInputValue}
-          handleSearchInputValue={handleSearchInputValue}
-          handleSubmit={handleSubmit}
           constructedUrl={constructedUrl}
           constructedUrlLink={constructedUrlLink}
           search={search}
@@ -92,6 +89,9 @@ export const Search = props => {
         <LeftBar
           sort={sort}
           setSort={setSort}
+          searchInputValue={searchInputValue}
+          handleSearchInputValue={handleSearchInputValue}
+          handleSubmit={handleSubmit}
           prefixMatch={prefixMatch}
           setPrefixMatch={setPrefixMatch}
           distinct={distinct}
