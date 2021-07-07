@@ -95,14 +95,14 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
       </input>
       <div className={style.queryDescription}>{buildDescription(searchResult.description, handleButtonClick)}</div>
       <div className={style.queryInfo}>
-        <StarIcon stared={searchResult.favorited} onClick={handleClickStar}/>
-        <span className={style.queryStar}>{searchResult.favorite_count}</span>
-        📅
-        <span className={style.queryDate}>{moment(searchResult.created_at).format('YYYY-MM-DD')}</span>
+        <span className={style.queryStar}><StarIcon stared={searchResult.favorited} onClick={handleClickStar}/> {searchResult.favorite_count}</span>
+        <span className={style.queryDate}>📅 {moment(searchResult.created_at).format('YYYY-MM-DD')}</span>
         {searchResult.user_name &&
           <span onClick={handleClickUserName} className={style.queryUserName}>@{searchResult.user_name}</span>
         }
-        {searchResult.owner ? <button onClick={handleDeleteButton}>削除</button> : null}
+        {searchResult.owner ?
+          <button className={style.deleteButton} onClick={handleDeleteButton}>削除</button>
+        : null}
       </div>
     </div>
   )
@@ -136,7 +136,7 @@ const MatchedButton = ({ str, handleButtonClick }) => {
 }
 
 const StarIcon = ({ onClick, stared }) => (
-  <svg onClick={onClick} width="25" height="25" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg className={style.starIcon} onClick={onClick} width="25" height="25" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fillRule="evenodd" clipRule="evenodd" d="M10.5773 15.9854L16.0246 19.2732L14.5791 13.0766L19.3917 8.90742L13.0542 8.36974L10.5773 2.52577L8.10046 8.36974L1.76288 8.90742L6.57556 13.0766L5.12999 19.2732L10.5773 15.9854Z" fill={stared ? "#5AF" : "#C4C4C4"}/>
   </svg>
 )
