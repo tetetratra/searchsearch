@@ -45,7 +45,10 @@ const Fold = ({ fold, onClick }) => {
 
 const SearchInput = ({ searchInputValue, handleSearchInputValue }) => {
   return (
-    <input tabIndex={1} className={style.searchInput} value={searchInputValue} onChange={handleSearchInputValue} />
+    <div className={style.searchInputBox}>
+      <input tabIndex={1} className={style.searchInput} value={searchInputValue} onChange={handleSearchInputValue} />
+      <SearchIcon />
+    </div>
   )
 }
 

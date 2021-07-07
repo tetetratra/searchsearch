@@ -35,16 +35,23 @@
   margin: 20px 0 0 20px;
 }
 
-.searchInput {
-  display: block;
+.searchInputBox {
+  display: inline-block;
   width: 90%;
 
+  background: #FFF;
   margin: 20px 0 0 10px;
   border: 1px solid #DDD;
   border-radius: 5px;
-  font-size: 22px;
+  display: flex;
 }
 
+.searchInput {
+  font-size: 22px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+}
 
 .sortSelect {
   display: inline-block;
