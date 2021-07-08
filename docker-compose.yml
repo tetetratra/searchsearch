@@ -24,6 +24,7 @@ services:
     build: ./front
     volumes:
      - ./front:/usr/src/app
+     - node_modules_volume:/usr/src/app/node_modules
      - yarn-cache:/usr/local/share/.cache/yarn/v2
     command: sh -c "npm start"
     ports:
@@ -32,4 +33,5 @@ services:
       - server
 volumes:
   gem_data:
+  node_modules_volume:
   yarn-cache:
