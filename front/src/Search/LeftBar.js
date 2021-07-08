@@ -1,12 +1,11 @@
-import { useState, useContext } from 'react';
-import { Link } from "react-router-dom";
+import { useState, useContext } from 'react'
+import { Link } from "react-router-dom"
+import OutsideClickHandler from 'react-outside-click-handler'
 
 import style from './LeftBar.module.css'
 import { LoginContext } from './../App'
 
 export const LeftBar = ({ fold, setFold, searchInputValue, handleSearchInputValue, sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
-  const [showSort, setShowSort] = useState(false)
-
   const loginned = useContext(LoginContext)
 
   return fold ? (
@@ -16,10 +15,10 @@ export const LeftBar = ({ fold, setFold, searchInputValue, handleSearchInputValu
       <NewLinkMini/>
     </div>
   ) : (
-    <div className={style.leftBar} onClick={e => e.target === e.currentTarget && setShowSort(false)}>
+    <div className={style.leftBar}>
       <Fold onClick={() => setFold(f => !f)}/>
       <SearchInput searchInputValue={searchInputValue} handleSearchInputValue={handleSearchInputValue}/>
-      <SortSelect showSort={showSort} setShowSort={setShowSort} sort={sort} setSort={setSort}/>
+      <SortSelect sort={sort} setSort={setSort}/>
       <div className={style.checkBoxesContainer}>
         <PrefixMatchCheck fill={prefixMatch} toggleCheck={() => setPrefixMatch(p => !p)} />
         <DistinctCheck fill={distinct} toggleCheck={() => setDistinct(p => !p)}/>
@@ -52,7 +51,8 @@ const SearchInput = ({ searchInputValue, handleSearchInputValue }) => {
   )
 }
 
-const SortSelect = ({ showSort, setShowSort, sort, setSort }) => {
+const SortSelect = ({ sort, setSort }) => {
+  const [showSort, setShowSort] = useState(false)
   const toggleShow = () => {
     setShowSort(prevShow => !prevShow)
   }
@@ -66,11 +66,13 @@ const SortSelect = ({ showSort, setShowSort, sort, setSort }) => {
       <span className={style.sortSelectSortType}>{sort}</span>&nbsp;<MenuIcon/>
     </button>
     { showSort && (
-      <div className={style.sortSelectOptions}>
-        <button tabIndex={2} onClick={changeSort("star")} className={style.sortSelectOption}>star</button>
-        <button tabIndex={2} onClick={changeSort("new")} className={style.sortSelectOption}>new</button>
-        <button tabIndex={2} onClick={changeSort("old")} className={style.sortSelectOption}>old</button>
-      </div>
+      <OutsideClickHandler onOutsideClick={() => setShowSort(false)} >
+        <div className={style.sortSelectOptions}>
+          <button tabIndex={2} onClick={changeSort("star")} className={style.sortSelectOption}>star</button>
+          <button tabIndex={2} onClick={changeSort("new")} className={style.sortSelectOption}>new</button>
+          <button tabIndex={2} onClick={changeSort("old")} className={style.sortSelectOption}>old</button>
+        </div>
+      </OutsideClickHandler>
     )}
   </>
 }
