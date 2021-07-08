@@ -23,7 +23,7 @@ export const Header = ({ handleSubmit, constructedUrl, constructedUrlLink, searc
   </>
   return (
     <div className={style.header}>
-      <button tabIndex={-1} onClick={handleHomeIconClick} className={style.homeIcon}></button>
+      <a tabIndex={-1} onClick={handleHomeIconClick} className={style.homeIcon}></a>
 
       { constructedUrlLink ? (
         <a tabIndex={7} target='_blank' rel="noreferrer" href={constructedUrlLink} className={style.constructedUrl}>{innerBox}</a>
