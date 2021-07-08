@@ -24,15 +24,15 @@ export const Header = ({ handleSubmit, constructedUrl, constructedUrlLink, searc
   return (
     <div className={style.header}>
       <a tabIndex={-1} onClick={handleHomeIconClick} className={style.homeIcon}></a>
+      <a tabIndex={-1} href={loginned ? '/users/edit' : '/users/sign_in'} className={style.userInfo}>
+        {loginned ? 'ℹ︎' : '+'}
+      </a>
 
       { constructedUrlLink ? (
         <a tabIndex={7} target='_blank' rel="noreferrer" href={constructedUrlLink} className={style.constructedUrl}>{innerBox}</a>
       ) : (
         <span tabIndex={7} className={style.constructedUrl}>{innerBox}</span>
       )}
-      <a tabIndex={-1} href={loginned ? '/users/edit' : '/users/sign_in'} className={style.userInfo}>
-        {loginned ? 'ℹ︎' : '+'}
-      </a >
     </div>
   )
 }
