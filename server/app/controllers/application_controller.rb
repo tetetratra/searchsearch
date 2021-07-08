@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::Base
   FRONT_HOME_URL = 'http://localhost:3000/search'
 
-  after_action :set_csrf_token_header
   before_action :auth_user
-  skip_before_action :auth_user, only: [:logged_in]
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  after_action :set_csrf_token_header
+
+  skip_before_action :auth_user, only: [:logged_in]
 
   def logged_in
     render json: { logged_in: user_signed_in? }

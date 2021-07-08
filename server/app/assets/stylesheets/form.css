@@ -1,0 +1,30 @@
+.formBox {
+  padding: 20px 60px;
+}
+.formBox label {
+  display: block;
+  margin: 5px 0 0 20px;
+  font-size: 16px;
+}
+.formBox .checkBoxLabel, .formBox input[type=checkbox] {
+  padding: 0;
+  display: inline;
+}
+.formBox input[type=checkbox] {
+  margin: 15px 0 15px -120px;
+}
+.formBox input {
+  margin: 10px 0 10px 20px;
+  width: 300px;
+  font-size: 20px;
+}
+.formBox input[type=submit] {
+  color: #333;
+  width: 310px;
+  background: #BCF;
+  border: none;
+  border-radius: 3px;
+}
+.formBox input[type=submit]:hover {
+  background: #ABF;
+}

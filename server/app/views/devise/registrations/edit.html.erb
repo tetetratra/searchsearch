@@ -1,34 +1,30 @@
-<h2>ユーザー情報編集</h2>
+<%= render 'layouts/header', title: 'ユーザー情報編集' %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'formBox' }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
-    <%= f.label :name, '名前' %><br />
+    <%= f.label :name, '名前' %>
     <%= f.text_field :name, autofocus: true %>
   </div>
 
   <div class="field">
-    <%= f.label :email, 'メールアドレス' %><br />
+    <%= f.label :email, 'メールアドレス' %>
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= f.label :password, '新しいパスワード' %> <i>(変更しない場合は空)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> 文字以上</em>
-    <% end %>
+    <%= f.label :password, '新しいパスワード' %>
+    <%= f.password_field :password, autocomplete: "new-password", placeholder: "#{@minimum_password_length}文字以上 変更しない場合は空" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, '新しいパスワードの確認'  %><br />
+    <%= f.label :password_confirmation, '新しいパスワードの確認' %>
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :current_password, '現在のパスワード' %><br />
+    <%= f.label :current_password, '現在のパスワード' %>
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
@@ -37,10 +33,27 @@
   </div>
 <% end %>
 
-<hr />
+<div class='destroyBox'>
+  <%= button_to "アカウント削除", registration_path(resource_name), data: { confirm: "本当に削除しますか?" }, method: :delete %>
+  <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+</div>
 
-<%= button_to "アカウント削除", registration_path(resource_name), data: { confirm: "本当に削除しますか?" }, method: :delete %>
-
-<%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
-
-<%= link_to "戻る", :back %>
+<style>
+.destroyBox {
+  padding: 10px 80px;
+}
+.destroyBox form {
+  display: inline-block;
+}
+.destroyBox input[type=submit] {
+  color: #333;
+  width: 145px;
+  background: #DDD;
+  border: none;
+  margin: 5px;
+  border-radius: 3px;
+}
+.destroyBox input[type=submit]:hover {
+  background: #CCC;
+}
+</style>
