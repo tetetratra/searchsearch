@@ -37,7 +37,8 @@ class QueryStringsController < ApplicationController
       .then { |r|
         params[:star] ? r.having('favorited != 0') : r
       }
-    render json: queryStrings
+      .page(params[:page]).per(100)
+    render json: queryStrings # TODO 返す値を絞る
   end
 
   def create

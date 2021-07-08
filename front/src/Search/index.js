@@ -19,34 +19,9 @@ export const Search = props => {
   const [selectedPath, setSelectedPath] = useState(null)
   const [searchResults, setSearchResults] = useState([])
   const [fold, setFold] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
 
   const location = useLocation()
-
-  useEffect(() => {
-    const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
-    const encodedUrl = parsedQueryString.query
-    const url = encodedUrl ? decodeURIComponent(encodedUrl) : ''
-
-    setSearchInputValue(url)
-    setSort(parsedQueryString.sort || 'star')
-    setPrefixMatch(!!parsedQueryString.prefixMatch)
-    setDistinct(!!parsedQueryString.distinct)
-    setOnlyStar(!!parsedQueryString.onlyStar)
-    setAuthor(parsedQueryString.author || '')
-
-    const params = _.pickBy({
-      query: encodedUrl,
-      sort: parsedQueryString.sort,
-      prefix: !!parsedQueryString.distinct,
-      distinct: !!parsedQueryString.onlyStar,
-      star: !!parsedQueryString.onlyStar,
-      author: encodeURIComponent(parsedQueryString.author || '')
-    })
-    const paramsStr = Object.entries(params).map(e => e.join('=')).join("&")
-    requestApi('/query_strings?' + paramsStr, 'GET').then(r => {
-      setSearchResults(formatFetchedSearchResults(r))
-    })
-  }, [])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -78,6 +53,36 @@ export const Search = props => {
   const constructedUrl = constructUrl(selectedPath, searchResults)
   const constructedUrlLink = constructUrlLink(selectedPath, searchResults)
 
+  const loadMore = page => {
+    const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
+    const encodedUrl = parsedQueryString.query
+    const url = encodedUrl ? decodeURIComponent(encodedUrl) : ''
+
+    setSearchInputValue(url)
+    setSort(parsedQueryString.sort || 'star')
+    setPrefixMatch(!!parsedQueryString.prefix)
+    setDistinct(!!parsedQueryString.distinct)
+    setOnlyStar(!!parsedQueryString.star)
+    setAuthor(parsedQueryString.author || '')
+
+    const params = _.pickBy({
+      query: encodedUrl,
+      sort: parsedQueryString.sort,
+      prefix: !!parsedQueryString.prefix,
+      distinct: !!parsedQueryString.distinct,
+      star: !!parsedQueryString.star,
+      author: encodeURIComponent(parsedQueryString.author || ''),
+      page: page
+    })
+    const paramsStr = Object.entries(params).map(e => e.join('=')).join("&")
+    requestApi('/query_strings?' + paramsStr, 'GET').then(r => {
+      setSearchResults(prevSearchResults => [...prevSearchResults, ...formatFetchedSearchResults(r)])
+      if(r.length === 0) {
+        setHasMore(false)
+      }
+    })
+  }
+
   return (
     <div className={style.root}>
       <div className={style.headerAndLeftBar}>
@@ -106,6 +111,8 @@ export const Search = props => {
         />
       </div>
       <MainContent
+        hasMore={hasMore}
+        loadMore={loadMore}
         fold={fold}
         searchResults={searchResults}
         setSearchResults={setSearchResults}

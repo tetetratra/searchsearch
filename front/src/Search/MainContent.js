@@ -1,7 +1,8 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useAlert } from 'react-alert'
 import moment from 'moment'
 import _ from 'lodash'
+import InfiniteScroll  from 'react-infinite-scroller'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
@@ -9,7 +10,7 @@ import { requestApi } from './../api'
 import style from './MainContent.module.css'
 import { LoginContext } from './../App'
 
-export const MainContent = ({ fold, searchResults, setSearchResults, selectedPath, setSelectedPath, setSearchInputValue, search, setAuthor }) => {
+export const MainContent = ({ hasMore, loadMore, fold, searchResults, setSearchResults, selectedPath, setSelectedPath, setSearchInputValue, search, setAuthor }) => {
   const setSearchResult = index => updateProp => {
     setSearchResults(prevSearchResults => (
       prevSearchResults.map((prevSearchResult, i) => (
@@ -23,18 +24,23 @@ export const MainContent = ({ fold, searchResults, setSearchResults, selectedPat
   }
   return (
     <div className={`${style.main} ${fold ? style.main50left : style.main250left}`}>
-      {searchResults.map((searchResult, i) => (
-        <Query
-          key={i}
-          searchResult={searchResult}
-          setSearchResult={setSearchResult(i)}
-          selectedPath={selectedPath}
-          setSelectedPath={setSelectedPath}
-          setSearchInputValue={setSearchInputValue}
-          search={search}
-          setAuthor={setAuthor}
-        />
-      ))}
+      <InfiniteScroll
+        loadMore={loadMore}
+        hasMore={hasMore}
+        loader={<div className={style.loading}>ロード中...</div>}>
+        {searchResults.map((searchResult, i) => (
+          <Query
+            key={i}
+            searchResult={searchResult}
+            setSearchResult={setSearchResult(i)}
+            selectedPath={selectedPath}
+            setSelectedPath={setSelectedPath}
+            setSearchInputValue={setSearchInputValue}
+            search={search}
+            setAuthor={setAuthor}
+          />
+        ))}
+      </InfiniteScroll>
     </div>
   )
 }

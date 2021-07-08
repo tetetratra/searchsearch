@@ -11,9 +11,9 @@ export const Header = ({ handleSubmit, constructedUrl, constructedUrlLink, searc
     search({
       query: '',
       sort: '',
-      prefixMatch: '',
+      prefix: '',
       distinct: '',
-      onlyStar: '',
+      star: '',
       author: ''
     })
   }

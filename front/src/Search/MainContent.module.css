@@ -13,6 +13,12 @@
   width: calc(100% - 50px);
 }
 
+.loading {
+  margin: 40px;
+  color: #555;
+  font-weight: bold;
+}
+
 .query {
   width: 96%;
   height: max(auto 120px);
