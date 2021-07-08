@@ -17,7 +17,7 @@ export const LeftBar = ({ fold, setFold, searchInputValue, handleSearchInputValu
   ) : (
     <div className={style.leftBar}>
       <Fold onClick={() => setFold(f => !f)}/>
-      <SearchInput searchInputValue={searchInputValue} handleSearchInputValue={handleSearchInputValue}/>
+      <SearchInput searchInputValue={searchInputValue} handleSearchInputValue={handleSearchInputValue} handleSubmit={handleSubmit}/>
       <SortSelect sort={sort} setSort={setSort}/>
       <div className={style.checkBoxesContainer}>
         <PrefixMatchCheck fill={prefixMatch} toggleCheck={() => setPrefixMatch(p => !p)} />
@@ -42,10 +42,15 @@ const Fold = ({ fold, onClick }) => {
   )
 }
 
-const SearchInput = ({ searchInputValue, handleSearchInputValue }) => {
+const SearchInput = ({ searchInputValue, handleSearchInputValue, handleSubmit }) => {
+  const onKeyPress = e => {
+    if(e.key === 'Enter'){
+      handleSubmit(e)
+    }
+  }
   return (
     <div className={style.searchInputBox}>
-      <input tabIndex={1} className={style.searchInput} value={searchInputValue} onChange={handleSearchInputValue} />
+      <input tabIndex={1} className={style.searchInput} value={searchInputValue} onChange={handleSearchInputValue} onKeyPress={onKeyPress}/>
       <SearchIcon />
     </div>
   )

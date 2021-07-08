@@ -87,8 +87,8 @@
 .sortSelectOptions {
   cursor: pointer;
   position: absolute;
-  left: 10%;
-  top: 130px;
+  left: 170px;
+  top: 160px;
   width: 150px;
   border: 1px solid #CCC;
   text-align: left;

@@ -8,7 +8,20 @@
   background: #DDDDDD;
 }
 
+.homeIcon {
+  cursor: pointer;
+  display: inline-block;
+  margin: 10px 0 10px 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+
+  vertical-align: middle;
+  background: #FFFFFF;
+}
+
 .backButton {
+  display: inline-block;
   cursor: pointer;
   width: 60px;
   height: 40px;
@@ -16,6 +29,8 @@
   border: none;
   border-radius: 5px;
   vertical-align: middle;
+  line-height: 40px;
+  text-align: center;
   background: #EEE;
   font-weight: bold;
 }
