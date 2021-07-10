@@ -5,7 +5,7 @@ import OutsideClickHandler from 'react-outside-click-handler'
 import style from './LeftBar.module.css'
 import { LoginContext } from './../App'
 
-export const LeftBar = ({ fold, setFold, searchInputValue, handleSearchInputValue, sort, setSort, prefixMatch, setPrefixMatch, distinct, setDistinct, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
+export const LeftBar = ({ fold, setFold, searchInputValue, handleSearchInputValue, sort, setSort, prefixMatch, setPrefixMatch, onlyStar, setOnlyStar, author, setAuthor, handleSubmit }) => {
   const loginned = useContext(LoginContext)
 
   return fold ? (
@@ -21,7 +21,6 @@ export const LeftBar = ({ fold, setFold, searchInputValue, handleSearchInputValu
       <SortSelect sort={sort} setSort={setSort}/>
       <div className={style.checkBoxesContainer}>
         <PrefixMatchCheck fill={prefixMatch} toggleCheck={() => setPrefixMatch(p => !p)} />
-        <DistinctCheck fill={distinct} toggleCheck={() => setDistinct(p => !p)}/>
         { loginned && <OnlyStarCheck fill={onlyStar} toggleCheck={() => setOnlyStar(p => !p)}/> }
         <Author
           author={author}
@@ -92,14 +91,6 @@ const PrefixMatchCheck = ({ fill, toggleCheck }) => {
   return (
     <div className={style.checkBox} onClick={toggleCheck}>
       <CheckBoxIcon fill={fill}/><span className={style.checkBoxText}>前方一致</span>
-    </div>
-  )
-}
-
-const DistinctCheck = ({ fill, toggleCheck }) => {
-  return (
-    <div className={style.checkBox} onClick={toggleCheck}>
-      <CheckBoxIcon fill={fill}/><span className={style.checkBoxText}>重複を排除</span>
     </div>
   )
 }

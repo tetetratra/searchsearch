@@ -13,7 +13,6 @@ export const Search = props => {
   const [searchInputValue, setSearchInputValue] = useState('') // パーセントエンコーディング前のURL
   const [sort, setSort] = useState('star')
   const [prefixMatch, setPrefixMatch] = useState(false)
-  const [distinct, setDistinct] = useState(false)
   const [onlyStar, setOnlyStar] = useState(false)
   const [author, setAuthor] = useState("")
   const [selectedPath, setSelectedPath] = useState(null)
@@ -34,7 +33,6 @@ export const Search = props => {
       query: encodedUrl,
       sort,
       prefix: prefixMatch,
-      distinct,
       star: onlyStar,
       author: encodeURIComponent(author),
       ...over
@@ -61,7 +59,6 @@ export const Search = props => {
     setSearchInputValue(url)
     setSort(parsedQueryString.sort || 'star')
     setPrefixMatch(!!parsedQueryString.prefix)
-    setDistinct(!!parsedQueryString.distinct)
     setOnlyStar(!!parsedQueryString.star)
     setAuthor(parsedQueryString.author || '')
 
@@ -69,7 +66,6 @@ export const Search = props => {
       query: encodedUrl,
       sort: parsedQueryString.sort,
       prefix: !!parsedQueryString.prefix,
-      distinct: !!parsedQueryString.distinct,
       star: !!parsedQueryString.star,
       author: encodeURIComponent(parsedQueryString.author || ''),
       page: page
@@ -99,8 +95,6 @@ export const Search = props => {
           handleSubmit={handleSubmit}
           prefixMatch={prefixMatch}
           setPrefixMatch={setPrefixMatch}
-          distinct={distinct}
-          setDistinct={setDistinct}
           onlyStar={onlyStar}
           setOnlyStar={setOnlyStar}
           author={author}
