@@ -5,6 +5,8 @@ import _ from 'lodash'
 import InfiniteScroll  from 'react-infinite-scroller'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner, faCalendarAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { requestApi } from './../api'
 import style from './MainContent.module.css'
@@ -22,12 +24,13 @@ export const MainContent = ({ hasMore, loadMore, fold, searchResults, setSearchR
       )).filter(_.identity)
     ))
   }
+  const loader = <FontAwesomeIcon className={style.loading} icon={faSpinner}/>
   return (
     <div className={`${style.main} ${fold ? style.main50left : style.main250left}`}>
       <InfiniteScroll
         loadMore={loadMore}
         hasMore={hasMore}
-        loader={<div className={style.loading}>ロード中...</div>}>
+        loader={loader}>
         {searchResults.map((searchResult, i) => (
           <Query
             key={i}
@@ -121,12 +124,12 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
       <div className={style.queryDescription}>{buildDescription(searchResult.description, handleButtonClick)}</div>
       <div className={style.queryInfo}>
         <span className={style.queryStar}><StarIcon stared={searchResult.favorited} onClick={handleClickStar}/> {searchResult.favorite_count}</span>
-        <span className={style.queryDate}>📅 {moment(searchResult.created_at).format('YYYY-MM-DD')}</span>
+        <span className={style.queryDate}><FontAwesomeIcon icon={faCalendarAlt}/> {moment(searchResult.created_at).format('YYYY-MM-DD')}</span>
         {searchResult.user_name &&
           <span onClick={handleClickUserName} className={style.queryUserName}>@{searchResult.user_name}</span>
         }
         {searchResult.owner ?
-          <button className={style.deleteButton} onClick={handleDeleteButton}>削除</button>
+          <button className={style.deleteButton} onClick={handleDeleteButton}><FontAwesomeIcon icon={faTrash}/></button>
         : null}
       </div>
     </div>

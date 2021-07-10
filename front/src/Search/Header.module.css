@@ -84,3 +84,9 @@
 .userInfo:hover {
   background: #BBB;
 }
+
+.userIcon {
+  margin: 0 0 3px 0;
+  width: 17px;
+  height: 20px;
+}

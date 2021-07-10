@@ -14,9 +14,16 @@
 }
 
 .loading {
-  margin: 40px;
-  color: #555;
-  font-weight: bold;
+  margin: 30px 0 0 30%;
+  width: 50px;
+  height: 50px;
+  animation: spinner 1.5s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .query {
@@ -117,14 +124,15 @@
 
 .deleteButton {
   display: inline-block;
-  margin: 0 0 0 20px;
-  background: #DDD;
+  margin: 0 0 0 10px;
+  background: none;
+  color: #555;
   border: none;
   border-radius: 3px;
   vertical-align: middle;
 }
 .deleteButton:hover {
-  background: #BBB;
+  color: #000;
 }
 
 .queryCheckBoxIcon {
