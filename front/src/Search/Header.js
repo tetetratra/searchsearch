@@ -24,7 +24,7 @@ export const Header = ({ handleSubmit, constructedUrl, constructedUrlLink, searc
   </>
   return (
     <div className={style.header}>
-      <a tabIndex={-1} onClick={handleHomeIconClick} className={style.homeIcon}></a>
+      <a tabIndex={-1} onClick={handleHomeIconClick} className={style.homeIcon}><img className={style.homeIconImg} src={"/homeicon.svg"}/></a>
       <a tabIndex={-1} href={loginned ? '/users/edit' : '/users/sign_in'} className={style.userInfo}>
         {loginned ? <FontAwesomeIcon className={style.userIcon} icon={faUserAlt}/> : '+'}
       </a>

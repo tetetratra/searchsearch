@@ -7,7 +7,7 @@ export const Header = ({ input, handleInput, url }) => {
 
   return (
     <div className={style.header}>
-      <a href={'/search'} tabIndex={'-1'} className={style.homeIcon}></a>
+      <a href={'/search'} tabIndex={'-1'} className={style.homeIcon}><img className={style.homeIconImg} src={"/homeicon.svg"}/></a>
       <a onClick={history.goBack} className={style.backButton}>＜</a>
 
       <div className={style.searchUrl}>

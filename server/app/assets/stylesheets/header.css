@@ -18,6 +18,9 @@
   vertical-align: middle;
   background: #FFFFFF;
 }
+.homeIconImg {
+  border-radius: 10px;
+}
 
 .title {
   style: inline-block;

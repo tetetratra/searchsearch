@@ -19,6 +19,9 @@
   vertical-align: middle;
   background: #FFFFFF;
 }
+.homeIconImg {
+  border-radius: 10px;
+}
 
 .backButton {
   display: inline-block;
