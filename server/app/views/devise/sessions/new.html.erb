@@ -3,8 +3,7 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'formBox' }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
   <% if flash.any? %>
-    <p>ログインできませんでした</p>
-    <ul>
+    <ul class='errorBox'>
       <% flash.each do |key, value| %>
         <li><%= value %></li>
       <% end %>
