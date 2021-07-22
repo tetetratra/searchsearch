@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  FRONT_HOME_URL = 'http://localhost:3000/search'
+  FRONT_HOME_URL = '/search'
 
   before_action :auth_user
   before_action :configure_permitted_parameters, if: :devise_controller?
