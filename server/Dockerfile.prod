@@ -14,3 +14,4 @@ RUN gem install bundler
 RUN bundle install --without development test
 RUN RAILS_ENV=production bundle exec rails assets:precompile
 ADD . $APP_ROOT
+RUN mkdir -p tmp/sockets
