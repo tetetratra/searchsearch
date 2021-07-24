@@ -1,30 +1,11 @@
 version: '3'
 services:
   server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.prod
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec puma -e production -C config/puma.rb"
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./server:/app
-      - gem_data:/usr/local/bundle
-      - public-data:/app/public
-      - tmp-data:/app/tmp
+    image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
+    command: bundle exec puma -e production -C config/puma.rb
   nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.prod
-    volumes:
-      - public-data:/app/public
-      - tmp-data:/app/tmp
+    image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/nginx:v0.1
     ports:
       - "80:80"
     depends_on:
       - server
-volumes:
-  gem_data:
-  public-data:
-  tmp-data:
-  log-data:
