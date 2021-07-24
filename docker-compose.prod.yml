@@ -1,4 +1,5 @@
 version: '3'
+x-aws-loadbalancer: "questring-load-balancer"
 services:
   server:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
@@ -6,6 +7,6 @@ services:
   nginx:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/nginx:v0.1
     ports:
-      - "80:80"
+      - "8080:8080"
     depends_on:
       - server
