@@ -4,9 +4,15 @@ services:
   server:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
     command: bundle exec puma -e production -C config/puma.rb
+    secrets:
+      - server_secret
   nginx:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/nginx:v0.1
     ports:
       - "8080:8080"
     depends_on:
       - server
+secrets:
+  server_secret:
+    name: "arn:aws:secretsmanager:us-east-1:645943600532:secret:qeq-mysql-uVQkdT"
+    external: true

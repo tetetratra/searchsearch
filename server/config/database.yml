@@ -50,6 +50,9 @@ test:
 #
 production:
   <<: *default
+  <% require 'json' %>
+  <% key = File.open("/run/secrets/server_secret").read.then { |s| JSON.parse(s) } %>
+  host: <%= key['host'] %>
+  username: <%= key['username'] %>
+  password: <%= key['password'] %>
   database: search_search_production
-  username: search_search
-  password: <%= ENV['SEARCH_SEARCH_DATABASE_PASSWORD'] %>
