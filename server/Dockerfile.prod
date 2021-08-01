@@ -9,5 +9,5 @@ ADD ./Gemfile $APP_ROOT/Gemfile
 ADD ./Gemfile.lock $APP_ROOT/Gemfile.lock
 RUN gem install bundler
 RUN bundle install --without development test
-RUN RAILS_ENV=production bundle exec rails assets:precompile
 ADD . $APP_ROOT
+RUN RAILS_ENV=production bundle exec rails assets:precompile

@@ -3,19 +3,28 @@ x-aws-loadbalancer: "questring-load-balancer"
 services:
   server:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
-    command: bash -c "bundle exec rails assets:precompile && bundle exec puma -e production -C config/puma.rb"
+    command: bundle exec puma -e production -C config/puma.rb
     environment:
       RAILS_ENV: production
     secrets:
       - server_secret
-    x-aws-policies:
-      - "arn:aws:iam::645943600532:policy/ecs-exec-policy"
+    x-aws-role: &aws-role
+      Version: '2012-10-17'
+      Statement:
+      - Effect: Allow
+        Action:
+          - ssmmessages:CreateControlChannel
+          - ssmmessages:CreateDataChannel
+          - ssmmessages:OpenControlChannel
+          - ssmmessages:OpenDataChannel
+        Resource: '*'
   nginx:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/nginx:v0.1
     ports:
       - "8080:8080"
     depends_on:
       - server
+    x-aws-role: *aws-role
 secrets:
   server_secret:
     name: "arn:aws:secretsmanager:us-east-1:645943600532:secret:qeq-mysql-uVQkdT"
