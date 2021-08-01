@@ -3,7 +3,7 @@ x-aws-loadbalancer: "questring-load-balancer"
 services:
   server:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
-    command: bundle exec puma -e production -C config/puma.rb
+    command: bash -c "bundle exec rails assets:precompile && bundle exec puma -e production -C config/puma.rb"
     environment:
       RAILS_ENV: production
     secrets:
