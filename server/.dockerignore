@@ -1,0 +1,7 @@
+log
+tmp
+!/log/.keep
+!/tmp/.keep
+!tmp/pids/server.pid
+vendor/assets
+node_modules
