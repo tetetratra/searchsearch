@@ -4,8 +4,12 @@ services:
   server:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
     command: bundle exec puma -e production -C config/puma.rb
+    environment:
+      RAILS_ENV: production
     secrets:
       - server_secret
+    x-aws-policies:
+      - "arn:aws:iam::645943600532:policy/ecs-exec-policy"
   nginx:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/nginx:v0.1
     ports:
