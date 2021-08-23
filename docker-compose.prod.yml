@@ -1,5 +1,4 @@
 version: '3'
-x-aws-loadbalancer: "questring-load-balancer"
 services:
   server:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
@@ -18,10 +17,10 @@ services:
           - ssmmessages:OpenControlChannel
           - ssmmessages:OpenDataChannel
         Resource: '*'
-  nginx:
-    image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/nginx:v0.1
+  front:
+    image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/front:v0.1
     ports:
-      - "8080:8080"
+      - 80:80
     depends_on:
       - server
     x-aws-role: *aws-role
