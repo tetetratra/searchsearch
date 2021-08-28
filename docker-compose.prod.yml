@@ -1,4 +1,18 @@
 version: '3'
+
+# 管轄外
+# - RDS
+# - SecretsManager
+#   - RDSの鍵管理
+# - Route53
+#   - ALBにドメインを紐付ける
+# - ALBの433->80の設定
+# - ECR
+#   - リポジトリ作り
+# - VPC
+#   - RDSが所属するセキュリティグループのインバウンドルールに、
+#     ECSが所属するセキュリティグループからの通信を許可する
+
 services:
   server:
     image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
@@ -24,7 +38,17 @@ services:
     depends_on:
       - server
     x-aws-role: *aws-role
+
 secrets:
   server_secret:
     name: "arn:aws:secretsmanager:us-east-1:645943600532:secret:qeq-mysql-uVQkdT"
     external: true
+
+x-aws-cloudformation:
+  Resources:
+    ServerService:
+      Properties:
+        EnableExecuteCommand: true
+    FrontService:
+      Properties:
+        EnableExecuteCommand: true
