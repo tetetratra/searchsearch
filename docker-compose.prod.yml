@@ -1,14 +1,19 @@
 version: '3'
 
 # 管轄外
+#
+# up前
 # - RDS
+#   - 作っておく
 # - SecretsManager
 #   - RDSの鍵管理
-# - Route53
-#   - ALBにドメインを紐付ける
-# - ALBの433->80の設定
+# - Certificate Manager
+#   - 証明書の取得など
 # - ECR
 #   - リポジトリ作り
+# up後
+# - Route53
+#   - ALBにドメインを紐付ける
 # - VPC
 #   - RDSが所属するセキュリティグループのインバウンドルールに、
 #     ECSが所属するセキュリティグループからの通信を許可する
@@ -52,3 +57,10 @@ x-aws-cloudformation:
     FrontService:
       Properties:
         EnableExecuteCommand: true
+    FrontTCP80Listener:
+      # リスナーはHTTPSの443, ターゲットグループはHTTPの80 にするためにリスナー側を上書きしている
+      Properties:
+        Certificates:
+          - CertificateArn: "arn:aws:acm:us-east-1:645943600532:certificate/bacd73dc-ab47-4e68-8464-5b98830905c4"
+        Protocol: HTTPS
+        Port: 443
