@@ -11,3 +11,6 @@ RUN gem install bundler
 RUN bundle install --without development test
 ADD . $APP_ROOT
 RUN RAILS_ENV=production bundle exec rails assets:precompile
+
+# いらなかったかも?
+RUN mkdir -p tmp/pids && touch tmp/pids/server.pid

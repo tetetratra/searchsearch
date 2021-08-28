@@ -51,7 +51,7 @@ test:
 production:
   <<: *default
   <% require 'json' %>
-  <% key = File.open("/run/secrets/server_secret").read.then { |s| JSON.parse(s) } %>
+  <% key = File.open("/run/secrets/server_secret").read.then { |s| JSON.parse(s) } rescue {} # precompile時にエラーになるのでrescue %>
   host: <%= key['host'] %>
   username: <%= key['username'] %>
   password: <%= key['password'] %>
