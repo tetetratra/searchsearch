@@ -90,7 +90,6 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
     }
   }
   const handleDeleteButton = () => {
-    console.log("aaa")
     confirmAlert({
       title: '削除しますか?',
       message: '',
@@ -102,7 +101,6 @@ const Query = ({ searchResult, setSearchResult, selectedPath, setSelectedPath, s
         {
           label: '削除する',
           onClick: () => {
-            console.log("abc")
             requestApi(`/query_strings/${searchResult.id}`, 'DELETE').then(r => {
               alert.info('削除しました')
               setSearchResult(null)

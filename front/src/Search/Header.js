@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUserEdit, faUserPlus  } from "@fortawesome/free-solid-svg-icons";
 
 import style from './Header.module.css'
 import { LoginContext } from './../App'
@@ -26,7 +26,7 @@ export const Header = ({ handleSubmit, constructedUrl, constructedUrlLink, searc
     <div className={style.header}>
       <a tabIndex={-1} onClick={handleHomeIconClick} className={style.homeIcon}><img className={style.homeIconImg} src={"/homeicon.svg"}/></a>
       <a tabIndex={-1} href={loginned ? '/users/edit' : '/users/sign_in'} className={style.userInfo}>
-        {loginned ? <FontAwesomeIcon className={style.userIcon} icon={faUserAlt}/> : '+'}
+        {loginned ? <FontAwesomeIcon className={style.userIcon} icon={faUserEdit}/> : <FontAwesomeIcon className={style.userIcon} icon={faUserPlus}/>}
       </a>
 
       { constructedUrlLink ? (
