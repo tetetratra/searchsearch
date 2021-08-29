@@ -57,7 +57,10 @@ class QueryStringsController < ApplicationController
 
   def destroy
     if qs = current_user.query_strings.find_by(id: params[:id])
-      qs.destroy!
+      ApplicationController.transaction do
+        qs.destroy!
+        qs.favorites.each(&:destroy!)
+      end
     end
     render json: nil, status: :ok
   end
