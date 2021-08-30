@@ -7,8 +7,8 @@ import {
 import { positions, Provider as AlertProvider } from 'react-alert'
 
 import { requestApi } from './api.js'
-import { Search } from './Search/index.js'
-import { New } from './New/index.js'
+import { Path } from './Path/index.js'
+import { Paths } from './Paths/index.js'
 import style from './App.module.css'
 
 const AlertTemplate = ({ options, message }) => {
@@ -40,13 +40,13 @@ const App = props => {
       <LoginContext.Provider value={loggedIn}>
         <Router>
           <Switch>
-            <Route exact path="/" component={Search} />
-            <Route exact path="/search" component={Search} />
-            <Route exact path="/new" component={New} />
+            <Route exact path="/" component={() => '工事中'} />
+            <Route exact path="/search" component={Paths} />
+            <Route exact path="/path/:path" component={Path} />
           </Switch>
         </Router>
       </LoginContext.Provider>
     </AlertProvider>
   )
 }
-export default App;
+export default App
