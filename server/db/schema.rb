@@ -10,25 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_091801) do
+ActiveRecord::Schema.define(version: 2021_08_30_013847) do
 
-  create_table "favorites", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "query_string_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["query_string_id"], name: "index_favorites_on_query_string_id"
-    t.index ["user_id"], name: "index_favorites_on_user_id"
+  create_table "constructed_url_query_strings", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "constructed_url_id"
+    t.bigint "query_string_key_id"
+    t.string "value"
+    t.index ["constructed_url_id"], name: "index_constructed_url_query_strings_on_constructed_url_id"
+    t.index ["query_string_key_id"], name: "index_constructed_url_query_strings_on_query_string_key_id"
   end
 
-  create_table "query_strings", charset: "utf8mb4", force: :cascade do |t|
+  create_table "constructed_urls", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "path", null: false
-    t.string "key", null: false
-    t.text "description", null: false
+    t.bigint "path_id"
+    t.string "memo"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_query_strings_on_user_id"
+    t.index ["path_id"], name: "index_constructed_urls_on_path_id"
+    t.index ["user_id"], name: "index_constructed_urls_on_user_id"
+  end
+
+  create_table "paths", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "query_string_descriptions", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "query_string_key_id"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["query_string_key_id"], name: "index_query_string_descriptions_on_query_string_key_id"
+    t.index ["user_id"], name: "index_query_string_descriptions_on_user_id"
+  end
+
+  create_table "query_string_keys", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "path_id"
+    t.string "key"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["path_id"], name: "index_query_string_keys_on_path_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -39,7 +62,6 @@ ActiveRecord::Schema.define(version: 2021_06_27_091801) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

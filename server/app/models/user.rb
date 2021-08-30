@@ -7,6 +7,6 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :query_strings
-  has_many :favorites, through: :query_strings
+  has_many :query_string_descriptions
+  has_many :constructed_urls
 end
