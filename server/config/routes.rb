@@ -5,9 +5,8 @@ Rails.application.routes.draw do
   }
 
   scope :api do
-    resources :query_strings, only: [:index, :create, :destroy]
-    resources :favorites, only: [:create]
-    delete 'favorites', to: 'favorites#destroy'
+    resources :paths, only: :index
+    get 'paths/:path', to: 'paths#show', constraints: { path: /.+/ }
     get 'logged_in', to: 'application#logged_in'
   end
 
