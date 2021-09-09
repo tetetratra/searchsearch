@@ -11,6 +11,8 @@ import { Path } from './Path/index.js'
 import { Paths } from './Paths/index.js'
 import style from './App.module.css'
 
+import DashboardApp from './components/pages/DashboardApp'
+
 const AlertTemplate = ({ options, message }) => {
   const s = {
     info: style.alertInfo,
