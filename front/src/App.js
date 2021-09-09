@@ -8,17 +8,17 @@ import {
 } from "react-router-dom";
 import { positions, Provider as AlertProvider } from 'react-alert'
 
-import ThemeConfig from './components/theme';
-import DashboardLayout from './components/layouts/dashboard';
-import LogoOnlyLayout from './components/layouts/LogoOnlyLayout';
+import ThemeConfig from './theme';
+import DashboardLayout from './layouts/dashboard';
+import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 
-import Login from './components/pages/Login';
-import Register from './components/pages/Register';
-import DashboardApp from './components/pages/DashboardApp';
-import Products from './components/pages/Products';
-import Blog from './components/pages/Blog';
-import User from './components/pages/User';
-import NotFound from './components/pages/Page404';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import DashboardApp from './pages/DashboardApp';
+import Products from './pages/Products';
+import Blog from './pages/Blog';
+import User from './pages/User';
+import NotFound from './pages/Page404';
 
 import { requestApi } from './api.js'
 import { Path } from './Path/index.js'
@@ -54,11 +54,9 @@ const App = props => {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        { path: '/', element: <DashboardApp /> },
+        { path: '/', element: <User /> },
         { path: 'path/:path', element: <DashboardApp /> },
         { path: 'new', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]
