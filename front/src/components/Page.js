@@ -7,7 +7,6 @@ import { Box } from '@material-ui/core';
 
 const Page = forwardRef(({ children, title = '', ...other }, ref) => (
   <Box ref={ref} {...other}>
-    <title>{title}</title>
     {children}
   </Box>
 ));

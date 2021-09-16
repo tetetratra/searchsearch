@@ -13,39 +13,24 @@ const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
 const sidebarConfig = [
   {
-    title: 'dashboard',
-    path: '/dashboard/app',
+    title: 'ホーム',
+    path: '/',
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'user',
-    path: '/dashboard/user',
+    title: 'ドメイン検索',
+    path: '/search',
     icon: getIcon(peopleFill)
   },
   {
-    title: 'product',
-    path: '/dashboard/products',
+    title: '新規追加',
+    path: '/new',
     icon: getIcon(shoppingBagFill)
   },
   {
-    title: 'blog',
-    path: '/dashboard/blog',
+    title: 'ログイン',
+    path: '/users/sign_in',
     icon: getIcon(fileTextFill)
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon(lockFill)
-  },
-  {
-    title: 'register',
-    path: '/register',
-    icon: getIcon(personAddFill)
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon(alertTriangleFill)
   }
 ];
 
