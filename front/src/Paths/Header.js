@@ -6,7 +6,7 @@ import { faUserEdit, faUserPlus  } from "@fortawesome/free-solid-svg-icons";
 import style from './Header.module.css'
 import { LoginContext } from './../App'
 
-export const Header = ({ searchParams, setSearchParams }) => {
+export const Header = () => {
   const loginned = useContext(LoginContext)
 
   return (
@@ -21,7 +21,6 @@ export const Header = ({ searchParams, setSearchParams }) => {
           <FontAwesomeIcon className={style.userIcon} icon={faUserPlus}/>
         </a>
       ) }
-      <input value={searchParams.path} onChange={e => setSearchParams(e.target.value)} />
     </div>
   )
 }

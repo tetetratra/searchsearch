@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, forwardRef } from 'react';
 import { useAlert } from 'react-alert'
 import moment from 'moment'
 import _ from 'lodash'
@@ -12,19 +12,28 @@ import { requestApi } from './../api'
 import style from './Content.module.css'
 import { LoginContext } from './../App'
 
-export const Content = ({ hasMore, loadMore, searchResults }) => {
-  const loaderIcon = <FontAwesomeIcon className={style.loading} icon={faSpinner}/>
+export const Content = forwardRef(({ hasMore, loadMore, searchResults, searchParams, setSearchParams }, ref) => {
+  const handleInput = ({ target: { value } }) => {
+    setSearchParams(prevSearchParams => ({ ...prevSearchParams, q: value }))
+  }
+
   return (
     <div className={style.main}>
+      <input
+        value={searchParams.q || ''}
+        onChange={handleInput}
+      />
       <InfiniteScroll
+        ref={ref}
         loadMore={loadMore}
         hasMore={hasMore}
-        loader={loaderIcon}>
+        loader={loaderIcon}
+      >
         {searchResults.map((searchResult, i) => <Path key={i} path={searchResult} />)}
       </InfiniteScroll>
     </div>
   )
-}
+})
 
 const Path = ({ path: { name } }) => {
   return (
@@ -34,3 +43,6 @@ const Path = ({ path: { name } }) => {
     </div>
   )
 }
+
+const loaderIcon = <FontAwesomeIcon className={style.loading} icon={faSpinner}/> // TODO まとめる
+

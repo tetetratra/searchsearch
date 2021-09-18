@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from "react-router-dom";
 import _ from 'lodash'
 import querystring from 'querystring'
+import { useHistory } from 'react-router-dom';
 
 import { requestApi } from './../api'
 import { Content } from './Content.js'
@@ -9,19 +10,39 @@ import { Header } from './Header.js'
 import style from './index.module.css'
 
 export const Paths = props => {
-  const [searchParams, setSearchParams] = useState({
-    path: '' // パーセントエンコーディング前のURL
-  })
-  const [searchResults, setSearchResults] = useState([])
-  const [hasMore, setHasMore] = useState(true)
-
   const location = useLocation()
+  const infiniteScrollRef = useRef()
+  const history = useHistory()
+
+  const [searchParams, setSearchParams] = useState(null)
+  const [searchResults, setSearchResults] = useState([])
+  const [hasMore, setHasMore] = useState(false)
+
+  useEffect(() => {
+    const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
+    setSearchParams(parsedQueryString)
+  }, [])
+
+  useEffect(() => {
+    const queryString = paramsStr(searchParams)
+    history.push(queryString ? `/search?${queryString}` : '/search')
+
+    if(infiniteScrollRef.current) { // TODO: debounceする
+      infiniteScrollRef.current.pageLoaded = 0
+      setSearchResults([])
+      setHasMore(true)
+    }
+  }, [searchParams])
 
   const loadMore = page => {
-    const paramsStr = Object.entries({ ..._.pickBy(searchParams), page: page }).map(e => e.join('=')).join("&")
-    requestApi('/paths?' + paramsStr, 'GET').then(r => {
-      setSearchResults(prevSearchResults => [...prevSearchResults, ...r])
-      if(r.length === 0) {
+    requestApi('/paths?' + paramsStr({ ...searchParams, page }), 'GET').then(fetchedSearchResults => {
+      setSearchResults(prevSearchResults =>
+        _.uniqBy( // FIXME: 原因不明で重複してしまう
+          [...prevSearchResults, ...fetchedSearchResults],
+          sr => sr.name
+        )
+      )
+      if(fetchedSearchResults.length === 0) {
         setHasMore(false)
       }
     })
@@ -30,15 +51,18 @@ export const Paths = props => {
   return (
     <div className={style.root}>
       <Header
-        searchParams={searchParams}
-        setSearchParams={setSearchParams}
       />
-      <Content
+      {searchParams && <Content
         hasMore={hasMore}
         loadMore={loadMore}
         searchResults={searchResults}
-      />
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        ref={infiniteScrollRef}
+      />}
     </div>
   )
 }
+
+const paramsStr = params => Object.entries(_.pickBy(params || {})).map(e => e.join('=')).join('&')
 

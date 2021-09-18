@@ -2,7 +2,8 @@ class PathsController < ApplicationController
   skip_before_action :auth_user, only: [:index, :show]
 
   def index
-    paths = Path.all.page(params[:page]).per(100)
+    q = params[:q]
+    paths = Path.all.then { |r| q ? r.where('name LIKE ?', "%#{q}%") : r }.page(params[:page]).per(100)
 
     render json: paths
   end
