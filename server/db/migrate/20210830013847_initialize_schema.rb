@@ -1,5 +1,7 @@
 class InitializeSchema < ActiveRecord::Migration[6.1]
   def change
+    add_column :users, :name, :string
+
     create_table :paths do |t|
       t.string :name
       t.timestamps
