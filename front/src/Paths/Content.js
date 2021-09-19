@@ -12,26 +12,17 @@ import { LoginContext } from './../App.js'
 import { requestApi } from './../api.js'
 import { loaderIcon } from './../utils.js'
 
-export const Content = forwardRef(({ hasMore, loadMore, searchResults, searchParams, setSearchParams }, ref) => {
-  const handleInput = ({ target: { value } }) => {
-    setSearchParams(prevSearchParams => ({ ...prevSearchParams, q: value }))
-  }
+export const Content = forwardRef(({ hasMore, loadMore, searchResults }, ref) => {
 
   return (
-    <div className={style.main}>
-      <input
-        value={searchParams.q || ''}
-        onChange={handleInput}
-      />
-      <InfiniteScroll
-        ref={ref}
-        loadMore={loadMore}
-        hasMore={hasMore}
-        loader={loaderIcon}
-      >
-        {searchResults.map((searchResult, i) => <Path key={i} path={searchResult} />)}
-      </InfiniteScroll>
-    </div>
+    <InfiniteScroll
+      ref={ref}
+      loadMore={loadMore}
+      hasMore={hasMore}
+      loader={loaderIcon}
+    >
+      {searchResults.map((searchResult, i) => <Path key={i} path={searchResult} />)}
+    </InfiniteScroll>
   )
 })
 

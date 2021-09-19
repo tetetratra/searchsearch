@@ -5,9 +5,10 @@ import querystring from 'querystring'
 import { useHistory } from 'react-router-dom';
 
 import { requestApi } from './../api.js'
-import { paramsToQueryString } from './../utils.js'
-import { Content } from './Content.js'
+import { paramsToQueryString, formatPath } from './../utils.js'
 import { Header } from './Header.js'
+import { New } from './New.js'
+import { Content } from './Content.js'
 import style from './index.module.css'
 
 export const Paths = props => {
@@ -25,8 +26,11 @@ export const Paths = props => {
   }, [])
 
   useEffect(() => {
-    const queryString = paramsToQueryString(searchParams)
-    history.push(queryString ? `/search?${queryString}` : '/search')
+    const encodedQueryString = paramsToQueryString({
+      ...searchParams,
+      ...(searchParams?.q ? { fq: formatPath(searchParams.q) } : {})
+    })
+    history.push(encodedQueryString ? `/search?${encodedQueryString}` : '/search')
 
     if(infiniteScrollRef.current) { // TODO: debounceする
       infiniteScrollRef.current.pageLoaded = 0
@@ -36,7 +40,12 @@ export const Paths = props => {
   }, [searchParams])
 
   const loadMore = page => {
-    requestApi('/paths?' + paramsToQueryString({ ...searchParams, page }), 'GET').then(fetchedSearchResults => {
+    const encodedQueryString = paramsToQueryString({
+      ...searchParams,
+      ...(searchParams?.q ? { fq: formatPath(searchParams.q) } : {}),
+      page
+    })
+    requestApi('/paths?' + encodedQueryString, 'GET').then(fetchedSearchResults => {
       setSearchResults(prevSearchResults =>
         _.uniqBy( // FIXME: 原因不明で重複してしまう
           [...prevSearchResults, ...fetchedSearchResults],
@@ -53,15 +62,38 @@ export const Paths = props => {
     <div className={style.root}>
       <Header
       />
-      {searchParams && <Content
-        hasMore={hasMore}
-        loadMore={loadMore}
-        searchResults={searchResults}
-        searchParams={searchParams}
-        setSearchParams={setSearchParams}
-        ref={infiniteScrollRef}
-      />}
+      <div className={style.main}>
+        {searchParams && <>
+          <Input
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+          />
+          <Content
+            hasMore={hasMore}
+            loadMore={loadMore}
+            searchResults={searchResults}
+            ref={infiniteScrollRef}
+          />
+          { !hasMore && searchParams.q && (
+            <New
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+            />
+          )}
+        </>}
+      </div>
     </div>
   )
 }
 
+const Input = ({ searchParams, setSearchParams }) => {
+  const handleInput = ({ target: { value } }) => {
+    setSearchParams(prevSearchParams => ({ ...prevSearchParams, q: value }))
+  }
+  return (
+    <input
+      value={searchParams.q || ''}
+      onChange={handleInput}
+    />
+  )
+}

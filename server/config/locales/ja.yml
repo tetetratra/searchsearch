@@ -1,21 +1,10 @@
 ja:
   activerecord:
     models:
-      query_string: クエリストリング
-      favorite: ブックマーク
+      path: パス
     attributes:
-      query_string:
-        description: 説明
-    errors:
-      models:
-        query_string:
-          attributes:
-            description:
-              format: '%{message}'
-        favorite:
-          attributes:
-            query_string_id:
-              format: '%{message}'
+      path:
+        name: パス
   attributes:
     created_at: 作成日
     updated_at: 更新日

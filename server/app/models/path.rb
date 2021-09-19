@@ -10,4 +10,6 @@
 class Path < ApplicationRecord
   has_many :query_string_keys
   has_many :constructed_urls
+
+  validates :name, uniqueness: { case_sensitive: true }
 end

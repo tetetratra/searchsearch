@@ -3,3 +3,10 @@
   height: 100vh;
   background-color: #F8F8F8;
 }
+
+.main {
+  position: absolute;
+  top: 80px;
+  background-color: #F8F8F8;
+}
+

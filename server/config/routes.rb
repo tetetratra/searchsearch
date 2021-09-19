@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   }
 
   scope :api do
-    resources :paths, only: :index
+    resources :paths, only: [:index, :create]
     get 'paths/:path', to: 'paths#show', constraints: { path: /.+/ }
     get 'logged_in', to: 'application#logged_in'
   end
