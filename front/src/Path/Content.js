@@ -12,16 +12,19 @@ import { LoginContext } from './../App.js'
 import { requestApi } from './../api.js'
 import { loaderIcon } from './../utils.js'
 
-export const Content = ({ searchResult, setSearchResult }) => {
+export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) => {
   return (
     <div className={style.main}>
-      { searchResult ? (
-        searchResult.query_string_keys.map((qs, i) => <QueryString key={i} queryString={qs} setSearchResult={setSearchResult}/>)
-      ) : loaderIcon }
-      { searchResult &&
-        <ConstructedUrl
-          searchResult={searchResult}
-        />
+      {searchResult ? <>
+        {searchResult.query_string_keys.map((qs, i) =>
+          <QueryString key={i} queryString={qs} setSearchResult={setSearchResult}/>
+        )}
+
+        <NewKey searchResult={searchResult} setSearchResult={setSearchResult} fetchSearchResult={fetchSearchResult}/>
+
+        <ConstructedUrl searchResult={searchResult}/>
+      </> :
+        loaderIcon
       }
     </div>
   )
@@ -43,6 +46,7 @@ const QueryString = ({ queryString, setSearchResult }) => {
       <input value={queryString.value} onChange={e => setQueryStringValue(e.target.value)} />
       <ul>
         {queryString.query_string_descriptions.map((d, i) => <Description key={i} description={d} setQueryStringValue={setQueryStringValue} />)}
+        <NewComment />
       </ul>
     </div>
   )
@@ -52,8 +56,6 @@ const Description = ({ description, setQueryStringValue }) => {
   const handleClick = str => e => {
     setQueryStringValue(str)
   }
-
-
   const regexSplitByBrackets = /\[.*?\]/g
   const regexRemoveBrackets = /^\[|\]$/g
   const formatted = _.zip(
@@ -83,5 +85,38 @@ const ConstructedUrl = ({ searchResult }) => {
     <div>
       <a target='_blank' href={constructedHref}>{constructedUrl}</a>
     </div>
+  )
+}
+
+const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
+  const alert = useAlert()
+  const [show, setShow] = useState(false)
+  const [key, setKey] = useState("")
+
+  const handleSubmit = () => {
+    const body = { path_id: searchResult.id, key }
+    requestApi('/query_string_keys', 'POST', body).then(r => {
+      alert.success('作成しました')
+      setKey('')
+      setShow(false)
+      fetchSearchResult()
+    }).catch(r => {
+      alert.error(r.error)
+    })
+  }
+
+  return show ? (
+    <div>
+      <input value={key} onChange={e => setKey(e.target.value)} />
+      <button onClick={handleSubmit}>追加</button>
+    </div>
+  ) : (
+    <button onClick={() => setShow(true)}>キーを追加</button>
+  )
+}
+
+const NewComment = () => {
+  return (
+    <li>new comment</li>
   )
 }

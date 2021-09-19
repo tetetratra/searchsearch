@@ -15,7 +15,8 @@ export const Path = () => {
 
   const encodedPath = location.pathname.replace(/^\/path\//, '')
 
-  useEffect(() => {
+  const fetchSearchResult = () => {
+    console.log(fetchSearchResult)
     requestApi(`/paths/${encodedPath}?`, 'GET').then(fetchedSearchResult => {
       setSearchResult({
         ...fetchedSearchResult,
@@ -25,6 +26,10 @@ export const Path = () => {
         }))
       })
     })
+  }
+
+  useEffect(() => {
+    fetchSearchResult()
   }, [])
 
   return (
@@ -34,6 +39,7 @@ export const Path = () => {
       <Content
         searchResult={searchResult}
         setSearchResult={setSearchResult}
+        fetchSearchResult={fetchSearchResult}
       />
     </div>
   )

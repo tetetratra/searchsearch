@@ -17,4 +17,6 @@ class QueryStringKey < ApplicationRecord
 
   has_many :query_string_descriptions
   has_many :constructed_url_query_strings
+
+  validates :key, uniqueness: { case_sensitive: true }
 end

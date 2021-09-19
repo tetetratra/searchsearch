@@ -2,9 +2,12 @@ ja:
   activerecord:
     models:
       path: パス
+      query_string_key: キー
     attributes:
       path:
         name: パス
+      query_string_key:
+        key: キー
   attributes:
     created_at: 作成日
     updated_at: 更新日

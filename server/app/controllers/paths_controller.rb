@@ -1,5 +1,5 @@
 class PathsController < ApplicationController
-  skip_before_action :auth_user, only: [:index, :show]
+  skip_before_action :auth_user, only: [:index, :show, :create]
 
   def index
     q = params[:q]
