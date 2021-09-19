@@ -4,7 +4,8 @@ import _ from 'lodash'
 import querystring from 'querystring'
 import { useHistory } from 'react-router-dom';
 
-import { requestApi } from './../api'
+import { requestApi } from './../api.js'
+import { paramsToQueryString } from './../utils.js'
 import { Content } from './Content.js'
 import { Header } from './Header.js'
 import style from './index.module.css'
@@ -24,7 +25,7 @@ export const Paths = props => {
   }, [])
 
   useEffect(() => {
-    const queryString = paramsStr(searchParams)
+    const queryString = paramsToQueryString(searchParams)
     history.push(queryString ? `/search?${queryString}` : '/search')
 
     if(infiniteScrollRef.current) { // TODO: debounceする
@@ -35,7 +36,7 @@ export const Paths = props => {
   }, [searchParams])
 
   const loadMore = page => {
-    requestApi('/paths?' + paramsStr({ ...searchParams, page }), 'GET').then(fetchedSearchResults => {
+    requestApi('/paths?' + paramsToQueryString({ ...searchParams, page }), 'GET').then(fetchedSearchResults => {
       setSearchResults(prevSearchResults =>
         _.uniqBy( // FIXME: 原因不明で重複してしまう
           [...prevSearchResults, ...fetchedSearchResults],
@@ -63,6 +64,4 @@ export const Paths = props => {
     </div>
   )
 }
-
-const paramsStr = params => Object.entries(_.pickBy(params || {})).map(e => e.join('=')).join('&')
 

@@ -4,21 +4,3 @@
   background-color: #F8F8F8;
 }
 
-.loading {
-  margin: 30px 0 0 30%;
-  width: 50px;
-  height: 50px;
-  animation: spinner 1.5s linear infinite;
-}
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.path {
-  margin: 30px;
-  padding: 30px;
-  background-color: #FFF;
-}

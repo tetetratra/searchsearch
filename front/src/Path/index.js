@@ -5,24 +5,25 @@ import querystring from 'querystring'
 
 import { Content } from './Content.js'
 import { Header } from './Header.js'
-import { requestApi } from './../api'
+import { requestApi } from './../api.js'
 import style from './index.module.css'
 
 export const Path = () => {
-  const [searchParams, setSearchParams] = useState({
-    sort: null,
-    star: true,
-  })
-  const [searchResult, setSearchResult] = useState(null)
-
   const location = useLocation()
+
+  const [searchResult, setSearchResult] = useState(null)
 
   const encodedPath = location.pathname.replace(/^\/path\//, '')
 
   useEffect(() => {
-    const paramsStr = Object.entries(_.pickBy(searchParams)).map(e => e.join('=')).join("&")
-    requestApi(`/paths/${encodedPath}?` + paramsStr, 'GET').then(r => {
-      setSearchResult(r)
+    requestApi(`/paths/${encodedPath}?`, 'GET').then(fetchedSearchResult => {
+      setSearchResult({
+        ...fetchedSearchResult,
+        query_string_keys: fetchedSearchResult.query_string_keys.map(qsk => ({
+          ...qsk,
+          value: ''
+        }))
+      })
     })
   }, [])
 
@@ -32,9 +33,8 @@ export const Path = () => {
       />
       <Content
         searchResult={searchResult}
+        setSearchResult={setSearchResult}
       />
     </div>
   )
 }
-
-

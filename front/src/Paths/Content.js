@@ -5,12 +5,12 @@ import _ from 'lodash'
 import InfiniteScroll  from 'react-infinite-scroller'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner, faCalendarAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import { requestApi } from './../api'
 import style from './Content.module.css'
-import { LoginContext } from './../App'
+
+import { LoginContext } from './../App.js'
+import { requestApi } from './../api.js'
+import { loaderIcon } from './../utils.js'
 
 export const Content = forwardRef(({ hasMore, loadMore, searchResults, searchParams, setSearchParams }, ref) => {
   const handleInput = ({ target: { value } }) => {
@@ -43,6 +43,4 @@ const Path = ({ path: { name } }) => {
     </div>
   )
 }
-
-const loaderIcon = <FontAwesomeIcon className={style.loading} icon={faSpinner}/> // TODO まとめる
 
