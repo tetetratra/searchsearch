@@ -17,7 +17,11 @@ export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) =>
     <div className={style.main}>
       {searchResult ? <>
         {searchResult.query_string_keys.map((qs, i) =>
-          <QueryString key={i} queryString={qs} setSearchResult={setSearchResult}/>
+          <QueryString key={i}
+            queryString={qs}
+            setSearchResult={setSearchResult}
+            fetchSearchResult={fetchSearchResult}
+          />
         )}
 
         <NewKey searchResult={searchResult} setSearchResult={setSearchResult} fetchSearchResult={fetchSearchResult}/>
@@ -30,7 +34,7 @@ export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) =>
   )
 }
 
-const QueryString = ({ queryString, setSearchResult }) => {
+const QueryString = ({ queryString, setSearchResult, fetchSearchResult }) => {
   const setQueryStringValue = value => {
     setSearchResult(prevSearchResult => ({
       ...prevSearchResult,
@@ -46,7 +50,10 @@ const QueryString = ({ queryString, setSearchResult }) => {
       <input value={queryString.value} onChange={e => setQueryStringValue(e.target.value)} />
       <ul>
         {queryString.query_string_descriptions.map((d, i) => <Description key={i} description={d} setQueryStringValue={setQueryStringValue} />)}
-        <NewComment />
+        <NewComment
+          queryString={queryString}
+          fetchSearchResult={fetchSearchResult}
+        />
       </ul>
     </div>
   )
@@ -115,8 +122,33 @@ const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
   )
 }
 
-const NewComment = () => {
-  return (
-    <li>new comment</li>
+const NewComment = ({ queryString, fetchSearchResult }) => {
+  const alert = useAlert()
+
+  const [show, setShow] = useState(false)
+  const [description, setDescription] = useState("")
+
+  const handleSubmit = () => {
+    const body = { query_string_key_id: queryString.id, description }
+    requestApi('/query_string_descriptions', 'POST', body).then(r => {
+      alert.success('投稿しました')
+      setDescription('')
+      setShow(false)
+      fetchSearchResult()
+    }).catch(r => {
+      alert.error(r.error)
+    })
+  }
+
+  return show ? (
+    <li>
+      <button onClick={() => setShow(false)}>-</button>
+      <input value={description} onChange={e => setDescription(e.target.value)}/>
+      <button onClick={handleSubmit}>コメントする</button>
+    </li>
+  ) : (
+    <li>
+      <button onClick={() => setShow(true)}>+</button>
+    </li>
   )
 }

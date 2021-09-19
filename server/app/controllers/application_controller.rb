@@ -12,6 +12,9 @@ class ApplicationController < ActionController::Base
     render json: { logged_in: user_signed_in? }
   end
 
+  def consume_flash
+  end
+
   protected
 
   def set_csrf_token_header

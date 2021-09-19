@@ -3,11 +3,14 @@ ja:
     models:
       path: パス
       query_string_key: キー
+      query_string_description: 投稿
     attributes:
       path:
         name: パス
       query_string_key:
         key: キー
+      query_string_description:
+        description: 投稿
   attributes:
     created_at: 作成日
     updated_at: 更新日
