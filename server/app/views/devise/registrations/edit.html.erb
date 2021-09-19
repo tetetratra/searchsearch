@@ -2,6 +2,13 @@
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'formBox' }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
+  <% if flash.any? %>
+    <ul class='errorBox'>
+      <% flash.each do |key, value| %>
+        <li><%= value %></li>
+      <% end %>
+    </ul>
+  <% end %>
 
   <div class="field">
     <%= f.label :name, '名前' %>

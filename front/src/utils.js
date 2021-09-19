@@ -37,3 +37,6 @@ export const formatPath = str => {
   return s.replace(/\/+$/, '')
 }
 
+export const sleep = ms => {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

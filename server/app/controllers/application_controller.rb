@@ -6,13 +6,17 @@ class ApplicationController < ActionController::Base
 
   after_action :set_csrf_token_header
 
-  skip_before_action :auth_user, only: [:logged_in]
+  skip_before_action :auth_user, only: [:logged_in, :consume_messages]
 
   def logged_in
     render json: { logged_in: user_signed_in? }
   end
 
-  def consume_flash
+  def consume_messages
+    render json: flash.map{ |k, v| v }.compact
+    flash.clear # FIXME: たぶんどれか1行でいい
+    flash.discard
+    session[:flash] = {}
   end
 
   protected

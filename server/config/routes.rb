@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   scope :api do
     get 'logged_in', to: 'application#logged_in'
+    get 'consume_messages', to: 'application#consume_messages'
+
     resources :paths, only: [:index, :create]
     get 'paths/:path', to: 'paths#show', constraints: { path: /.+/ }
     resources :query_string_keys, only: [:create]
