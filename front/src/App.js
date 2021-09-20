@@ -4,10 +4,9 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { useAlert, Provider as AlertProvider } from 'react-alert'
+import { Provider as AlertProvider } from 'react-alert'
 
 import { requestApi } from './api.js'
-import { sleep } from './utils.js'
 import { Path } from './Path/index.js'
 import { Paths } from './Paths/index.js'
 import style from './App.module.css'
@@ -40,7 +39,6 @@ const App = props => {
 
   return (
     <AlertProvider template={AlertTemplate} timeout={3000}>
-      <ConsumeMessages />
       <LoginContext.Provider value={loggedIn}>
         <Router>
           <Switch>
@@ -55,18 +53,3 @@ const App = props => {
 }
 export default App
 
-const ConsumeMessages = () => {
-  const alert = useAlert()
-  useEffect(async () => {
-    // ページを開いて直後にこのリクエストをすると、
-    // 以降の別のリクエストでrailsのflashが再生産されてしまうのか、
-    // リロードしたらまた同じflashが出てしまう。のでsetTimeoutさせている
-    await sleep(3000) // FIXME
-    requestApi('/consume_messages', 'GET').then(r => {
-      r.forEach(msg => {
-        alert.info(msg)
-      })
-    })
-  }, [])
-  return null
-}

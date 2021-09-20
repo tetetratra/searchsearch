@@ -3,9 +3,10 @@ import { useLocation } from "react-router-dom";
 import _ from 'lodash'
 import querystring from 'querystring'
 import { useHistory } from 'react-router-dom';
+import { useAlert } from 'react-alert'
 
 import { requestApi } from './../api.js'
-import { paramsToQueryString, formatPath } from './../utils.js'
+import { sleep, paramsToQueryString, formatPath } from './../utils.js'
 import { Header } from './Header.js'
 import { New } from './New.js'
 import { Content } from './Content.js'
@@ -15,10 +16,12 @@ export const Paths = props => {
   const location = useLocation()
   const infiniteScrollRef = useRef()
   const history = useHistory()
+  const alert = useAlert()
 
   const [searchParams, setSearchParams] = useState(null)
   const [searchResults, setSearchResults] = useState([])
   const [hasMore, setHasMore] = useState(false)
+  const [messageConsumed, setMessageConsumed] = useState(false)
 
   useEffect(() => {
     const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
@@ -57,6 +60,21 @@ export const Paths = props => {
       }
     })
   }
+
+  useEffect(async () => {
+    if (!messageConsumed && searchResults.length !== 0 && !hasMore) {
+      await sleep(1000) // FIXME
+      // ページを開いて直後にこのリクエストをすると、
+      // 以降の別のリクエストでrailsのflashが再生産されてしまうのか、
+      // リロードしたらまた同じflashが出てしまう。のでsetTimeoutさせている
+      await requestApi('/consume_messages', 'GET').then(r => {
+        r.forEach(msg => {
+          alert.info(msg)
+        })
+      })
+      setMessageConsumed(true)
+    }
+  }, [hasMore])
 
   return (
     <div className={style.root}>
@@ -97,3 +115,4 @@ const Input = ({ searchParams, setSearchParams }) => {
     />
   )
 }
+
