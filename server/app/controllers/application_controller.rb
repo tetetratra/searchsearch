@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  FRONT_HOME_URL = Rails.env.production? ? '/search' : 'http://localhost:3000/search'
+  FRONT_HOME_URL = Rails.env.production? ? '/' : 'http://localhost:3000/'
 
   before_action :auth_user
   before_action :configure_permitted_parameters, if: :devise_controller?

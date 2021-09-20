@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect
 } from "react-router-dom";
 import { Provider as AlertProvider } from 'react-alert'
 
@@ -42,7 +43,7 @@ const App = props => {
       <LoginContext.Provider value={loggedIn}>
         <Router>
           <Switch>
-            <Route exact path="/" component={() => '工事中'} />
+            <Route exact path="/" component={() => <Redirect to='/search'/>} />
             <Route exact path="/search" component={Paths} />
             <Route exact path="/path/:path" component={Path} />
           </Switch>

@@ -31,7 +31,7 @@ export const formatPath = str => {
     }
   }
   const [domain, ...rest] = s.split('/')
-  if (!domain.match(/\w+\.\w\w+/)) {
+  if (!domain.match(/\w+\.[a-z][a-z]+/)) {
     return null
   }
   return s.replace(/\/+$/, '')

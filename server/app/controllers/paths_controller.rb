@@ -8,7 +8,7 @@ class PathsController < ApplicationController
         case [q, fq]
         in [nil, nil] then r.all
         in [_, nil] then r.where('name LIKE ?', "%#{q}%")
-        in [nil, _] then r.where('name LIKE ?', "%#{fq}%")
+        in [nil, _] then r.all # このケースが来たらバグ
         in [_, _] then r.where('name LIKE ? OR name LIKE ?', "%#{q}%", "%#{fq}%")
         end
       }
