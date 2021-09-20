@@ -27,8 +27,8 @@ import { requestApi } from './../api.js'
 import { loaderIcon } from './../utils.js'
 
 export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) => {
-  return (
-    <Container sx={{ paddingBottom: '200px' }}>
+  return <>
+    <Container sx={{ paddingBottom: '150px' }}>
       {searchResult ? <>
         {searchResult.query_string_keys.map((qs, i) =>
           <QueryString key={i}
@@ -37,15 +37,13 @@ export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) =>
             fetchSearchResult={fetchSearchResult}
           />
         )}
-
         <NewKey searchResult={searchResult} setSearchResult={setSearchResult} fetchSearchResult={fetchSearchResult}/>
-
-        <ConstructedUrl searchResult={searchResult}/>
       </> :
         loaderIcon
       }
     </Container>
-  )
+    {searchResult && <ConstructedUrl searchResult={searchResult}/>}
+  </>
 }
 
 const QueryString = ({ queryString, setSearchResult, fetchSearchResult }) => {
@@ -167,9 +165,39 @@ const ConstructedUrl = ({ searchResult }) => {
   const constructedUrl = `https://${searchResult.name}?` +
     filteredQueryStringKeys.map(qsk => `${qsk.key}=${qsk.value.replace(/\+/g, '%2B').replace(/\s/g, '+')}`).join('&')
   return (
-    <div>
-      <a target='_blank' href={constructedHref}>{constructedUrl}</a>
-    </div>
+    <a target='_blank' href={constructedHref}>
+      <Container
+        sx={{
+          position: 'fixed',
+          background: '#EEEEEEE0',
+          width: '96%',
+          height: 'auto',
+          padding: '3px',
+          minHeight: '60px',
+          maxWidth: '800px',
+          bottom: '40px',
+          right: '2%',
+          left: '2%',
+          borderRadius: '10px',
+
+          display: 'flex',
+          alignItems: 'center',
+          '&:hover': {
+            background: '#E8E8E8E0'
+          }
+        }}
+      >
+        <span
+          style={{
+            fontSize: '24px',
+            textDecoration: 'none',
+            color: '#555',
+          }}
+        >
+          {constructedUrl}
+        </span>
+      </Container>
+    </a>
   )
 }
 
@@ -325,7 +353,7 @@ const NewComment = ({ queryString, fetchSearchResult }) => {
       <Button
         variant="outlined"
         onClick={() => setShow(p => !p)}
-        color={ show ? 'inherit' : 'primary' }
+        color={ show ? 'inherit' : 'success' }
         sx={{
           margin: '5px',
           textTransform: 'none'

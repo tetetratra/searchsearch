@@ -32,7 +32,7 @@ export const Path = () => {
   }, [])
 
   return (
-    <div className={style.root}>
+    <>
       <Header
       />
       <Content
@@ -40,6 +40,6 @@ export const Path = () => {
         setSearchResult={setSearchResult}
         fetchSearchResult={fetchSearchResult}
       />
-    </div>
+    </>
   )
 }
