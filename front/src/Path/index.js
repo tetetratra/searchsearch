@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-import _ from 'lodash'
-import querystring from 'querystring'
 
 import { Content } from './Content.js'
 import { Header } from './../Header.js'

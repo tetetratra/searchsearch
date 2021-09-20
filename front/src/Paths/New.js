@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useAlert } from 'react-alert'
 import {
   Avatar,

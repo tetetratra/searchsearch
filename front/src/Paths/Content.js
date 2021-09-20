@@ -1,26 +1,15 @@
-import { useState, useContext, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { useAlert } from 'react-alert'
-import moment from 'moment'
-import _ from 'lodash'
 import { Link } from 'react-router-dom'
 import InfiniteScroll  from 'react-infinite-scroller'
-import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import {
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Avatar,
   Typography,
   Card,
   CardContent,
-  Container,
-  TextField
 } from '@mui/material'
 
-import { LoginContext } from './../App.js'
-import { requestApi } from './../api.js'
 import { loaderIcon } from './../utils.js'
 
 export const Content = forwardRef(({ hasMore, loadMore, searchResults }, ref) => {
@@ -71,6 +60,5 @@ const Path = ({ path: { name } }) => {
         </CardContent>
       </Card>
     </Link>
-
   )
 }
