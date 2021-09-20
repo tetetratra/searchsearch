@@ -26,7 +26,6 @@ export const Paths = props => {
   const [debouncedSearchParams] = useDebounce(searchParams, 500)
   const [searchResults, setSearchResults] = useState([])
   const [hasMore, setHasMore] = useState(false)
-  const [messageConsumed, setMessageConsumed] = useState(false)
 
   useEffect(() => { // 初期のクエリストリングからstateを作る
     const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
@@ -66,19 +65,16 @@ export const Paths = props => {
   }
 
   useEffect(async () => {
-    if (!messageConsumed && searchResults.length !== 0 && !hasMore) {
-      await sleep(1000) // FIXME
-      // ページを開いて直後にこのリクエストをすると、
-      // 以降の別のリクエストでrailsのflashが再生産されてしまうのか、
-      // リロードしたらまた同じflashが出てしまう。のでsetTimeoutさせている
-      await requestApi('/consume_messages', 'GET').then(r => {
-        r.forEach(msg => {
-          alert.info(msg)
-        })
+    await sleep(2500) // FIXME
+    // ページを開いて直後にこのリクエストをすると、
+    // 以降の別のリクエストでrailsのflashが再生産されてしまうのか、
+    // リロードしたらまた同じflashが出てしまう。のでsetTimeoutさせている
+    await requestApi('/consume_messages', 'GET').then(r => {
+      r.forEach(msg => {
+        alert.info(msg)
       })
-      setMessageConsumed(true)
-    }
-  }, [hasMore])
+    })
+  }, [])
 
   return (
     <>
