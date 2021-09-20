@@ -16,7 +16,6 @@ export const Path = () => {
   const encodedPath = location.pathname.replace(/^\/path\//, '')
 
   const fetchSearchResult = () => {
-    console.log(fetchSearchResult)
     requestApi(`/paths/${encodedPath}?`, 'GET').then(fetchedSearchResult => {
       setSearchResult({
         ...fetchedSearchResult,

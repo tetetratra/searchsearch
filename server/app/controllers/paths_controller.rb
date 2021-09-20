@@ -24,7 +24,11 @@ class PathsController < ApplicationController
     merged_path = path.as_json.merge(
         query_string_keys: path.query_string_keys.map { |query_string_key|
           query_string_key.as_json.merge(
-            query_string_descriptions: query_string_key.query_string_descriptions
+            query_string_descriptions: query_string_key.query_string_descriptions.map { |query_string_description|
+              query_string_description.as_json.merge(
+                user: query_string_description.user
+              )
+            }
           )
         }
       )

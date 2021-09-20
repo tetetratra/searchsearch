@@ -34,9 +34,7 @@ export const Content = forwardRef(({ hasMore, loadMore, searchResults }, ref) =>
       hasMore={hasMore}
       loader={loaderIcon}
     >
-      <List sx={{ width: '100%' }}>
-        {searchResults.map((searchResult, i) => <Path key={i} path={searchResult} />)}
-      </List>
+      {searchResults.map((searchResult, i) => <Path key={i} path={searchResult} />)}
     </InfiniteScroll>
   )
 })
@@ -78,15 +76,3 @@ const Path = ({ path: { name } }) => {
 
   )
 }
-
-      // <ListItem sx={{ 'background': '#FFF', margin: '20px 10%' }}>
-      //   <ListItemAvatar>
-      //     <Avatar
-      //       sx={{ width: '20px', height: '20px' }}
-      //       src={`https://icons.duckduckgo.com/ip3/${name.split('/')[0]}.ico`}
-      //       alt={`${name.split('/')[0]} favicon`}
-      //     />
-      //   </ListItemAvatar>
-      //   <ListItemText primary={name} />
-      // </ListItem>
-

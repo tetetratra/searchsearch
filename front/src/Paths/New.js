@@ -66,7 +66,3 @@ export const New = ({ searchParams, setSearchParams, searchResults }) => {
     </Card>
   )
 }
-
-    // <button onClick={handleClick}>
-    //   { formattedUrl } を追加
-    // </button>

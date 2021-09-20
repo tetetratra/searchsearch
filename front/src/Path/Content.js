@@ -5,6 +5,20 @@ import _ from 'lodash'
 import InfiniteScroll  from 'react-infinite-scroller'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import {
+  Container,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Button
+} from '@mui/material';
+
 
 import style from './Content.module.css'
 
@@ -14,7 +28,7 @@ import { loaderIcon } from './../utils.js'
 
 export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) => {
   return (
-    <div className={style.main}>
+    <Container sx={{ paddingBottom: '300px' }}>
       {searchResult ? <>
         {searchResult.query_string_keys.map((qs, i) =>
           <QueryString key={i}
@@ -30,7 +44,7 @@ export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) =>
       </> :
         loaderIcon
       }
-    </div>
+    </Container>
   )
 }
 
@@ -45,40 +59,104 @@ const QueryString = ({ queryString, setSearchResult, fetchSearchResult }) => {
   }
 
   return (
-    <div>
-      {queryString.key}=
-      <input value={queryString.value} onChange={e => setQueryStringValue(e.target.value)} />
-      <ul>
-        {queryString.query_string_descriptions.map((d, i) => <Description key={i} description={d} setQueryStringValue={setQueryStringValue} />)}
-        <NewComment
-          queryString={queryString}
-          fetchSearchResult={fetchSearchResult}
-        />
-      </ul>
-    </div>
+    <Card
+      sx={{
+        margin: '20px 0'
+      }}
+    >
+      <CardContent>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            margin: '15px 0'
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: '20px',
+              margin: '0 10px 0 0'
+            }}
+          >
+            {`${queryString.key} = `}
+          </Typography>
+          <TextField
+            size='small'
+            sx={{
+              background: queryString.value ? '#F0F6FF' : '#FFF'
+            }}
+            value={queryString.value}
+            onChange={e => setQueryStringValue(e.target.value)}
+          />
+        </Box>
+
+        <Divider />
+
+        <List>
+          {queryString.query_string_descriptions.map((d, i) =>
+            <Description
+              key={i}
+              description={d}
+              setQueryStringValue={setQueryStringValue}
+            />
+          )}
+          <NewComment
+            queryString={queryString}
+            fetchSearchResult={fetchSearchResult}
+          />
+        </List>
+      </CardContent>
+    </Card>
   )
 }
 
 const Description = ({ description, setQueryStringValue }) => {
-  const handleClick = str => e => {
-    setQueryStringValue(str)
-  }
   const regexSplitByBrackets = /\[.*?\]/g
   const regexRemoveBrackets = /^\[|\]$/g
+
+  const handleClick = str => e => {
+    setQueryStringValue(str.replace(regexRemoveBrackets, ''))
+  }
+
   const formatted = _.zip(
     Array.from(description.description.split(regexSplitByBrackets)),
     Array.from(description.description.matchAll(regexSplitByBrackets)).map(x => x[0])
   ).flat().filter(_.identity).map((str, i) => (
     str.match(regexSplitByBrackets) ? (
-      <button key={i} onClick={handleClick(str.replace(regexRemoveBrackets, ''))} >{str.replace(regexRemoveBrackets, '')}</button>
+      <Button
+        key={i}
+        onClick={handleClick(str)}
+        variant="outlined"
+        size="small"
+        disableElevation
+        sx={{
+          margin: 'auto 3px',
+          textTransform: 'none'
+        }}
+      >
+        {str.replace(regexRemoveBrackets, '')}
+      </Button>
     ) : (
       str
     )
   ))
+
   return (
-    <li>
-      {formatted}
-    </li>
+    <ListItem
+      sx={{
+        borderLeft: '1px solid #CCC',
+        margin: '10px auto'
+      }}
+    >
+      <ListItemText
+        sx={{
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-all'
+        }}
+        primary={formatted}
+        secondary={`@${description.user?.name || '-'}`}
+      />
+    </ListItem>
   )
 }
 
@@ -112,13 +190,66 @@ const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
     })
   }
 
-  return show ? (
-    <div>
-      <input value={key} onChange={e => setKey(e.target.value)} />
-      <button onClick={handleSubmit}>追加</button>
-    </div>
-  ) : (
-    <button onClick={() => setShow(true)}>キーを追加</button>
+  return (
+    <Card
+      sx={{
+        margin: '20px 0',
+        background: '#F6FBFF'
+      }}
+    >
+      <CardContent>
+        { show && (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '10px'
+            }}
+          >
+            <TextField
+              value={key}
+              label='key'
+              onChange={e => setKey(e.target.value)}
+              sx={{
+                margin: 'auto 12px',
+              }}
+            />
+            =
+          </Box>
+        )}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          {show && <Button
+            onClick={handleSubmit}
+            variant="outlined"
+            sx={{
+              margin: 'auto 10px',
+              textTransform: 'none'
+            }}
+          >
+            追加
+          </Button>}
+
+          <Button
+            onClick={() => setShow(p => !p)}
+            variant="outlined"
+            color={ show ? 'inherit' : 'primary' }
+            sx={{
+              margin: 'auto 10px',
+              textTransform: 'none'
+            }}
+          >
+            { show ? '閉じる' : 'キーを追加' }
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -140,15 +271,46 @@ const NewComment = ({ queryString, fetchSearchResult }) => {
     })
   }
 
-  return show ? (
-    <li>
-      <button onClick={() => setShow(false)}>-</button>
-      <input value={description} onChange={e => setDescription(e.target.value)}/>
-      <button onClick={handleSubmit}>コメントする</button>
-    </li>
-  ) : (
-    <li>
-      <button onClick={() => setShow(true)}>+</button>
-    </li>
+  return (
+    <ListItem
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+      }}
+    >
+      { show && <>
+        <TextField
+          fullWidth
+          multiline
+          minRows={3}
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          sx={{ margin: '5px' }}
+          placeholder={'[角括弧]でボタン化'}
+        />
+        <Button
+          variant="outlined"
+          onClick={handleSubmit}
+          sx={{
+            margin: '5px',
+            textTransform: 'none'
+          }}
+        >
+          投稿
+        </Button>
+      </>}
+      <Button
+        variant="outlined"
+        onClick={() => setShow(p => !p)}
+        color={ show ? 'inherit' : 'primary' }
+        sx={{
+          margin: '5px',
+          textTransform: 'none'
+        }}
+      >
+        { show ? '閉じる' : 'コメントする' }
+      </Button>
+    </ListItem>
   )
 }
