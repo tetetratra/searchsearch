@@ -6,7 +6,7 @@
 }
 
 .formBox {
-  padding: 20px 60px;
+  padding: 10px;
 }
 .formBox label {
   display: block;
@@ -22,7 +22,8 @@
 }
 .formBox input {
   margin: 10px 0 10px 20px;
-  width: 300px;
+  width: 90%;
+  max-width: 400px;
   font-size: 20px;
 }
 .formBox input[type=submit] {

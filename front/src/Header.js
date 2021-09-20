@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserEdit, faUserPlus  } from "@fortawesome/free-solid-svg-icons";
+import { Typography } from '@mui/material';
 
 import { LoginContext } from './App'
 
@@ -54,6 +55,16 @@ export const Header = () => {
           icon={loginned ? faUserEdit : faUserPlus}
         />
       </a>
+      <Typography
+        sx={{
+          display: 'inline-block',
+          margin: 'auto 30px',
+          fontSize: '28px',
+          fontWeight: 'bold'
+        }}
+      >
+        SearchSearch
+      </Typography>
     </div>
   )
 }
