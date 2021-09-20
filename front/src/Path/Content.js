@@ -28,7 +28,7 @@ import { loaderIcon } from './../utils.js'
 
 export const Content = ({ searchResult, setSearchResult, fetchSearchResult }) => {
   return (
-    <Container sx={{ paddingBottom: '300px' }}>
+    <Container sx={{ paddingBottom: '200px' }}>
       {searchResult ? <>
         {searchResult.query_string_keys.map((qs, i) =>
           <QueryString key={i}
@@ -197,8 +197,15 @@ const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
         background: '#F6FBFF'
       }}
     >
-      <CardContent>
-        { show && (
+      <CardContent
+        {...( !show && {
+          onClick: () => setShow(true),
+          sx: {
+            cursor: 'pointer'
+          }
+        })}
+      >
+        {show ? <>
           <Box
             sx={{
               display: 'flex',
@@ -217,37 +224,52 @@ const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
             />
             =
           </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Button
+              onClick={handleSubmit}
+              variant="outlined"
+              sx={{
+                margin: 'auto 10px',
+                textTransform: 'none'
+              }}
+            >
+              追加
+            </Button>
+            <Button
+              onClick={() => setShow(p => !p)}
+              variant="outlined"
+              color={'inherit'}
+              sx={{
+                margin: 'auto 10px',
+                textTransform: 'none'
+              }}
+            >
+              閉じる
+            </Button>
+          </Box>
+        </> : (
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: '20px'
+              }}
+            >
+              キーを追加
+            </Typography>
+          </Box>
         )}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          {show && <Button
-            onClick={handleSubmit}
-            variant="outlined"
-            sx={{
-              margin: 'auto 10px',
-              textTransform: 'none'
-            }}
-          >
-            追加
-          </Button>}
-
-          <Button
-            onClick={() => setShow(p => !p)}
-            variant="outlined"
-            color={ show ? 'inherit' : 'primary' }
-            sx={{
-              margin: 'auto 10px',
-              textTransform: 'none'
-            }}
-          >
-            { show ? '閉じる' : 'キーを追加' }
-          </Button>
-        </Box>
       </CardContent>
     </Card>
   )
