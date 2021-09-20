@@ -11,10 +11,9 @@ import {
 
 import { requestApi } from './../api.js'
 import { sleep, paramsToQueryString, formatPath } from './../utils.js'
-import { Header } from './Header.js'
+import { Header } from './../Header.js'
 import { New } from './New.js'
 import { Content } from './Content.js'
-import style from './index.module.css'
 
 export const Paths = props => {
   const location = useLocation()
@@ -80,7 +79,7 @@ export const Paths = props => {
   }, [hasMore])
 
   return (
-    <div className={style.root}>
+    <>
       <Header
       />
       <Container>
@@ -104,7 +103,7 @@ export const Paths = props => {
           )}
         </>}
       </Container>
-    </div>
+    </>
   )
 }
 

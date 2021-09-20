@@ -4,9 +4,8 @@ import _ from 'lodash'
 import querystring from 'querystring'
 
 import { Content } from './Content.js'
-import { Header } from './Header.js'
+import { Header } from './../Header.js'
 import { requestApi } from './../api.js'
-import style from './index.module.css'
 
 export const Path = () => {
   const location = useLocation()

@@ -19,9 +19,6 @@ import {
   Button
 } from '@mui/material';
 
-
-import style from './Content.module.css'
-
 import { LoginContext } from './../App.js'
 import { requestApi } from './../api.js'
 import { loaderIcon } from './../utils.js'

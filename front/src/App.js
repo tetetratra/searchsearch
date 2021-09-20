@@ -10,16 +10,25 @@ import { Provider as AlertProvider } from 'react-alert'
 import { requestApi } from './api.js'
 import { Path } from './Path/index.js'
 import { Paths } from './Paths/index.js'
-import style from './App.module.css'
 
 const AlertTemplate = ({ options, message }) => {
-  const s = {
-    info: style.alertInfo,
-    success: style.alertSuccess,
-    error: style.alertError
-  }[options.type]
+  const style = {
+    background: {
+      info: '#DEF',
+      success: '#DFD',
+      error: '#FDD'
+    }[options.type],
+    width: "200px",
+    height: "auto",
+    margin: "10px 0 0 0",
+    padding: "10px",
+    borderRadius: "3px",
+    textAlign: "center",
+    fontSize: "18px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.6)"
+  }
   return (
-    <div className={s}>
+    <div style={style}>
       {message}
     </div>
   )
