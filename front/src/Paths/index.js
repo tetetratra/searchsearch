@@ -4,6 +4,7 @@ import _ from 'lodash'
 import querystring from 'querystring'
 import { useHistory } from 'react-router-dom';
 import { useAlert } from 'react-alert'
+import { useDebounce } from "use-debounce";
 import {
   Container,
   TextField
@@ -22,6 +23,7 @@ export const Paths = props => {
   const alert = useAlert()
 
   const [searchParams, setSearchParams] = useState(null)
+  const [debouncedSearchParams] = useDebounce(searchParams, 500)
   const [searchResults, setSearchResults] = useState([])
   const [hasMore, setHasMore] = useState(false)
   const [messageConsumed, setMessageConsumed] = useState(false)
@@ -37,12 +39,12 @@ export const Paths = props => {
     })
     history.push(encodedQueryString ? `/search?${encodedQueryString}` : '/search')
 
-    if(infiniteScrollRef.current) { // TODO: debounceする
+    if(infiniteScrollRef.current) {
       infiniteScrollRef.current.pageLoaded = 0
       setSearchResults([])
       setHasMore(true)
     }
-  }, [searchParams])
+  }, [debouncedSearchParams])
 
   const loadMore = page => { // stateから検索をする
     const encodedQueryString = paramsToQueryString({
