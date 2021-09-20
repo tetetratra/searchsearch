@@ -18,5 +18,5 @@ class QueryStringDescription < ApplicationRecord
   belongs_to :user
   belongs_to :query_string_key
 
-  validates :description, presence: true, uniqueness: { case_sensitive: true }
+  validates :description, presence: true, uniqueness: { scope: :query_string_key_id, case_sensitive: true }
 end

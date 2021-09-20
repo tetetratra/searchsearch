@@ -18,5 +18,5 @@ class QueryStringKey < ApplicationRecord
   has_many :query_string_descriptions
   has_many :constructed_url_query_strings
 
-  validates :key, presence: true, uniqueness: { case_sensitive: true }
+  validates :key, presence: true, uniqueness: { scope: :path_id, case_sensitive: true }
 end
