@@ -4,6 +4,10 @@ import _ from 'lodash'
 import querystring from 'querystring'
 import { useHistory } from 'react-router-dom';
 import { useAlert } from 'react-alert'
+import {
+  Container,
+  TextField
+} from '@mui/material'
 
 import { requestApi } from './../api.js'
 import { sleep, paramsToQueryString, formatPath } from './../utils.js'
@@ -23,15 +27,14 @@ export const Paths = props => {
   const [hasMore, setHasMore] = useState(false)
   const [messageConsumed, setMessageConsumed] = useState(false)
 
-  useEffect(() => {
+  useEffect(() => { // 初期のクエリストリングからstateを作る
     const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
     setSearchParams(parsedQueryString)
   }, [])
 
-  useEffect(() => {
+  useEffect(() => { // 入力の変化(= stateの変化)からクエリストリングを作る
     const encodedQueryString = paramsToQueryString({
-      ...searchParams,
-      ...(searchParams?.q ? { fq: formatPath(searchParams.q) } : {})
+      ...searchParams
     })
     history.push(encodedQueryString ? `/search?${encodedQueryString}` : '/search')
 
@@ -42,7 +45,7 @@ export const Paths = props => {
     }
   }, [searchParams])
 
-  const loadMore = page => {
+  const loadMore = page => { // stateから検索をする
     const encodedQueryString = paramsToQueryString({
       ...searchParams,
       ...(searchParams?.q ? { fq: formatPath(searchParams.q) } : {}),
@@ -80,7 +83,7 @@ export const Paths = props => {
     <div className={style.root}>
       <Header
       />
-      <div className={style.main}>
+      <Container>
         {searchParams && <>
           <Input
             searchParams={searchParams}
@@ -96,10 +99,11 @@ export const Paths = props => {
             <New
               searchParams={searchParams}
               setSearchParams={setSearchParams}
+              searchResults={searchResults}
             />
           )}
         </>}
-      </div>
+      </Container>
     </div>
   )
 }
@@ -109,7 +113,11 @@ const Input = ({ searchParams, setSearchParams }) => {
     setSearchParams(prevSearchParams => ({ ...prevSearchParams, q: value }))
   }
   return (
-    <input
+    <TextField
+      sx={{ margin: '20px 0', width: '80%' }}
+      autoFocus={true}
+      label="パスを検索or作成"
+      variant="outlined"
       value={searchParams.q || ''}
       onChange={handleInput}
     />

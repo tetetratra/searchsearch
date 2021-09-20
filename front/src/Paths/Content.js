@@ -6,6 +6,18 @@ import { Link } from 'react-router-dom'
 import InfiniteScroll  from 'react-infinite-scroller'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  Typography,
+  Card,
+  CardContent,
+  Container,
+  TextField
+} from '@mui/material'
 
 import style from './Content.module.css'
 
@@ -22,17 +34,59 @@ export const Content = forwardRef(({ hasMore, loadMore, searchResults }, ref) =>
       hasMore={hasMore}
       loader={loaderIcon}
     >
-      {searchResults.map((searchResult, i) => <Path key={i} path={searchResult} />)}
+      <List sx={{ width: '100%' }}>
+        {searchResults.map((searchResult, i) => <Path key={i} path={searchResult} />)}
+      </List>
     </InfiniteScroll>
   )
 })
 
 const Path = ({ path: { name } }) => {
   return (
-    <div className={style.path}>
-      <img src={`http://www.google.com/s2/favicons?domain=${name.split('/')[0]}`} style={{width: 18}}/>
-      <Link to={`path/${encodeURIComponent(name)}`}>{name}</Link>
-    </div>
+    <Link style={{ textDecoration: 'none' }} to={`path/${encodeURIComponent(name)}`}>
+      <Card sx={{ margin: '20px 0' }}>
+        <CardContent
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            '&:hover': {
+              background: '#EEE'
+            }
+          }}
+        >
+          <Avatar
+            sx={{
+              width: '18px',
+              height: '18px',
+              margin: '10px'
+            }}
+            src={`https://icons.duckduckgo.com/ip3/${name.split('/')[0]}.ico`}
+            alt={`${name.split('/')[0]} favicon`}
+            variant='rounded'
+          />
+          <Typography
+            sx={{
+              marginLeft: '10px',
+              fontSize: '20px'
+            }}
+          >
+            {name}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Link>
+
   )
 }
+
+      // <ListItem sx={{ 'background': '#FFF', margin: '20px 10%' }}>
+      //   <ListItemAvatar>
+      //     <Avatar
+      //       sx={{ width: '20px', height: '20px' }}
+      //       src={`https://icons.duckduckgo.com/ip3/${name.split('/')[0]}.ico`}
+      //       alt={`${name.split('/')[0]} favicon`}
+      //     />
+      //   </ListItemAvatar>
+      //   <ListItemText primary={name} />
+      // </ListItem>
 

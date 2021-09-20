@@ -11,7 +11,7 @@ export const Header = () => {
 
   return (
     <div className={style.header}>
-      <a className={style.homeIcon}><img className={style.homeIconImg} src={"/homeicon.svg"}/></a>
+      <Link to='/' className={style.homeIcon}><img className={style.homeIconImg} src={"/homeicon.svg"}/></Link>
       { loginned ? (
         <a href={'/users/edit'} className={style.userInfo}>
           <FontAwesomeIcon className={style.userIcon} icon={faUserEdit}/>
