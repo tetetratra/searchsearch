@@ -46,7 +46,7 @@ services:
 
 secrets:
   server_secret:
-    name: "arn:aws:secretsmanager:us-east-1:645943600532:secret:qeq-mysql-uVQkdT"
+    name: "arn:aws:secretsmanager:us-east-1:645943600532:secret:searchsearch-mysql-uVQkdT"
     external: true
 
 x-aws-cloudformation:
