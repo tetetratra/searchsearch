@@ -13,6 +13,7 @@ version: '3'
 #   - ドメインを取る
 # - Certificate Manager
 #   - 証明書を取る
+#   - ARNをここに書く
 # - ECR
 #   - リポジトリ作り
 #   - server,frontのイメージをpushしておく
@@ -66,6 +67,7 @@ x-aws-cloudformation:
       # リスナーはHTTPSの443, ターゲットグループはHTTPの80 にするためにリスナー側を上書きしている
       Properties:
         Certificates:
-          - CertificateArn: "arn:aws:acm:us-east-1:645943600532:certificate/e615cd30-4571-4cd1-be8d-3ceb67ab6b84"
+          - CertificateArn: "arn:aws:acm:us-east-1:645943600532:certificate/2ba69441-ee8e-41a8-8208-66899e57e5e7"
         Protocol: HTTPS
         Port: 443
+
