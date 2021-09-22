@@ -48,11 +48,13 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+<% require 'json' %>
+<%# precompile時用にrescueがある %>
+<% key = File.open('/run/secrets/server_secret').read.then { |s| JSON.parse(s) } rescue {} %>
 production:
   <<: *default
-  <% require 'json' %>
-  <% key = File.open("/run/secrets/server_secret").read.then { |s| JSON.parse(s) } rescue {} # precompile時にエラーになるのでrescue %>
   host: <%= key['host'] %>
   username: <%= key['username'] %>
   password: <%= key['password'] %>
   database: searchsearch_production
+
