@@ -3,14 +3,19 @@ version: '3'
 # 管轄外
 #
 # up前
+# - ecsのdockerコンテキストを作っておく
 # - RDS
 #   - 作っておく
 # - SecretsManager
 #   - RDSの鍵管理
+#   - ARNをここに書く
+# - Route53
+#   - ドメインを取る
 # - Certificate Manager
-#   - 証明書の取得など
+#   - 証明書を取る
 # - ECR
 #   - リポジトリ作り
+#   - server,frontのイメージをpushしておく
 # up後
 # - Route53
 #   - ALBにドメインを紐付ける
@@ -20,8 +25,8 @@ version: '3'
 
 services:
   server:
-    image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1
-    command: bundle exec puma -e production -C config/puma.rb
+    image: "645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1"
+    command: "bundle exec puma -e production -C config/puma.rb"
     environment:
       RAILS_ENV: production
     secrets:
@@ -37,16 +42,16 @@ services:
           - ssmmessages:OpenDataChannel
         Resource: '*'
   front:
-    image: 645943600532.dkr.ecr.us-east-1.amazonaws.com/front:v0.1
+    image: "645943600532.dkr.ecr.us-east-1.amazonaws.com/front:v0.1"
     ports:
-      - 80:80
+      - "80:80"
     depends_on:
       - server
     x-aws-role: *aws-role
 
 secrets:
   server_secret:
-    name: "arn:aws:secretsmanager:us-east-1:645943600532:secret:searchsearch-mysql-uVQkdT"
+    name: "arn:aws:secretsmanager:us-east-1:645943600532:secret:searchsearch-Zi3oel"
     external: true
 
 x-aws-cloudformation:
