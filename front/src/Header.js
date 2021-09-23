@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import { LoginContext } from './App'
 
 export const Header = () => {
-  const loginned = useContext(LoginContext)
+  const user = useContext(LoginContext)
 
   return (
     <div
@@ -31,7 +31,7 @@ export const Header = () => {
         <img style={{ borderRadius: '10px' }} src={"/homeicon.svg"}/>
       </Link>
       <a
-        href={loginned ? '/users/edit' : '/users/sign_in' }
+        href={user.signed_in ? '/users/edit' : '/users/sign_in' }
         style={{
           cursor: "pointer",
           textDecoration: "none",
@@ -52,7 +52,7 @@ export const Header = () => {
             width: "23px",
             height: "23px",
           }}
-          icon={loginned ? faUserEdit : faUserPlus}
+          icon={user.signed_in ? faUserEdit : faUserPlus}
         />
       </a>
       <Typography

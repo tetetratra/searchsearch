@@ -12,7 +12,7 @@ import { LoginContext } from './../App'
 
 export const NewComment = ({ queryString, fetchSearchResult }) => {
   const alert = useAlert()
-  const loginned = useContext(LoginContext)
+  const user = useContext(LoginContext)
   const [show, setShow] = useState(false)
   const [description, setDescription] = useState("")
 
@@ -57,13 +57,13 @@ export const NewComment = ({ queryString, fetchSearchResult }) => {
           投稿
         </Button>
       </>}
-      <Tooltip title="ログインしてください" arrow {...(loginned && {open: false})}>
+      <Tooltip title="ログインしてください" arrow {...(user.signed_in && {open: false})}>
         <span>
           <Button
             variant="outlined"
             onClick={() => setShow(p => !p)}
             color={ show ? 'inherit' : 'success' }
-            disabled={!loginned}
+            disabled={!user.signed_in}
             sx={{
               margin: '5px',
               textTransform: 'none'

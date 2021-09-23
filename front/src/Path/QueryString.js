@@ -61,6 +61,7 @@ export const QueryString = ({ queryString, setSearchResult, fetchSearchResult })
               key={i}
               description={d}
               setQueryStringValue={setQueryStringValue}
+              fetchSearchResult={fetchSearchResult}
             />
           )}
           <NewComment

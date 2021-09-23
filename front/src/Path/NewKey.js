@@ -13,7 +13,7 @@ import {
 import { LoginContext } from './../App'
 
 export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
-  const loginned = useContext(LoginContext)
+  const user = useContext(LoginContext)
   const alert = useAlert()
   const [show, setShow] = useState(false)
   const [key, setKey] = useState("")
@@ -68,7 +68,7 @@ export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => 
             />
             =
           </Box>
-          { loginned && (
+          { user.signed_in && (
             <Box
               sx={{
                 display: 'flex',

@@ -8,4 +8,10 @@ class QueryStringDescriptionsController < ApplicationController
       render json: { error: query_string_description.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+  def destroy
+    query_string_description = current_user.query_string_descriptions.find(params[:id])
+    query_string_description.destroy!
+    render json: nil, status: :ok
+  end
 end

@@ -1,16 +1,51 @@
+import { useContext } from 'react';
 import _ from 'lodash'
+import { useAlert } from 'react-alert'
+import { confirmAlert } from 'react-confirm-alert'
 import {
   Button,
   ListItem,
   ListItemText
-} from '@mui/material';
+} from '@mui/material'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTrash } from "@fortawesome/free-solid-svg-icons"
 
-export const Description = ({ description, setQueryStringValue }) => {
+import { requestApi } from './../api.js'
+import { LoginContext } from './../App'
+
+export const Description = ({ description, setQueryStringValue, fetchSearchResult }) => {
+  const alert = useAlert()
+  const user = useContext(LoginContext)
+
   const regexSplitByBrackets = /\[.*?\]/g
   const regexRemoveBrackets = /^\[|\]$/g
 
   const handleClick = str => e => {
     setQueryStringValue(str.replace(regexRemoveBrackets, ''))
+  }
+
+  const handleDelete = () => {
+    confirmAlert({
+      title: '投稿を削除しますか?',
+      message: '',
+      buttons: [
+        {
+          label: 'キャンセル',
+          onClick: () => null
+        },
+        {
+          label: '削除する',
+          onClick: () => {
+            requestApi(`/query_string_descriptions/${description.id}`, 'DELETE').then(r => {
+              alert.success('削除しました')
+              fetchSearchResult()
+            }).catch(r => {
+              alert.error(r.error)
+            })
+          }
+        }
+      ]
+    })
   }
 
   const formatted = _.zip(
@@ -25,7 +60,7 @@ export const Description = ({ description, setQueryStringValue }) => {
         size="small"
         disableElevation
         sx={{
-          margin: 'auto 3px',
+          margin: '3px',
           textTransform: 'none'
         }}
       >
@@ -49,8 +84,20 @@ export const Description = ({ description, setQueryStringValue }) => {
           wordBreak: 'break-all'
         }}
         primary={formatted}
-        secondary={`@${description.user?.name || '-'}`}
+        secondary={`@${description.user.name}`}
       />
+      { user.id === description.user.id && (
+        <FontAwesomeIcon
+          onClick={handleDelete}
+          icon={faTrash}
+          style={{
+            width: '15px',
+            height: '15px',
+            color: '#999',
+            cursor: 'pointer'
+          }}
+        />
+      )}
     </ListItem>
   )
 }

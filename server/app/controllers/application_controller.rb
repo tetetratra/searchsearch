@@ -6,10 +6,14 @@ class ApplicationController < ActionController::Base
 
   after_action :set_csrf_token_header
 
-  skip_before_action :auth_user, only: [:logged_in, :consume_messages]
+  skip_before_action :auth_user, only: [:user_info, :consume_messages]
 
-  def logged_in
-    render json: { logged_in: user_signed_in? }
+  def user_info
+    render json: {
+      signed_in: user_signed_in?,
+      id: current_user&.id,
+      name: current_user&.name
+    }
   end
 
   def consume_messages

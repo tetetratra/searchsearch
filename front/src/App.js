@@ -37,19 +37,17 @@ const AlertTemplate = ({ options, message }) => {
 export const LoginContext = createContext()
 
 const App = props => {
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [loginLoading, setLoginLoading] = useState(true)
+  const [user, setUser] = useState({})
 
   useEffect(() => {
-    requestApi('/logged_in', 'GET').then(r => {
-      setLoggedIn(r.logged_in)
-      setLoginLoading(false)
+    requestApi('/user_info', 'GET').then(r => {
+      setUser(r)
     })
   }, [])
 
   return (
     <AlertProvider template={AlertTemplate} timeout={3000}>
-      <LoginContext.Provider value={loggedIn}>
+      <LoginContext.Provider value={user}>
         <Router>
           <Switch>
             <Route exact path="/" component={() => <Redirect to='/search'/>} />
