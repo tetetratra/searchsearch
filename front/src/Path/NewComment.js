@@ -1,5 +1,5 @@
 import { useAlert } from 'react-alert'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import {
   ListItem,
   TextField,
@@ -8,11 +8,9 @@ import {
 } from '@mui/material';
 
 import { requestApi } from './../api.js'
-import { LoginContext } from './../App'
 
 export const NewComment = ({ queryString, fetchSearchResult }) => {
   const alert = useAlert()
-  const user = useContext(LoginContext)
   const [show, setShow] = useState(false)
   const [description, setDescription] = useState("")
 
@@ -57,22 +55,17 @@ export const NewComment = ({ queryString, fetchSearchResult }) => {
           投稿
         </Button>
       </>}
-      <Tooltip title="ログインしてください" arrow {...(user.signed_in && {open: false})}>
-        <span>
-          <Button
-            variant="outlined"
-            onClick={() => setShow(p => !p)}
-            color={ show ? 'inherit' : 'success' }
-            disabled={!user.signed_in}
-            sx={{
-              margin: '5px',
-              textTransform: 'none'
-            }}
-          >
-            { show ? '閉じる' : 'コメントする' }
-          </Button>
-        </span>
-      </Tooltip>
+      <Button
+        variant="outlined"
+        onClick={() => setShow(p => !p)}
+        color={ show ? 'inherit' : 'success' }
+        sx={{
+          margin: '5px',
+          textTransform: 'none'
+        }}
+      >
+        { show ? '閉じる' : 'コメントする' }
+      </Button>
     </ListItem>
   )
 }

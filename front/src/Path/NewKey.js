@@ -1,5 +1,5 @@
 import { useAlert } from 'react-alert'
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { requestApi } from './../api.js'
 import {
   Card,
@@ -10,10 +10,7 @@ import {
   Button
 } from '@mui/material';
 
-import { LoginContext } from './../App'
-
 export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
-  const user = useContext(LoginContext)
   const alert = useAlert()
   const [show, setShow] = useState(false)
   const [key, setKey] = useState("")
@@ -24,6 +21,7 @@ export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => 
     requestApi('/query_string_keys', 'POST', body).then(r => {
       alert.success('作成しました')
       setKey('')
+      setDescription('')
       setShow(false)
       fetchSearchResult()
     }).catch(r => {
@@ -68,27 +66,25 @@ export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => 
             />
             =
           </Box>
-          { user.signed_in && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '10px'
-              }}
-            >
-              <TextField
-                fullWidth
-                multiline
-                minRows={3}
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                label='コメント'
-                placeholder={'[角括弧]でボタン化'}
-                sx={{ margin: '5px' }}
-              />
-            </Box>
-          )}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '10px'
+            }}
+          >
+            <TextField
+              fullWidth
+              multiline
+              minRows={3}
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              label='コメント'
+              placeholder={'[角括弧]でボタン化'}
+              sx={{ margin: '5px' }}
+            />
+          </Box>
           <Box
             sx={{
               display: 'flex',

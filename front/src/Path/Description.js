@@ -70,7 +70,6 @@ export const Description = ({ description, setQueryStringValue, fetchSearchResul
       str
     )
   ))
-
   return (
     <ListItem
       sx={{
@@ -84,9 +83,12 @@ export const Description = ({ description, setQueryStringValue, fetchSearchResul
           wordBreak: 'break-all'
         }}
         primary={formatted}
-        secondary={`@${description.user.name}`}
+        secondary={description.user && `@${description.user.name}`}
       />
-      { user.id === description.user.id && (
+      <span style={{ margin: 'auto 7px', fontSize: '15px', color: '#555' }}>
+        { description.created_at.match(/(\d{4}-\d{2}-\d{2}).+(\d{2}:\d{2})/).slice(1).join(' ') }
+      </span>
+      { description.user && user.id === description.user.id && (
         <FontAwesomeIcon
           onClick={handleDelete}
           icon={faTrash}

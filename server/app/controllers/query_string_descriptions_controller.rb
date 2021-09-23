@@ -1,7 +1,9 @@
 class QueryStringDescriptionsController < ApplicationController
+  skip_before_action :auth_user, only: [:create]
+
   def create
     query_string_description = QueryStringDescription.new(
-      user_id: current_user.id, query_string_key_id: params[:query_string_key_id], description: params[:description])
+      user_id: current_user&.id, query_string_key_id: params[:query_string_key_id], description: params[:description])
     if query_string_description.save
       render json: nil, status: :ok
     else

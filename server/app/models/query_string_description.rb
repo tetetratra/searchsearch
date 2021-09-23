@@ -15,7 +15,7 @@
 #  index_query_string_descriptions_on_user_id              (user_id)
 #
 class QueryStringDescription < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, required: false
   belongs_to :query_string_key
 
   validates :description, presence: true, uniqueness: { scope: :query_string_key_id, case_sensitive: true }
