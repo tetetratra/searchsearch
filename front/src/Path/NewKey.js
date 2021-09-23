@@ -7,7 +7,8 @@ import {
   TextField,
   Typography,
   Box,
-  Button
+  Button,
+  Tooltip
 } from '@mui/material';
 
 export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => {
@@ -26,6 +27,15 @@ export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => 
       fetchSearchResult()
     }).catch(r => {
       alert.error(r.error)
+    })
+  }
+
+  const handleClipBoardCopy = () => {
+    navigator.clipboard.readText().then(text => {
+      const match = text.match(new RegExp(`${key}=([^&]+)`))
+      if (match) {
+        setDescription(p => `${p}[${match[1]}]`)
+      }
     })
   }
 
@@ -102,6 +112,20 @@ export const NewKey = ({ searchResult, setSearchResult, fetchSearchResult }) => 
             >
               追加
             </Button>
+
+            <Tooltip title={`クリップボードのURLから ${key}= の値を取得します`} arrow>
+              <Button
+                variant="outlined"
+                disabled={!key}
+                onClick={handleClipBoardCopy}
+                sx={{
+                  margin: '5px',
+                  textTransform: 'none'
+                }}
+              >
+                クリップボードから値を取得
+              </Button>
+            </Tooltip>
             <Button
               onClick={() => setShow(p => !p)}
               variant="outlined"

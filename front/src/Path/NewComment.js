@@ -3,7 +3,8 @@ import { useState } from 'react'
 import {
   ListItem,
   TextField,
-  Button
+  Button,
+  Tooltip
 } from '@mui/material';
 
 import { requestApi } from './../api.js'
@@ -22,6 +23,15 @@ export const NewComment = ({ queryString, fetchSearchResult }) => {
       fetchSearchResult()
     }).catch(r => {
       alert.error(r.error)
+    })
+  }
+
+  const handleClipBoardCopy = () => {
+    navigator.clipboard.readText().then(text => {
+      const match = text.match(new RegExp(`${queryString.key}=([^&]+)`))
+      if (match) {
+        setDescription(p => `${p}[${match[1]}]`)
+      }
     })
   }
 
@@ -53,6 +63,18 @@ export const NewComment = ({ queryString, fetchSearchResult }) => {
         >
           投稿
         </Button>
+        <Tooltip title={`クリップボードのURLから ${queryString.key}= の値を取得します`} arrow>
+          <Button
+            variant="outlined"
+            onClick={handleClipBoardCopy}
+            sx={{
+              margin: '5px',
+              textTransform: 'none'
+            }}
+          >
+            クリップボードから値を取得
+          </Button>
+        </Tooltip>
       </>}
       <Button
         variant="outlined"
