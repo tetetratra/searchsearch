@@ -19,14 +19,15 @@ version: '3'
 #   - server,frontのイメージをpushしておく
 # up後
 # - Route53
-#   - ALBにドメインを紐付ける
+#   - ドメインをALBに紐付ける
 # - VPC
 #   - RDSが所属するセキュリティグループのインバウンドルールに、
-#     ECSが所属するセキュリティグループからの通信を許可する
+#     ECSが所属するセキュリティグループからのMYSQL/Auroraタイプの通信を許可する
+# - ExecuteCommandでserverコンテナに入ってbin/rails db:create, migrate
 
 services:
   server:
-    image: "645943600532.dkr.ecr.us-east-1.amazonaws.com/server:v0.1"
+    image: "645943600532.dkr.ecr.us-east-1.amazonaws.com/server:latest"
     command: "bundle exec puma -e production -C config/puma.rb"
     environment:
       RAILS_ENV: production
@@ -43,7 +44,7 @@ services:
           - ssmmessages:OpenDataChannel
         Resource: '*'
   front:
-    image: "645943600532.dkr.ecr.us-east-1.amazonaws.com/front:v0.1"
+    image: "645943600532.dkr.ecr.us-east-1.amazonaws.com/front:latest"
     ports:
       - "80:80"
     depends_on:
