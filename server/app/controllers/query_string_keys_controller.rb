@@ -2,11 +2,17 @@ class QueryStringKeysController < ApplicationController
   skip_before_action :auth_user, only: [:create]
 
   def create
-    query_string_key = QueryStringKey.new(path_id: params[:path_id], key: params[:key])
-    if query_string_key.save
+    ApplicationRecord.transaction do
+      query_string_key = QueryStringKey.create!(path_id: params[:path_id],
+                                                key: params[:key])
+      if params[:description].present? && current_user
+        query_string_key.query_string_descriptions.create!(user_id: current_user.id,
+                                                           description: params[:description])
+      end
       render json: nil, status: :ok
-    else
-      render json: { error: query_string_key.errors.full_messages }, status: :unprocessable_entity
+    rescue ActiveRecord::RecordInvalid => error
+      render json: { error: error.record.errors.full_messages },
+             status: :unprocessable_entity
     end
   end
 end
