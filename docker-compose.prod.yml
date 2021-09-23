@@ -25,6 +25,8 @@ version: '3'
 #     ECSが所属するセキュリティグループからのMYSQL/Auroraタイプの通信を許可する
 #   - ALBが所属するセキュリティグループのインバウンドルールに、
 #     すべてのIPv4からのHTTPSタイプの通信を許可する
+# - ALB
+#   - HTTP:80をリッスンしてHTTPS:443にリダイレクトさせるリスナーを追加する
 # - ExecuteCommandでserverコンテナに入ってbin/rails db:create, migrate
 
 services:
