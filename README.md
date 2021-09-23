@@ -46,5 +46,3 @@ docker compose -f docker-compose.prod.yml up
 aws ecs execute-command --cluster searchsearch --task (タスクID) --container server --interactive --command "bash"
 ```
 
-frontはsh
-

@@ -23,6 +23,8 @@ version: '3'
 # - VPC
 #   - RDSが所属するセキュリティグループのインバウンドルールに、
 #     ECSが所属するセキュリティグループからのMYSQL/Auroraタイプの通信を許可する
+#   - ALBが所属するセキュリティグループのインバウンドルールに、
+#     すべてのIPv4からのHTTPSタイプの通信を許可する
 # - ExecuteCommandでserverコンテナに入ってbin/rails db:create, migrate
 
 services:
