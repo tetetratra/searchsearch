@@ -11,8 +11,7 @@ class ApplicationController < ActionController::Base
   def user_info
     render json: {
       signed_in: user_signed_in?,
-      id: current_user&.id,
-      name: current_user&.name
+      **(current_user || {}).as_json(only: %i[id name])
     }
   end
 
