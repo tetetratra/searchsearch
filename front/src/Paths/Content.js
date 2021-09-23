@@ -1,5 +1,4 @@
 import { forwardRef } from 'react';
-import { useAlert } from 'react-alert'
 import { Link } from 'react-router-dom'
 import InfiniteScroll  from 'react-infinite-scroller'
 import 'react-confirm-alert/src/react-confirm-alert.css'

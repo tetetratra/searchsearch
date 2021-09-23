@@ -28,7 +28,7 @@ export const Header = () => {
           background: "#FFFFFF"
         }}
       >
-        <img style={{ borderRadius: '10px' }} src={"/homeicon.svg"}/>
+        <img style={{ borderRadius: '10px' }} src={"/homeicon.svg"} alt="icon"/>
       </Link>
       <a
         href={user.signed_in ? '/users/edit' : '/users/sign_in' }

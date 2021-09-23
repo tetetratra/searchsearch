@@ -8,7 +8,7 @@ export const paramsToQueryString = params => Object.entries(_.pickBy(params || {
   .map(e => e.map(encodeURIComponent).join('='))
   .join('&')
 
-export const loaderIcon = <FontAwesomeIcon className={style.loading} icon={faSpinner}/>
+export const loaderIcon = <FontAwesomeIcon key={-1} className={style.loading} icon={faSpinner}/>
 
 export const formatPath = str => {
   let s = ""
@@ -30,7 +30,7 @@ export const formatPath = str => {
       s = str.replace(/^https?:\/\//, '')
     }
   }
-  const [domain, ...rest] = s.split('/')
+  const domain = s.split('/')[0]
   if (!domain.match(/\w+\.[a-z][a-z]+/)) {
     return null
   }
