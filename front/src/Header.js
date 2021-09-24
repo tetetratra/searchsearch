@@ -6,44 +6,57 @@ import { Typography } from '@mui/material';
 
 import { LoginContext } from './App'
 
-export const Header = () => {
+export const Header = ({ title }) => {
   const user = useContext(LoginContext)
 
   return (
     <div
       style={{
-        boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
-        background: "#DDDDDD",
+        boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
+        background: "#CDE",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
       }}
     >
-      <Link to='/'
-        style={{
-          cursor: "pointer",
-          display: "inline-block",
-          margin: "10px 0 10px 10px",
-          width: "50px",
-          height: "50px",
-          borderRadius: "10px",
-          verticalAlign: "middle",
-          background: "#FFFFFF"
-        }}
-      >
-        <img style={{ borderRadius: '10px' }} src={"/homeicon.svg"} alt="icon"/>
-      </Link>
+      <div style={{ display: 'inline-block' }}>
+        <Link to='/'
+          style={{
+            cursor: "pointer",
+            display: "inline-block",
+            margin: "8px 15px",
+            width: "30px",
+            height: "30px",
+            borderRadius: "10px",
+            verticalAlign: "middle"
+          }}
+        >
+          <img style={{ borderRadius: '10px' }} src={"/homeicon.svg"} alt="icon"/>
+        </Link>
+        <Typography
+          sx={{
+            display: 'inline-block',
+            fontSize: '20px',
+            verticalAlign: 'middle',
+            fontWeight: 'bold',
+            color: '#555',
+            margin: '0 0 0 15px'
+          }}
+        >
+          { title }
+        </Typography>
+      </div>
       <a
         href={user.signed_in ? '/users/edit' : '/users/sign_in' }
         style={{
           cursor: "pointer",
           textDecoration: "none",
-          color: "#000",
-          display: "inline-block",
+          color: "#444",
           fontSize: "30px",
-          margin: "0 0 0 20px",
+          margin: "0 15px",
           padding: "0 10px 0 10px",
           borderRadius: "5px",
-          background: "#EEE",
-          verticalAlign: "middle",
-          right: '50px'
+          background: "#BCD"
         }}
       >
         <FontAwesomeIcon
@@ -55,16 +68,6 @@ export const Header = () => {
           icon={user.signed_in ? faUserEdit : faUserPlus}
         />
       </a>
-      <Typography
-        sx={{
-          display: 'inline-block',
-          margin: 'auto 30px',
-          fontSize: '28px',
-          fontWeight: 'bold'
-        }}
-      >
-        SearchSearch
-      </Typography>
     </div>
   )
 }

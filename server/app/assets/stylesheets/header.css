@@ -2,31 +2,31 @@
   width: 100%;
   height: auto;
 
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   pointer-events: auto;
-  background: #DDDDDD;
+  background: #CDE;
+  margin-bottom: 20px;
 }
 
 .homeIcon {
   cursor: pointer;
   display: inline-block;
-  margin: 10px 0 10px 10px;
-  width: 50px;
-  height: 50px;
+  margin: 8px 15px;
+  width: 30px;
+  height: 30px;
   border-radius: 10px;
-
   vertical-align: middle;
-  background: #FFFFFF;
 }
+
 .homeIconImg {
   border-radius: 10px;
 }
 
 .title {
   style: inline-block;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 15px;
   vertical-align: middle;
   color: #555;
 }

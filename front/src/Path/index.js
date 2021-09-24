@@ -31,6 +31,7 @@ export const Path = () => {
   return (
     <>
       <Header
+        title={searchResult ? `${searchResult.name} のクエリストリング` : ''}
       />
       <Content
         searchResult={searchResult}

@@ -79,6 +79,7 @@ export const Paths = props => {
   return (
     <>
       <Header
+        title="パス検索"
       />
       <Container>
         {searchParams && <>
