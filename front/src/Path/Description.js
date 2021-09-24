@@ -86,7 +86,7 @@ export const Description = ({ description, setQueryStringValue, fetchSearchResul
         secondary={description.user && `@${description.user.name}`}
       />
       <span style={{ margin: 'auto 7px', fontSize: '15px', color: '#555' }}>
-        { description.created_at.match(/(\d{4}-\d{2}-\d{2}).+(\d{2}:\d{2})/).slice(1).join(' ') }
+        { description.created_at.match(/(\d{4}-\d{2}-\d{2}).+?(\d{2}:\d{2})/).slice(1).join(' ') }
       </span>
       { description.user && user.id === description.user.id && (
         <FontAwesomeIcon
