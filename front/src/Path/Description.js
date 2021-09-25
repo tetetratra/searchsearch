@@ -74,7 +74,9 @@ export const Description = ({ description, setQueryStringValue, fetchSearchResul
     <ListItem
       sx={{
         borderLeft: '1px solid #CCC',
-        margin: '10px auto'
+        margin: '10px auto',
+        display: 'flex',
+        flexWrap: 'wrap'
       }}
     >
       <ListItemText
