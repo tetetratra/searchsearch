@@ -1,25 +1,43 @@
-# 開発
+# searchsearch
 
-## 立ち上げ
+検索サイトのクエリストリングを検索できるサービス
+
+https://searchsearch.net/search
+
+![search.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/694808/ed8ec038-e706-53e4-d9b9-932a20854743.png)
+
+![path.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/694808/cd674f0d-4e65-a929-41ca-bbe838e101c5.png)
+
+
+---
+
+## 開発環境
+
+### 立ち上げ
+
 ```
 docker compose build
 docker compose run --rm server bin/rails db:create
 docker compose run --rm server bin/rails db:migrate
 ```
 
-## 作業開始
+### 作業開始
 ```
 docker compose up -d
 ```
 
-## 作業終了
+### 作業終了
 ```
 docker compose down
 ```
 
-# デプロイ
+## 本番環境
 
-## デプロイ手順
+### 立ち上げ
+
+docker-compose.prod.ymlのコメントを参照
+
+### デプロイ手順
 
 - docker contextをdefaultにする
 - buildする
@@ -38,11 +56,12 @@ docker context use myecscontext
 docker compose -f docker-compose.prod.yml up
 ```
 
-## ECSのコンテナに入る
+必要に応じてコンテナに入ってマイグレーションとかをする
+
+### ECSのコンテナに入る
 
 タスクが RUNNINGになるまで待ったほうがいいかも
 
 ```bash
 aws ecs execute-command --cluster searchsearch --task (タスクID) --container server --interactive --command "bash"
 ```
-
