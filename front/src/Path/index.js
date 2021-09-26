@@ -21,6 +21,7 @@ export const Path = () => {
           value: ''
         }))
       })
+      document.title = `${fetchedSearchResult.name} のクエリストリング | searchsearch`
     })
   }
 

@@ -30,6 +30,7 @@ export const Paths = props => {
   useEffect(() => { // 初期のクエリストリングからstateを作る
     const parsedQueryString = querystring.parse(location.search.replace(/^\?/, ''))
     setSearchParams(parsedQueryString)
+    document.title = 'パス検索 | searchsearch'
   }, [])
 
   useEffect(() => { // 入力の変化(= stateの変化)からクエリストリングを作る
@@ -113,7 +114,6 @@ const Input = ({ searchParams, setSearchParams }) => {
   return (
     <TextField
       sx={{ margin: '20px 0', width: '80%' }}
-      autoFocus={true}
       label="パスを検索or作成"
       variant="outlined"
       value={searchParams.q || ''}
