@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserEdit, faUserPlus  } from "@fortawesome/free-solid-svg-icons";
+import { faInfo, faUserEdit, faUserPlus  } from "@fortawesome/free-solid-svg-icons";
 import { Typography } from '@mui/material';
 
 import { LoginContext } from './App'
@@ -46,28 +46,58 @@ export const Header = ({ title }) => {
           { title }
         </Typography>
       </div>
-      <a
-        href={user.signed_in ? '/users/edit' : '/users/sign_in' }
-        style={{
-          cursor: "pointer",
-          textDecoration: "none",
-          color: "#444",
-          fontSize: "30px",
-          margin: "0 15px",
-          padding: "0 10px 0 10px",
-          borderRadius: "5px",
-          background: "#BCD"
-        }}
-      >
-        <FontAwesomeIcon
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        margin: 'auto 5px auto auto'
+      }}>
+        <Link
+          to={'/info'}
           style={{
-            margin: "0 0 3px 0",
-            width: "23px",
-            height: "23px",
+            cursor: "pointer",
+            textDecoration: "none",
+            color: "#444",
+            fontSize: "30px",
+            margin: "5px",
+            padding: "0 10px 0 10px",
+            borderRadius: "5px",
+            background: "#BCD"
           }}
-          icon={user.signed_in ? faUserEdit : faUserPlus}
-        />
-      </a>
+        >
+          <FontAwesomeIcon
+            style={{
+              margin: "0 0 3px 0",
+              width: "20px",
+              height: "20px",
+            }}
+            icon={faInfo}
+          />
+        </Link>
+        <a
+          href={user.signed_in ? '/users/edit' : '/users/sign_in' }
+          style={{
+            cursor: "pointer",
+            textDecoration: "none",
+            color: "#444",
+            fontSize: "30px",
+            margin: "5px",
+            padding: "0 10px 0 10px",
+            borderRadius: "5px",
+            background: "#BCD"
+          }}
+        >
+          <FontAwesomeIcon
+            style={{
+              margin: "0 0 3px 0",
+              width: "23px",
+              height: "23px",
+            }}
+            icon={user.signed_in ? faUserEdit : faUserPlus}
+          />
+        </a>
+      </div>
     </div>
   )
 }

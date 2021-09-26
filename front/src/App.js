@@ -10,6 +10,7 @@ import { Provider as AlertProvider } from 'react-alert'
 import { requestApi } from './api.js'
 import { Path } from './Path/index.js'
 import { Paths } from './Paths/index.js'
+import { Info } from './Info/index.js'
 
 const AlertTemplate = ({ options, message }) => {
   const style = {
@@ -53,6 +54,7 @@ const App = props => {
             <Route exact path="/" component={() => <Redirect to='/search'/>} />
             <Route exact path="/search" component={Paths} />
             <Route exact path="/path/:path" component={Path} />
+            <Route exact path="/info" component={Info} />
           </Switch>
         </Router>
       </LoginContext.Provider>
